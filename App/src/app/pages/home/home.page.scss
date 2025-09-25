@@ -1,0 +1,47 @@
+img {
+  width: 130px;
+  height: 130px;
+  background-size: cover;
+  display: block;
+  border-radius: 100px;
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px;
+  margin: auto;
+  //margin-top: 20px;
+  max-width: 75px;
+}
+
+ion-content {
+  --background: var(--ion-color-primary);
+}
+
+ion-row {
+  text-align: center;
+}
+
+.header {
+  height: 15%;
+  border-radius: 0 0 50% 50%/0 0 60% 60%;
+  border-bottom: 0;
+  width: 100%;
+  background: white;
+}
+
+.content {
+  padding: 25px;
+}
+
+.box {
+  border: 2px solid white;
+  margin: 15px;
+  color: white;
+  padding: 15px;
+}
+
+.help {
+  color: white;
+  bottom: 20px;
+  right: 42px;
+  position: fixed;
+}
+

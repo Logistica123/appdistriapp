@@ -1,0 +1,34 @@
+<h4 mat-dialog-title class="text-center">Detalle</h4>
+<mat-dialog-content>
+  <div class="row">
+    <div class="col-md-6">
+      <p><b>Fecha: </b>{{operationControl.date | date: 'd/M/yyyy'}}</p>
+      <p><b>Empresa: </b>{{operationControl.branch?.company?.name}}</p>
+      <p><b>Sucursal: </b>{{operationControl.branch?.name}}</p>
+      <p><b>Servicio: </b>{{operationControl.service}}</p>
+      <p><b>Zona: </b>{{operationControl.zone}}</p>
+      <p><b>Conductor: </b>{{operationControl.driver.full_name}} ({{operationControl.driver.email}}) </p>
+      <p><b>Unidad: </b>{{operationControl.transportModel}} - {{operationControl.transportMake}}
+        - {{operationControl.tonnage}} t. </p>
+    </div>
+
+    <div class="col-md-6">
+      <p><b>Horas: </b>{{operationControl.hours}}</p>
+      <p><b>Km: </b> {{operationControl.km}}  </p>
+      <p>
+        <b>Asignados: </b>{{operationControl.assigned}}
+        <b>Entregados: </b>{{operationControl.delivered}}
+        <b>Devueltos: </b>{{operationControl.assigned - operationControl.delivered}}  </p>
+      <p><b>Observaciones:</b>{{operationControl.description}} </p>
+    </div>
+
+    <div class="col-md-12 text-center" *ngIf="!allImagesLoaded && imagesCount > 0">
+      <p class="small">Cargando imágenes...</p>
+      <mat-progress-bar mode="buffer"></mat-progress-bar>
+    </div>
+
+    <div class=" col-md-12" *ngIf="allImagesLoaded">
+      <ng-image-slider [images]="imageObject"></ng-image-slider>
+    </div>
+  </div>
+</mat-dialog-content>

@@ -1,0 +1,72 @@
+<ion-header no-border>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>AGREGAR UBICACIÓN</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-searchbar [formControl]="searchInputFormControl"
+                 placeholder="Buscar"
+                 debounce="500"
+                 (ionChange)="search($event)"
+                 (ionClear)="clear()">
+  </ion-searchbar>
+
+  <ion-list *ngIf="filteredLocations.length > 0 && searching">
+    <ion-item *ngFor="let location of filteredLocations" tappable (click)="selectLocation(location)">
+      <ion-label class="ion-text-wrap">
+        <p><b>{{location.name}}</b></p>
+        <p>{{location.full_address}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <form [formGroup]="form" *ngIf="filteredLocations.length <= 0 && !searching">
+    <ion-item>
+      <ion-label position="floating">Nombre (*)</ion-label>
+      <ion-input formControlName="location_name"></ion-input>
+    </ion-item>
+    <p class="form-error-message" *ngIf="form.controls.location_name.errors">Por favor introduzca este campo</p>
+
+    <ion-item>
+      <ion-label position="floating">Dirección (*)</ion-label>
+      <ion-textarea rows="5" formControlName="address"></ion-textarea>
+    </ion-item>
+    <p class="form-error-message" *ngIf="form.controls.address.errors">Por favor introduzca este campo</p>
+
+    <ion-item>
+      <ion-label position="floating">Ciudad</ion-label>
+      <ion-input formControlName="city"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Nota de ayuda para llegar</ion-label>
+      <ion-textarea rows="5" formControlName="notes"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Horarios</ion-label>
+      <ion-textarea rows="2" formControlName="opening_hours"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Números telefónicos</ion-label>
+      <ion-textarea rows="2" formControlName="phones"></ion-textarea>
+    </ion-item>
+  </form>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button color="primary"
+                shape="round"
+                [disabled]="form.value.location_name === '' || form.value.address === '' || form.value.city === ''"
+                size="full"
+                (click)="submit()">
+      AGREGAR
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
+

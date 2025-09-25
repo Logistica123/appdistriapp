@@ -1,0 +1,36 @@
+<ion-content>
+  <div class="ion-text-center ion-padding">
+    <ion-progress-bar *ngIf="loading" type="indeterminate">
+    </ion-progress-bar>
+    <ion-button class="custom-button" (click)="addWithdrawalRequest()">
+      AGREGAR
+    </ion-button>
+  </div>
+
+  <div *ngFor="let withdrawalRequest of withdrawalRequests">
+    <ion-item lines="none">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="6">
+            <p class="ion-no-margin">
+              {{withdrawalRequest.type}}
+            </p>
+          </ion-col>
+          <ion-col size="6">
+            <p class="ion-no-margin">
+              <b>{{withdrawalRequest.date | date: 'dd/MM/yyyy'}}</b>
+            </p>
+          </ion-col>
+          <ion-col size="12">
+            <p class="ion-no-margin">${{withdrawalRequest.amount | number: '1.2-2'}}</p>
+          </ion-col>
+          <ion-col size="12">
+            <ion-badge>
+              {{withdrawalRequest.status}}
+            </ion-badge>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </div>
+</ion-content>

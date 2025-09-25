@@ -1,0 +1,29 @@
+<div class="close-btn-outer text-right">
+  <button mat-button mat-dialog-close (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<h4 mat-dialog-title class="text-center">{{location.name}}</h4>
+<mat-dialog-content>
+  <h4 class="text-center"> {{location.full_address}}</h4>
+
+  <div class="info text-center">
+    <p>
+      <b>
+        Haga click en uno de los marcadores azules para seleccionar esa ubicación o arrastre el marcador rojo hasta la ubicación
+        deseada
+      </b>
+    </p>
+
+    <p>
+      Al cambiar la ubicación se eliminarán todas las solicitudes de cambio de ubicación
+    </p>
+  </div>
+
+
+  <div #locationUpdateRequestMap id=locationUpdateRequestMap>
+
+  </div>
+
+</mat-dialog-content>

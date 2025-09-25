@@ -1,0 +1,93 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss(false)">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>CARGAR DOCUMENTO</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-progress-bar class="ion-margin-top"
+                    type="indeterminate"
+                    *ngIf="loading">
+  </ion-progress-bar>
+
+  <ion-list *ngIf="!loading">
+    <ion-radio-group [formControl]="documentFormControl">
+      <ion-list-header>
+        Tipo de documento
+      </ion-list-header>
+
+      <ion-item lines="none" *ngFor="let document of documents">
+        <ion-label>{{document.name}}</ion-label>
+        <ion-radio [value]="document.id"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <div class="ion-text-center" *ngIf="!loading">
+    <ion-button class="custom-secondary-button" (click)="takePicture()">
+      <ion-icon name="camera"></ion-icon>
+      Tomar foto
+    </ion-button>
+
+    <ion-button class="custom-secondary-button" (click)="chooseFile()">
+      <ion-icon name="document-attach"></ion-icon>
+      Seleccionar documento
+    </ion-button>
+  </div>
+
+  <ion-grid>
+    <ion-row class="ion-text-center">
+      <ion-col size="6" *ngFor="let file of files; let i=index">
+        <img class="control-image"
+             (click)="viewControlImageDetail(file)"
+             [src]="sanitizer.bypassSecurityTrustUrl(file.src)"
+             alt="control-image">
+        <ion-icon name="trash" class="delete-icon" (click)="deleteImage(i)"
+                  *ngIf="uploadedFilesIndexes.indexOf(i) <= -1">
+        </ion-icon>
+        <ion-icon name="checkmark" class="checkmark-icon" color="success"
+                  *ngIf="uploadedFilesIndexes.indexOf(i) > -1">
+        </ion-icon>
+        <ion-progress-bar type="indeterminate" *ngIf="uploadingFileIndex === i">
+        </ion-progress-bar>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid>
+    <ion-row *ngFor="let file of documentFiles; let i=index">
+      <ion-col size="9" >
+        <ion-label>
+          {{file.filename}}
+        </ion-label>
+
+        <ion-progress-bar type="indeterminate" *ngIf="uploadingFileIndex === i">
+        </ion-progress-bar>
+      </ion-col>
+
+      <ion-col size="3">
+        <ion-icon name="trash" (click)="deleteDocumentFile(i)"
+                  *ngIf="uploadedDocumentFilesIndexes.indexOf(i) <= -1">
+        </ion-icon>
+        <ion-icon name="checkmark" color="success"
+                  *ngIf="uploadedDocumentFilesIndexes.indexOf(i) > -1">
+        </ion-icon>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div class="ion-padding ion-text-center">
+    <ion-progress-bar *ngIf="submitting" type="indeterminate">
+    </ion-progress-bar>
+    <ion-button class="custom-button"
+                [disabled]="!documentFormControl.value || submitting"
+                (click)="submit()">
+      Aceptar
+    </ion-button>
+  </div>
+</ion-content>

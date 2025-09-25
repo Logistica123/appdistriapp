@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss(false)">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>DETALLE</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <app-order-detail-map [order]="order">
+
+  </app-order-detail-map>
+
+  <div class="ion-padding" *ngIf="order">
+    <p class="ion-text-center location-name ion-no-margin">
+      <b>{{order.location.name}}</b>
+    </p>
+
+    <p class="ion-no-padding">
+      <b>Dirección:</b> {{order.location.address}}
+    </p>
+    <p class="ion-no-padding">
+      <b>Ciudad:</b> {{order.location.city}}
+    </p>
+    <p class="ion-no-padding">
+      <b>Razón Social:</b> {{order.receiver}}
+    </p>
+    <p class="ion-no-padding">
+      <b>Detalle paquete:</b> {{order.description ? order.description : '-'}}
+    </p>
+    <p class="ion-no-padding">
+      <b>Teléfono:</b> {{order.phone ? order.phone : '-'}}
+    </p>
+  </div>
+
+<!--  <div class="ion-text-center ion-padding-bottom" (click)="editAddress()">-->
+<!--    <ion-button class="custom-button">-->
+<!--      Editar dirección-->
+<!--    </ion-button>-->
+<!--  </div>-->
+</ion-content>
+
+<ion-footer *ngIf="order?.status != 'delivered'" class="ion-no-border">
+  <ion-toolbar>
+    <ion-button color="danger"
+                size="full"
+                shape="round"
+                (click)="presentDeleteLocationAlertConfirm()">
+      ELIMINAR DE MI HOJA DE RUTA
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

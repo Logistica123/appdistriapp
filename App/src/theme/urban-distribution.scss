@@ -1,0 +1,25 @@
+ion-content {
+  --background: #f7f8f9;
+  font-family: NunitoSans, sans-serif;
+}
+
+ion-toolbar {
+  --background: #757dfb;
+  --color: white;
+}
+
+.form-group ion-label {
+  margin-left: 10px;
+  display: block;
+  font-size: 0.85em;
+  text-align: left;
+}
+
+ion-item-option {
+  --background: white;
+  --color: #000;
+}
+
+.custom-date-item {
+  --background: transparent;
+}

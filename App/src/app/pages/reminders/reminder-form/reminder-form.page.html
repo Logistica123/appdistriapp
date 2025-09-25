@@ -1,0 +1,74 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-icon name="close" (click)="dismiss(false)" class="font-2em"></ion-icon>
+    </ion-buttons>
+    <ion-title>RECORDATORIO</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="form">
+    <div class="form-group">
+      <ion-label>Descripción</ion-label>
+      <textarea formControlName="description"></textarea>
+      <p class="ion-no-margin form-error-message" *ngIf="form.controls.description.invalid && showInputErrorMessage">
+        Este campo es requerido
+      </p>
+    </div>
+
+    <div class="form-group">
+      <ion-label>Fecha</ion-label>
+      <ion-item lines="none" class="custom-item">
+        <ion-datetime displayFormat="DD MMMM YYYY"
+                      formControlName="date"
+                      doneText="ok"
+                      cancelText="cancelar"
+                      monthNames="enero, febrero, marzo, abril, mayo, junio, julio, agosto, septiembre, octubre, noviembre, diciembre"
+                      monthShortNames="ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic"
+                      dayNames="domingo, lunes, martes, miércoles, jueves, viernes, sábado, domingo"
+                      dayShortNames="dom, lun, mar, mié, jue, vie, sáb, dom">
+        </ion-datetime>
+      </ion-item>
+      <p class="ion-no-margin form-error-message" *ngIf="form.controls.date.invalid && showInputErrorMessage">
+        Este campo es requerido
+      </p>
+    </div>
+
+    <div class="form-group">
+      <ion-list>
+        <ion-radio-group formControlName="type">
+          <ion-item lines="none">
+            <ion-label>Una sola vez</ion-label>
+            <ion-radio value="once"></ion-radio>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-label>Una vez al mes</ion-label>
+            <ion-radio value="monthly"></ion-radio>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-label>Cada 6 meses</ion-label>
+            <ion-radio value="semi_annually"></ion-radio>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-label>Una vez al año</ion-label>
+            <ion-radio value="yearly"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-list>
+    </div>
+  </form>
+
+  <div class="ion-text-center ion-margin-bottom">
+    <ion-progress-bar *ngIf="submitting" type="indeterminate">
+    </ion-progress-bar>
+    <ion-button class="custom-button"
+                [disabled]="submitting"
+                (click)="submit()">
+      Aceptar
+    </ion-button>
+  </div>
+</ion-content>

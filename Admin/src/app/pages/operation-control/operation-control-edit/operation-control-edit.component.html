@@ -1,0 +1,78 @@
+<div class="close-btn-outer text-right">
+  <button mat-button mat-dialog-close (click)="close(false)">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <div class="col-md-12">
+      <div class="col-md-6">
+        <mat-form-field>
+          <input matInput placeholder="Horas"
+                 formControlName="hours">
+          <mat-error *ngIf="form.controls['hours'].hasError('required')">
+            Campo requerido
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field>
+          <input matInput placeholder="Kilómetros"
+                 formControlName="km">
+          <mat-error *ngIf="form.controls['km'].hasError('required')">
+            Campo requerido
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field>
+          <input matInput placeholder="Asignados"
+                 formControlName="assigned">
+          <mat-error *ngIf="form.controls['assigned'].hasError('required')">
+            Campo requerido
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field>
+          <input matInput placeholder="Entregados"
+                 formControlName="delivered">
+          <mat-error *ngIf="form.controls['delivered'].hasError('required')">
+            Campo requerido
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-6">
+        <mat-form-field>
+          <mat-select  placeholder="Material" formControlName="material_id">
+            <mat-option *ngFor="let material of materials" [value]="material.id">
+              {{material.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-6">
+        <mat-form-field>
+          <mat-select  placeholder="Ubicación" formControlName="ubi_id">
+            <mat-option *ngFor="let ubi of ubis" [value]="ubi.id">
+              {{ubi.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-12 text-center m10">
+        <button mat-raised-button
+                class="button-background"
+                [disabled]="!form.valid"
+                (click)="update();">
+          {{buttonText}}
+        </button>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+

@@ -1,0 +1,60 @@
+@import "../../../../theme/custom-theme.scss";
+
+.contractor-toggle {
+  background: #757dfb;
+  margin: 0 30px;
+  border-radius: 15px;
+  color: white;
+  font-weight: bold;
+}
+
+.profile-data {
+  padding: 16px;
+  border-radius: 15px;
+  border: 1px solid #dcd7d7;
+  margin: 10px;
+}
+
+.distance-value {
+  text-align: center;
+  background: darkturquoise;
+  padding: 20px;
+  font-size: 1.75em;
+  border-radius: 10px;
+  margin: 5px;
+  color: white;
+}
+
+.distance-text {
+  font-size: 1.2em;
+  text-align: center;
+}
+
+img {
+  width: 100%;
+  height: 175px;
+  object-fit: contain;
+  border-radius: 15px;
+}
+
+.update-profile-image {
+  font-size: 0.8em;
+  background-color: rgba(0, 91, 209, 0.3);
+  display: inline-block;
+  padding: 10px 30px;
+  border-radius: 20px;
+  margin: 0 auto;
+  font-weight: bold;
+  min-width: 75%;
+}
+
+.update-password {
+  font-size: 0.8em;
+  background-color: rgba(0, 91, 209, 0.3);
+  display: inline-block;
+  padding: 10px 30px;
+  border-radius: 20px;
+  margin: 0 auto;
+  font-weight: bold;
+  min-width: 75%;
+}

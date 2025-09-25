@@ -1,0 +1,105 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>VIAJES</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item lines="none" class="custom-date-item ">
+    <ion-datetime [formControl]="dateFC"
+                  (ionChange)="onDateChange($event)"
+                  displayFormat="DD MMMM YYYY"
+                  placeholder="Seleccione fecha"
+                  doneText="ok"
+                  cancelText="cancelar"
+                  monthNames="enero, febrero, marzo, abril, mayo, junio, julio, agosto, septiembre, octubre, noviembre, diciembre"
+                  monthShortNames="ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic"
+                  dayNames="domingo, lunes, martes, miércoles, jueves, viernes, sábado, domingo"
+                  dayShortNames="dom, lun, mar, mié, jue, vie, sáb, dom">
+    </ion-datetime>
+  </ion-item>
+
+  <div class="ion-text-center ion-padding-bottom">
+    <ion-button class="custom-button" (click)="addLocation()">
+      AGREGAR
+    </ion-button>
+  </div>
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <p *ngIf="!loading && orders.length <= 0" class="ion-padding ion-text-center">
+    <b>No tienes viajes pendientes </b>
+  </p>
+
+  <div class="ion-padding ion-text-center" *ngIf="loading">
+    <ion-progress-bar type="indeterminate"></ion-progress-bar>
+  </div>
+
+  <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false">
+    <ion-item-sliding *ngFor="let order of orders; let i=index">
+      <ion-item (click)="viewOrderDetail(order)">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="1">
+              <ion-icon name="pin" color="dark"></ion-icon>
+            </ion-col>
+            <ion-col size="9">
+              {{order.location.name | uppercase}}
+            </ion-col>
+            <ion-col size="2">
+              <ion-badge color="primary">{{i + 1}}</ion-badge>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-label class="ion-text-wrap">
+                {{order.location.address | uppercase}}. {{order.location.city | uppercase}}
+              </ion-label>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-badge
+                [color]="order.status === 'delivered' ? 'primary' : order.status === 'skipped' ? 'warning' : 'danger'">
+                {{order.status_es | uppercase}}
+              </ion-badge>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-reorder slot="end"></ion-reorder>
+      </ion-item>
+
+      <ion-item-options>
+        <ion-item-option color="light" (click)="presentDeleteOrderAlertConfirm(order)">
+          <ion-icon slot="end" name="trash"></ion-icon>
+          Eliminar
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-reorder-group>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-tabs>
+      <ion-tab-bar slot="bottom" color="light">
+        <ion-tab-button (click)="showMap()">
+          <ion-icon name="navigate-circle"></ion-icon>
+          <ion-label>Comenzar</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button (click)="optimizeOrders()">
+          <ion-icon name="filter" *ngIf="!optimizingOrders"></ion-icon>
+          <ion-spinner name="bubbles" *ngIf="optimizingOrders"></ion-spinner>
+          <ion-label *ngIf="!optimizingOrders">Optimizar</ion-label>
+          <ion-label *ngIf="optimizingOrders">Optimizando...</ion-label>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+  </ion-toolbar>
+</ion-footer>

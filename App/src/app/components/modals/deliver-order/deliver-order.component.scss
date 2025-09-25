@@ -1,0 +1,10 @@
+@import "../../../../theme/custom-theme.scss";
+
+ion-footer ion-toolbar {
+  --background: #f7f8f9 !important;
+}
+
+ion-footer ion-toolbar ion-item {
+  --background: transparent;
+}
+

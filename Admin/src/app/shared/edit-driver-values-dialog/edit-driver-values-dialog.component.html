@@ -1,0 +1,40 @@
+<div class="close-btn-outer text-right">
+  <button mat-button mat-dialog-close (click)="close(false)">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-dialog-content>
+  <form [formGroup]="driverForm">
+    <div class="col-md-12">
+      <div class="col-md-6">
+        <mat-form-field>
+          <input matInput placeholder="Valor por km"
+                 formControlName="cost_per_km">
+          <mat-error *ngIf="driverForm.controls['cost_per_km'].hasError('required')">
+            Campo requerido
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field>
+          <input matInput placeholder="Valor por hora"
+                 formControlName="cost_per_hour">
+          <mat-error *ngIf="driverForm.controls['cost_per_hour'].hasError('required')">
+            Campo requerido
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-12 text-center m10">
+        <button mat-raised-button
+                class="button-background"
+                [disabled]="!driverForm.valid"
+                (click)="updateDriverValues();">
+         Aceptar
+        </button>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+

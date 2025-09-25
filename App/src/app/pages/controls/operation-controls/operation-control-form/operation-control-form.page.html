@@ -1,0 +1,219 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-icon name="close" (click)="dismiss(false)" class="font-2em"></ion-icon>
+    </ion-buttons>
+    <ion-title>CONTROL OPERATIVO</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-text-center">
+  <!--  <app-control-anim></app-control-anim>-->
+
+  <form [formGroup]="form">
+    <div class="form-group">
+      <ion-label>Fecha</ion-label>
+      <ion-item lines="none" class="custom-item">
+        <ion-datetime displayFormat="DD MMMM YYYY"
+                      display-timezone="America/Argentina/Buenos_Aires"
+                      [max]="maxYear"
+                      [min]="minYear"
+                      [formControl]="dateFC"
+                      doneText="ok"
+                      cancelText="cancelar"
+                      monthNames="enero, febrero, marzo, abril, mayo, junio, julio, agosto, septiembre, octubre, noviembre, diciembre"
+                      monthShortNames="ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic"
+                      dayNames="domingo, lunes, martes, miércoles, jueves, viernes, sábado, domingo"
+                      dayShortNames="dom, lun, mar, mié, jue, vie, sáb, dom">
+        </ion-datetime>
+      </ion-item>
+      <p class="ion-no-margin form-error-message" *ngIf="!dateFC.value && showInputErrorMessage">
+        Este campo es requerido
+      </p>
+    </div>
+
+    <div class="form-group">
+      <ion-label>Servicio</ion-label>
+      <input type="text" formControlName="service" placeholder="Ej: Distribución urbana">
+      <p class="ion-no-margin form-error-message" *ngIf="form.controls.service.invalid && showInputErrorMessage">
+        Este campo es requerido
+      </p>
+    </div>
+
+    <div class="form-group">
+      <ion-label>Zona</ion-label>
+      <ion-list>
+        <ion-radio-group [formControl]="zoneFC">
+          <ion-item>
+            <ion-label>Interior</ion-label>
+            <ion-radio value="interior"></ion-radio>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Cabecera</ion-label>
+            <ion-radio value="cabecera"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-list>
+    </div>
+
+    <div class="form-group">
+      <ion-label>Sucursal</ion-label>
+      <ion-select placeholder="Seleccione" formControlName="branch_id" cancelText="cancelar">
+        <ion-select-option *ngFor="let branch of filteredBranches" [value]="branch.id">
+          {{branch.name}}
+        </ion-select-option>
+      </ion-select>
+    </div>
+
+    <div class="form-group">
+      <ion-label>Material</ion-label>
+      <ion-select placeholder="Seleccione" formControlName="material_id" cancelText="cancelar">
+        <ion-select-option *ngFor="let material of materials" [value]="material.id">
+          {{material.name}}
+        </ion-select-option>
+      </ion-select>
+    </div>
+
+    <div class="form-group">
+      <ion-label>Ubicación</ion-label>
+      <ion-select placeholder="Seleccione" formControlName="ubi_id" cancelText="cancelar">
+        <ion-select-option *ngFor="let ubi of ubis" [value]="ubi.id">
+          {{ubi.name}}
+        </ion-select-option>
+      </ion-select>
+    </div>
+
+    <div class="form-group">
+      <ion-label>Empresa</ion-label>
+      <input type="text" formControlName="company">
+      <p class="ion-no-margin form-error-message" *ngIf="form.controls.company.invalid && showInputErrorMessage">
+        Este campo es requerido
+      </p>
+    </div>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6" class="ion-padding-horizontal">
+          <ion-label class="small">Horas</ion-label>
+          <input type="tel" formControlName="hours"
+                 inputmode="numeric" pattern="[0-9]+(\.[0-9][0-9]?)?">
+          <p class="ion-no-margin form-error-message"
+             *ngIf="form.controls.hours.invalid && showInputErrorMessage">
+            Este campo debe ser numérico, puede tener dos decimales
+          </p>
+        </ion-col>
+        <ion-col size="6" class="ion-padding-horizontal">
+          <ion-label class="small">Kilómetros</ion-label>
+          <input type="tel" formControlName="km"
+                 inputmode="numeric" pattern="[0-9]+(\.[0-9][0-9]?)?">
+          <p class="ion-no-margin form-error-message"
+             *ngIf="form.controls.km.invalid && showInputErrorMessage">
+            Este campo debe ser numérico, puede tener dos decimales
+          </p>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6" class="ion-padding-horizontal">
+          <ion-label class="small">Asignados</ion-label>
+          <input type="tel" inputmode="numeric" pattern="^[0-9]*$" formControlName="assigned">
+          <p class="ion-no-margin form-error-message"
+             *ngIf="form.controls.assigned.invalid && showInputErrorMessage">
+            Este campo debe ser numérico
+          </p>
+        </ion-col>
+        <ion-col size="6" class="ion-padding-horizontal">
+          <ion-label class="small">Entregados</ion-label>
+          <input type="tel" inputmode="numeric" pattern="^[0-9]*$" formControlName="delivered">
+          <p class="ion-no-margin form-error-message"
+             *ngIf="form.controls.delivered.invalid && showInputErrorMessage">
+            Este campo debe ser numérico
+          </p>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <div class="form-group">
+      <ion-label>Paquetes devueltos</ion-label>
+      <input readonly [value]="form.controls.assigned.value - form.controls.delivered.value" class="disabled">
+      <!--      <p class="ion-no-margin form-error-message" *ngIf="form.controls.returned.invalid && showInputErrorMessage">-->
+      <!--        Este campo debe ser numérico-->
+      <!--      </p>-->
+    </div>
+
+    <div class="form-group">
+      <ion-label>Modelo unidad</ion-label>
+      <input type="text" formControlName="transport_model">
+      <p class="ion-no-margin form-error-message"
+         *ngIf="form.controls.transport_model.invalid && showInputErrorMessage">
+        Este campo es requerido
+      </p>
+    </div>
+
+    <div class="form-group">
+      <ion-label>Marca unidad</ion-label>
+      <input type="text" formControlName="transport_make">
+      <p class="ion-no-margin form-error-message"
+         *ngIf="form.controls.transport_make.invalid && showInputErrorMessage">
+        Este campo es requerido
+      </p>
+    </div>
+
+    <div class="form-group">
+      <ion-label>Tonelaje</ion-label>
+      <input type="text" formControlName="tonnage"
+             inputmode="numeric" pattern="[0-9]+(\.[0-9][0-9]?)?">
+      <p class="ion-no-margin form-error-message" *ngIf="form.controls.tonnage.invalid && showInputErrorMessage">
+        Este campo debe ser numérico, puede tener dos decimales
+      </p>
+    </div>
+
+    <div class="form-group">
+      <ion-label>Descripción/Observación</ion-label>
+      <textarea type="text" formControlName="description" rows="4"></textarea>
+      <p class="ion-no-margin form-error-message"
+         *ngIf="form.controls.description.invalid && showInputErrorMessage">
+        Este campo es requerido
+      </p>
+    </div>
+  </form>
+
+  <ion-button class="custom-secondary-button" (click)="takePicture()">
+    <ion-icon name="camera"></ion-icon>
+    Tomar foto
+  </ion-button>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6" *ngFor="let file of files; let i=index">
+        <img class="control-image"
+             (click)="viewControlImageDetail(file)"
+             [src]="sanitizer.bypassSecurityTrustUrl(file.src)"
+             alt="control-image">
+        <ion-icon name="trash" class="delete-icon" (click)="deleteImage(i)"
+                  *ngIf="uploadedFilesIndexes.indexOf(i) <= -1">
+        </ion-icon>
+        <ion-icon name="checkmark" class="checkmark-icon" color="success"
+                  *ngIf="uploadedFilesIndexes.indexOf(i) > -1">
+        </ion-icon>
+        <ion-progress-bar type="indeterminate" *ngIf="uploadingFileIndex === i"></ion-progress-bar>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div class="ion-padding">
+    <p class="ion-no-margin form-error-message" *ngIf="showCustomMessage">
+      Por favor complete los campos requeridos
+    </p>
+    <ion-progress-bar *ngIf="submitting" type="indeterminate">
+    </ion-progress-bar>
+    <ion-button class="custom-button"
+                [disabled]="submitting"
+                (click)="submit()">
+      Aceptar
+    </ion-button>
+  </div>
+</ion-content>
+

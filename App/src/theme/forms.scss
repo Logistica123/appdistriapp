@@ -1,0 +1,39 @@
+.form-group {
+  margin: 20px;
+}
+
+input, textarea, ion-select {
+  width: 100%;
+  min-height: 45px;
+  border: 1px solid lightgray;
+  padding: 10px;
+  text-align: center;
+  border-radius: 10px;
+  outline: none;
+  font-weight: 500;
+  font-size: 18px;
+  letter-spacing: 0.05em;
+}
+
+.disabled {
+  background: #f6f6f7;
+}
+
+.custom-item {
+  border-radius: 15px;
+  border: 1px solid lightgray;
+}
+
+.error {
+  color: red;
+}
+
+ion-datetime {
+  --placeholder-color: var(--ion-color-dark);
+  font-weight: bold;
+  margin: 0 auto;
+}
+
+textarea {
+  resize: none;
+}

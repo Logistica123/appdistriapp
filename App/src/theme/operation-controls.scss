@@ -1,0 +1,56 @@
+ion-toolbar {
+  --background: #757dfb;
+  --color: white;
+}
+
+ion-content {
+  --background: white;
+}
+
+ion-item-sliding {
+  border-radius: 15px;
+  box-shadow: 0 0 7px 2px lightgrey;
+  --background: #f4f5f8;
+}
+
+ion-item-options {
+  background: #f4f5f8;
+}
+
+.custom-date-item {
+  --background: transparent;
+}
+
+ion-item {
+  --background: #f4f5f8;
+}
+
+.form-group ion-label {
+  margin-left: 10px;
+  display: block;
+  font-size: 0.85em;
+  text-align: left;
+}
+
+.total {
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.control-image {
+  object-fit: contain;
+  height: 150px;
+  width: 100%;
+}
+
+.not-approved {
+  --background: #898989;
+  color: white;
+  box-shadow: none;
+}
+
+.approved {
+  --background:  #c7f3cc;
+  color: black;
+  box-shadow: none;
+}

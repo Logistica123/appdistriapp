@@ -1,0 +1,44 @@
+<ion-content>
+  <ion-list>
+    <ion-radio-group [formControl]="radioFC">
+      <ion-item>
+        <ion-label>Hoy</ion-label>
+        <ion-radio value="today"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Mañana</ion-label>
+        <ion-radio value="tomorrow"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Otra fecha</ion-label>
+        <ion-radio value="another"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <div class="form-group" *ngIf="radioFC.value === 'another'">
+    <ion-item lines="none" class="custom-item">
+      <ion-datetime [(ngModel)]="date"
+                    display-timezone="America/Argentina/Buenos_Aires"
+                    displayFormat="DD MMMM YYYY"
+                    placeholder="Seleccione fecha"
+                    [max]="max"
+                    [min]="min"
+                    doneText="ok"
+                    cancelText="cancelar"
+                    monthNames="enero, febrero, marzo, abril, mayo, junio, julio, agosto, septiembre, octubre, noviembre, diciembre"
+                    monthShortNames="ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic"
+                    dayNames="domingo, lunes, martes, miércoles, jueves, viernes, sábado, domingo"
+                    dayShortNames="dom, lun, mar, mié, jue, vie, sáb, dom">
+      </ion-datetime>
+    </ion-item>
+  </div>
+
+  <div class="ion-text-center">
+    <ion-button shape="rounded" (click)="selectDate()">
+      Seleccionar
+    </ion-button>
+  </div>
+</ion-content>

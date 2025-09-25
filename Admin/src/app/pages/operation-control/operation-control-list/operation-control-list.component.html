@@ -1,0 +1,201 @@
+<div class="row">
+  <div class="col-md-3">
+    <mat-form-field>
+      <input matInput [matDatepicker]="dp" placeholder="Mes y año" [formControl]="date">
+      <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+      <mat-datepicker #dp
+                      startView="multi-year"
+                      (yearSelected)="chosenYearHandler($event)"
+                      (monthSelected)="chosenMonthHandler($event, dp)"
+                      panelClass="example-month-picker">
+      </mat-datepicker>
+    </mat-form-field>
+  </div>
+  <div class="col-md-3">
+    <mat-form-field>
+      <mat-label>Seleccione empresa</mat-label>
+      <mat-select [formControl]="companyFC"
+                  (selectionChange)="onCompanyChange($event)"
+                  [disabled]="operationControls.length <= 0">
+        <mat-option *ngFor="let company of companies"
+                    [value]="company.company">
+          {{company.company}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="col-md-6">
+    <mat-form-field>
+      <mat-label>Seleccione conductor</mat-label>
+      <mat-select [formControl]="driverFC"
+                  [disabled]="operationControls.length <= 0">
+        <mat-option *ngFor="let driver of drivers"
+                    [value]="driver.id">
+          {{driver.full_name}} ({{driver.email}})
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="col-md-4">
+    <button (click)="downloadReport()" matTooltip="Descargar reporte" mat-raised-button class="add-item-button"
+            [disabled]="!date.value || !driverFC.value">
+      DESCARGAR
+    </button>
+  </div>
+
+  <div class="col-md-12">
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar...">
+    </mat-form-field>
+  </div>
+
+  <div class="col-md-12">
+
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="driver.name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Conductor</th>
+          <td mat-cell *matCellDef="let row">
+            {{row.driver.name}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha</th>
+          <td mat-cell *matCellDef="let row">
+            {{row.date | date: 'dd/MM/yyyy'}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="branch.company.name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Empresa</th>
+          <td mat-cell *matCellDef="let row">
+            {{row.branch?.company?.name}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="zone">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Zona</th>
+          <td mat-cell *matCellDef="let row">
+            {{row.zone}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="branch.name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Sucursal</th>
+          <td mat-cell *matCellDef="let row">
+            {{row.branch?.name}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="material_ubi.material.name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Material</th>
+          <td mat-cell *matCellDef="let row">
+            {{row.material_ubi?.material?.name}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="material_ubi.ubi.name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Ubicación</th>
+          <td mat-cell *matCellDef="let row">
+            {{row.material_ubi?.ubi?.name}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="packages">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Paquetes</th>
+          <td mat-cell *matCellDef="let row">
+            A: {{row.assigned}} - E: {{row.delivered}} - D: {{row.assigned - row.delivered}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="hours">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Horas</th>
+          <td mat-cell *matCellDef="let row">
+            {{row.hours}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="km">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Km.</th>
+          <td mat-cell *matCellDef="let row">
+            {{row.km}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="amount">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Importe</th>
+          <td mat-cell *matCellDef="let row">
+            {{row.amount}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="approved">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Estatus</th>
+          <td mat-cell *matCellDef="let row">
+            <mat-chip-list>
+              <mat-chip *ngIf="row.approved" color="primary" selected>
+                Aprobado
+              </mat-chip>
+            </mat-chip-list>
+            <mat-chip *ngIf="!row.approved" color="warn" selected>
+              Pendiente
+            </mat-chip>
+          </td>
+        </ng-container>
+
+        <!-- Options Column -->
+        <ng-container matColumnDef="options">
+          <th mat-header-cell *matHeaderCellDef>Opciones</th>
+          <td mat-cell *matCellDef="let row">
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="viewOperationControlDetail(row)">
+                <mat-icon>chat</mat-icon>
+                <span>Ver detalle</span>
+              </button>
+
+              <button mat-menu-item (click)="edit(row)">
+                <mat-icon>edit</mat-icon>
+                <span>Editar</span>
+              </button>
+
+              <button mat-menu-item (click)="calculateValue(row)">
+                <mat-icon>edit</mat-icon>
+                <span>Calcular importe</span>
+              </button>
+
+              <button mat-menu-item (click)="approveOperationControl(row)"
+                      *ngIf="row.driver.contractor === 'logistic_company'">
+                <mat-icon>check_circle</mat-icon>
+                <span>Aprobar</span>
+              </button>
+
+<!--              <button mat-menu-item (click)="sumNoDevCredits(row)"-->
+<!--                      *ngIf="row.driver.contractor === 'logistic_company'">-->
+<!--                <mat-icon>add</mat-icon>-->
+<!--                <span>Sum. por dev. 0 paq.</span>-->
+<!--              </button>-->
+
+<!--              <button mat-menu-item (click)="viewCredits(row)"-->
+<!--                      *ngIf="row.driver.contractor === 'logistic_company'">-->
+<!--                <mat-icon>list</mat-icon>-->
+<!--                <span>Ver créditos</span>-->
+<!--              </button>-->
+            </mat-menu>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+        </tr>
+      </table>
+
+      <mat-paginator [pageSize]="100" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+    </div>
+  </div>
+</div>

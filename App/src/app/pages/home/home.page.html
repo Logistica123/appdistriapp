@@ -1,0 +1,86 @@
+<ion-header no-border translucent>
+  <ion-toolbar no-border mode="ios">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false" color="primary"></ion-menu-button>
+    </ion-buttons>
+    <ion-title color="primary">LOGAPP</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="header">
+
+  </div>
+
+  <div class="content">
+    <div class="box" (click)="navigateToUrbanDistributionPage()">
+      DISTRIBUCIÓN URBANA
+    </div>
+
+    <div class="box" (click)="navigateToJourneyListPage()">
+      VIAJES
+    </div>
+
+    <div class="box" (click)="navigateToOperationControlPage()">
+      CONTROL OPERATIVO
+    </div>
+
+    <div class="box" (click)="navigateToFuelControlPage()">
+      CONTROL COMBUSTIBLE
+    </div>
+
+    <div class="box" (click)="navigateToNotificationListPage()">
+      NOTIFICACIONES
+    </div>
+
+    <div class="box" (click)="navigateToMaintenancePage()">
+      MANTENIMIENTO
+    </div>
+
+    <div class="box" (click)="navigateToSuggestFormPage()">
+      PROPONER MEJORAS
+    </div>
+
+    <div class="box" routerLink="../profile">
+      PERFIL
+    </div>
+
+    <div class="box" routerLink="../help">
+      AYUDA
+    </div>
+
+<!--    <ion-grid>-->
+<!--      <ion-row>-->
+<!--        <ion-col (click)="navigateToUrbanDistributionPage()">-->
+<!--          <img src="assets/icons/distribucion.svg" alt="DISTRIBUCIÓN URBANA">-->
+<!--          DISTRIBUCIÓN URBANA-->
+<!--        </ion-col>-->
+
+<!--        <ion-col (click)="navigateToJourneyListPage()">-->
+<!--          <img src="assets/icons/viajes.svg" alt="VIAJES">-->
+<!--          VIAJES-->
+<!--        </ion-col>-->
+<!--      </ion-row>-->
+<!--      <ion-row>-->
+<!--        <ion-col (click)="navigateToHelpPage()">-->
+<!--          <img src="assets/icons/ayuda.svg" alt="AYUDA">-->
+<!--          AYUDA-->
+<!--        </ion-col>-->
+<!--        <ion-col (click)="navigateToNotificationListPage()">-->
+<!--          <img src="assets/icons/notificaciones.svg" alt="NOTIFICACIONES">-->
+<!--          NOTIFICACIONES-->
+<!--        </ion-col>-->
+<!--      </ion-row>-->
+<!--      <ion-row>-->
+<!--        <ion-col (click)="navigateToMaintenancePage()">-->
+<!--          <img src="assets/icons/mantenimiento.svg" alt="MANTENIMIENTO">-->
+<!--          MANTENIMIENTO-->
+<!--        </ion-col>-->
+<!--        <ion-col (click)="navigateToSuggestFormPage()">-->
+<!--          <img src="assets/icons/proponermejoras.svg" alt="PROPONER MEJORAS">-->
+<!--          PROPONER MEJORAS-->
+<!--        </ion-col>-->
+<!--      </ion-row>-->
+<!--    </ion-grid>-->
+  </div>
+</ion-content>

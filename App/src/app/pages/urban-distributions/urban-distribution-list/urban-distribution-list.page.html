@@ -1,0 +1,116 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+<!--    <ion-buttons slot="end">-->
+<!--      <ion-button (click)="setDeliveryOrderToOrders()">-->
+<!--        <ion-icon name="save" slot="icon-only"></ion-icon>-->
+<!--      </ion-button>-->
+<!--    </ion-buttons>-->
+    <ion-buttons slot="end">
+      <span class="network-status" *ngIf="!networkModeToggleFC.value">offline</span>
+      <span class="network-status" *ngIf="networkModeToggleFC.value">online</span>
+      <ion-toggle color="warning"
+                  (ionChange)="setModeStatus($event)"
+                  [checked]="networkModeToggleFC.value"
+                  [formControl]="networkModeToggleFC"></ion-toggle>
+    </ion-buttons>
+    <!--    <ion-buttons slot="end">-->
+    <!--      <span class="network-status"></span>-->
+    <!--      <ion-toggle color="warning"-->
+    <!--                  (ionChange)="deleteLocalStorage()"></ion-toggle>-->
+    <!--    </ion-buttons>-->
+    <ion-title>DISTRIBUCIÓN URBANA</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item lines="none" class="custom-date-item" *ngIf="networkModeToggleFC.value">
+    <ion-datetime [formControl]="dateFC"
+                  (ionChange)="onDateChange($event)"
+                  displayFormat="DD MMMM YYYY"
+                  display-timezone="America/Argentina/Buenos_Aires"
+                  placeholder="Seleccione fecha"
+                  doneText="ok"
+                  cancelText="cancelar"
+                  monthNames="enero, febrero, marzo, abril, mayo, junio, julio, agosto, septiembre, octubre, noviembre, diciembre"
+                  monthShortNames="ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic"
+                  dayNames="domingo, lunes, martes, miércoles, jueves, viernes, sábado, domingo"
+                  dayShortNames="dom, lun, mar, mié, jue, vie, sáb, dom">
+    </ion-datetime>
+  </ion-item>
+
+  <div class="ion-text-center ion-padding-bottom">
+    <ion-button class="custom-button" (click)="addLocation()">
+      AGREGAR
+    </ion-button>
+  </div>
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="ion-text-center ion-padding-bottom mt-3">
+    <ion-button class="custom-button" color="light" (click)="setDeliveryOrderToOrders()">
+      GUARDAR ORDEN DE ENTREGA
+    </ion-button>
+  </div>
+
+  <p *ngIf="!loading && orders.length <= 0" class="ion-padding ion-text-center">
+    <b>No tienes paquetes pendientes por entregar</b>
+  </p>
+
+  <div class="ion-padding ion-text-center" *ngIf="loading">
+    <ion-progress-bar type="indeterminate"></ion-progress-bar>
+  </div>
+
+  <app-urban-distribution-indicators *ngIf="!loading && orders.length > 0"
+                                     [orders]="orders">
+  </app-urban-distribution-indicators>
+
+  <div class="ion-padding-horizontal">
+    <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false">
+      <ion-item-sliding *ngFor="let order of orders; let i=index" class="ion-margin-bottom" (ionDrag)="dragEvent($event)">
+
+        <app-urban-distribution-order-item [order]="order"
+                                           [i]="i"
+                                           (deletedOrderEvent)="deletedOrderEvent($event)">
+        </app-urban-distribution-order-item>
+
+        <ion-item-options (ionSwipe)="swipeEvent($event)">
+          <ion-item-option color="light" (click)="editOrder(order)">
+            <ion-icon slot="end" name="create"></ion-icon>
+            Editar
+          </ion-item-option>
+          <ion-item-option color="light" (click)="presentDeleteOrderAlertConfirm(order)">
+            <ion-spinner name="lines-small" *ngIf="deletingOrder"></ion-spinner>
+            <ion-icon slot="end" name="trash" *ngIf="!deletingOrder"></ion-icon>
+            Eliminar
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-reorder-group>
+  </div>
+</ion-content>
+
+<ion-footer *ngIf="networkModeToggleFC.value">
+<!--<ion-footer>-->
+  <ion-toolbar>
+    <ion-tabs>
+      <ion-tab-bar slot="bottom" color="light">
+        <ion-tab-button (click)="showMap()">
+          <ion-icon name="navigate-circle"></ion-icon>
+          <ion-label>Comenzar</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button (click)="optimizeOrders()">
+          <ion-icon name="filter" *ngIf="!optimizingOrders"></ion-icon>
+          <ion-spinner name="bubbles" *ngIf="optimizingOrders"></ion-spinner>
+          <ion-label *ngIf="!optimizingOrders">Optimizar</ion-label>
+          <ion-label *ngIf="optimizingOrders">Optimizando...</ion-label>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,23 @@
+ion-content {
+  --background: #f7f8f9;
+  font-family: NunitoSans, 'sans-serif';
+}
+
+ion-toolbar {
+  --background: #757dfb;
+  --color: white;
+}
+
+ion-progress-bar {
+  height: 1px;
+}
+
+ion-list {
+  --background: transparent;
+  background: transparent;
+  padding: 0;
+}
+
+ion-item {
+  --background: transparent;
+}

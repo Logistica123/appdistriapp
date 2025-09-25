@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-button>
+      <ion-icon name="close" slot="icon-only"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div #deliveryOrderMarkersMap id=deliveryOrderMarkersMap>
+
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button color="primary" size="full" shape="round" (click)="viewAllMarkers()">
+      Ver todos los pendientes
+    </ion-button>
+    <ion-button color="primary" size="full" shape="round" (click)="findNearbyMarkers()">
+      Ver pendientes cercanos
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
+
+
+<!--<ion-grid>-->
+<!--  <ion-row>-->
+<!--    <ion-col>-->
+<!--      <ion-button (click)="showMarkersByNumber(1, 10)">1-10</ion-button>-->
+<!--    </ion-col>-->
+<!--    <ion-col>-->
+<!--      <ion-button (click)="showMarkersByNumber(11, 20)">11-20</ion-button>-->
+<!--    </ion-col>-->
+<!--    <ion-col>-->
+<!--      <ion-button (click)="showMarkersByNumber(21, 30)">21-30</ion-button>-->
+<!--    </ion-col>-->
+<!--    <ion-col>-->
+<!--      <ion-button (click)="showMarkersByNumber(31, 40)">31-40</ion-button>-->
+<!--    </ion-col>-->
+<!--  </ion-row>-->
+
+<!--  <ion-row>-->
+<!--    <ion-col>-->
+<!--      <ion-button (click)="showMarkersByNumber(41, 50)">41-50</ion-button>-->
+<!--    </ion-col>-->
+<!--    <ion-col>-->
+<!--      <ion-button (click)="showMarkersByNumber(51, 60)">51-60</ion-button>-->
+<!--    </ion-col>-->
+<!--    <ion-col>-->
+<!--      <ion-button (click)="showMarkersByNumber(61, 70)">61-70</ion-button>-->
+<!--    </ion-col>-->
+<!--    <ion-col>-->
+<!--      <ion-button (click)="showMarkersByNumber(71, 80)">71-80</ion-button>-->
+<!--    </ion-col>-->
+<!--  </ion-row>-->
+<!--</ion-grid>-->
+
+<!--<ion-button (click)="showMarkersByNumber(81, 90)">81-90</ion-button>-->
+<!--<ion-button (click)="showMarkersByNumber(81, 90)">todos</ion-button>-->

@@ -1,0 +1,42 @@
+ion-content {
+  --background: #f7f8f9;
+  font-family: NunitoSans, 'sans-serif';
+}
+
+ion-toolbar {
+  --background: #757dfb;
+  --color: white;
+}
+
+
+.message {
+  padding: 10px;
+  color: white;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+.message-container {
+  max-width: 80%;
+  text-align: left;
+}
+
+.message-sent-container {
+  float: right;
+}
+
+.message-received-container {
+  float: left;
+}
+
+.message-received {
+  background: darkgray;
+}
+
+.message-sent {
+  background: #157ee4;
+}
+
+ion-grid, ion-row {
+  padding: 0 5px !important;
+}

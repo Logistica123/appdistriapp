@@ -1,0 +1,132 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-icon name="close" (click)="dismiss(false)" class="font-2em"></ion-icon>
+    </ion-buttons>
+    <ion-title>
+      Seleccione
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="ion-text-center ion-padding-top">
+    <h6 class="ion-no-margin">
+      <b>{{order.location.address}}</b>
+    </h6>
+    <p class="ion-no-margin">
+      {{order.receiver}} ({{order.phone}})
+    </p>
+    <p class="ion-no-margin">{{order.description ? order.description : ' -'}}</p>
+  </div>
+
+  <ion-item lines="none">
+    <ion-label>Guardar cliente</ion-label>
+    <ion-checkbox color="primary" [formControl]="saveClientFC">
+    </ion-checkbox>
+  </ion-item>
+
+  <ion-list>
+    <ion-radio-group [formControl]="optionFC" (ionChange)="onOptionChange($event)">
+      <ion-item lines="none">
+        <ion-label>Dirección Insuficiente</ion-label>
+        <ion-radio slot="start" value="dirección insuficiente"></ion-radio>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label>Dirección Inexistente</ion-label>
+        <ion-radio slot="start" value="dirección inexistente"></ion-radio>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label>Rechazado</ion-label>
+        <ion-radio slot="start" value="rechazado"></ion-radio>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label>Se mudó</ion-label>
+        <ion-radio slot="start" value="se mudó"></ion-radio>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label>Falleció</ion-label>
+        <ion-radio slot="start" value="falleció"></ion-radio>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label>Cerrado/se dejó aviso de visita</ion-label>
+        <ion-radio slot="start" value="cerrado"></ion-radio>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label>Dirección inaccesible</ion-label>
+        <ion-radio slot="start" value="dirección inaccesible"></ion-radio>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label>Otros motivos</ion-label>
+        <ion-radio slot="start" value="otros"></ion-radio>
+      </ion-item>
+
+      <ion-item lines="none" *ngIf="showTextarea">
+        <textarea [formControl]="textareaFC" placeholder="Indique el motivo">
+
+        </textarea>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label>Nueva dirección</ion-label>
+        <ion-radio slot="start" value="nueva dirección"></ion-radio>
+      </ion-item>
+
+      <div *ngIf="showLocationFields">
+        <form [formGroup]="form">
+          <div class="form-group">
+            <ion-label>Nombre establecimiento o barrio</ion-label>
+            <textarea type="text" formControlName="locationName"></textarea>
+          </div>
+
+          <div class="form-group">
+            <ion-label>Dirección</ion-label>
+            <textarea type="text" formControlName="locationAddress"></textarea>
+          </div>
+
+          <ion-grid>
+            <ion-row>
+              <ion-col size="4">
+                <ion-label>Barrio</ion-label>
+                <input type="text" formControlName="b">
+              </ion-col>
+              <ion-col size="2">
+                <ion-label>Viv</ion-label>
+                <input type="text" formControlName="v">
+              </ion-col>
+              <ion-col size="2">
+                <ion-label>Sec</ion-label>
+                <input type="text" formControlName="s">
+              </ion-col>
+              <ion-col size="2">
+                <ion-label>Mz</ion-label>
+                <input type="text" formControlName="m">
+              </ion-col>
+              <ion-col size="2">
+                <ion-label>Casa</ion-label>
+                <input type="text" formControlName="c">
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </form>
+      </div>
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-progress-bar *ngIf="submitting" type="indeterminate" class="ion-padding-horizontal">
+  </ion-progress-bar>
+  <div class="ion-text-center ion-margin-bottom">
+    <ion-button class="custom-button"
+                [disabled]="submitting"
+                (click)="submit()">
+      Aceptar
+    </ion-button>
+  </div>
+</ion-content>

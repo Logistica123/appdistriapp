@@ -1,0 +1,51 @@
+
+
+ion-menu {
+  --ion-background-color: var(--ion-menu-background-color);
+  --ion-text-color: var(--ion-color-primary-contrast);
+  padding: 0;
+
+  ion-toolbar {
+    --background: var(--ion-menu-background-color);
+  }
+
+  ion-list {/* optional, but it needs when you use gradient as a background color.*/
+    background: transparent;
+  }
+
+  ion-label {
+    font-weight: bolder;
+    text-transform: uppercase;
+    color: white;
+    font-family: 'ITC', "Times New Roman", sans-serif !important;
+  }
+
+  ion-icon {
+    margin-right: 15px !important;
+  }
+
+  img {
+    //max-width: 50%;
+    //max-width: 100%;
+    //margin: 0 auto;
+  }
+
+  ion-item.selected {
+    --color: var(--ion-color-light) !important;
+  }
+
+  .menu-header {
+    //width: 100%;
+    //background: white;
+    //border-bottom-left-radius: 120% 60%;
+    //border-bottom-right-radius: 120% 60%;
+    //height: 20vh;
+
+    height: 80px;
+    //border-radius: 0 0 50% 50%/0 0 60% 60%;
+    border-radius: 0 0 70% 70%/0 0 45% 45%;
+    border-bottom: 0;
+    width: 100%;
+    background: white;
+  }
+}

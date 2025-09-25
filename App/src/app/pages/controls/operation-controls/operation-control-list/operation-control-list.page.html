@@ -1,0 +1,85 @@
+<ion-content class="ion-padding">
+  <ion-item lines="none" class="custom-date-item">
+    <ion-datetime displayFormat="MMMM YYYY"
+                  [formControl]="dateFC"
+                  (ionChange)="onDateChange($event)"
+                  placeholder="Selecciona el mes"
+                  display-timezone="America/Argentina/Buenos_Aires"
+                  doneText="ok"
+                  cancelText="cancelar"
+                  monthNames="enero, febrero, marzo, abril, mayo, junio, julio, agosto, septiembre, octubre, noviembre, diciembre"
+                  monthShortNames="ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic"
+                  dayNames="domingo, lunes, martes, miércoles, jueves, viernes, sábado, domingo"
+                  dayShortNames="dom, lun, mar, mié, jue, vie, sáb, dom">
+    </ion-datetime>
+  </ion-item>
+
+  <ion-progress-bar class="ion-margin-top"
+                    type="indeterminate"
+                    *ngIf="loading || submitting">
+  </ion-progress-bar>
+
+  <div class="ion-text-center ion-padding-bottom">
+    <ion-button class="custom-button" (click)="addOperationControl()">
+      AGREGAR
+    </ion-button>
+  </div>
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <p class="ion-padding-horizontal" *ngIf="!loading && operationControls.length <= 0">
+    <b>No tienes ningún registro para el mes seleccionado</b>
+  </p>
+
+  <ion-item-sliding *ngFor="let operationControl of operationControls; let i = index"
+                    [ngClass]="{'not-approved': !operationControl.approved}"
+                    class="ion-margin-bottom">
+    <ion-item lines="none"
+              [ngClass]="{'not-approved': !operationControl.approved, 'approved': operationControl.approved}">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="12" *ngIf="!operationControl.approved">
+            <p class="ion-no-margin">
+              <ion-icon name="timer"></ion-icon> En revisión
+          </ion-col>
+          <ion-col size="7">
+            <p class="ion-no-margin">Empresa: {{operationControl.branch?.company?.name}}</p>
+            <p class="ion-no-margin">Zona: {{operationControl.zone}}</p>
+            <p class="ion-no-margin">Sucursal: {{operationControl.branch?.name}}</p>
+            <p class="ion-no-margin">Material: {{operationControl.material_ubi?.material?.name}}</p>
+            <p class="ion-no-margin">Ubicación: {{operationControl.material_ubi?.ubi?.name}}</p>
+            <p class="ion-no-margin">Servicio: {{operationControl.service}}</p>
+            <p class="ion-no-margin">
+              {{operationControl.transport_make}} -
+              {{operationControl.transport_model}} -
+              {{operationControl.tonnage}} t.
+            </p>
+            <p class="ion-no-margin">Asignados: {{operationControl.assigned}}</p>
+            <p class="ion-no-margin">Entregados: {{operationControl.delivered}}</p>
+            <p class="ion-no-margin">Devueltos: {{operationControl.assigned - operationControl.delivered}}</p>
+            <p class="ion-no-margin" *ngIf="operationControl.per">% Eficiencia: {{operationControl.per}}%</p>
+          </ion-col>
+          <ion-col size="5">
+            <p class="ion-no-margin">
+              <b>{{operationControl.date | date: 'dd/MM/yyyy'}}</b>
+            </p>
+            <p class="ion-no-margin">Horas: {{operationControl.hours}}</p>
+            <p class="ion-no-margin">Km: {{operationControl.km}}</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item-options *ngIf="!operationControl.approved">
+      <ion-item-option color="light" (click)="editOperationControl(operationControl)">
+        <ion-icon slot="end" name="create"></ion-icon>
+        Editar
+      </ion-item-option>
+      <ion-item-option color="light" (click)="presentDeleteOperationControlAlertConfirm(operationControl)">
+        <ion-icon slot="end" name="trash"></ion-icon>
+        Eliminar
+      </ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
+</ion-content>

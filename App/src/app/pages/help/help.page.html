@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>AYUDA</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid>
+      <ion-row *ngFor="let message of messages">
+        <ion-col>
+          <div *ngIf="message.senderId === senderId" class="message-container message-sent-container">
+            <div class="message message-sent">
+              {{message.message}}
+            </div>
+          </div>
+
+          <div *ngIf="message.senderId !== senderId" class="message-container message-received-container">
+            <div class="message message-received">
+              {{message.message}}
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="9">
+        <ion-textarea placeholder="Escriba aquí..." [(ngModel)]="newMessage">
+        </ion-textarea>
+      </ion-col>
+      <ion-col class="ion-align-self-center ion-text-right">
+        <ion-button (click)="sendMessage()"
+                    [disabled]="!newMessage || !dataAvailable || !isLoggedIn">
+          <ion-icon slot="icon-only" name="send"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

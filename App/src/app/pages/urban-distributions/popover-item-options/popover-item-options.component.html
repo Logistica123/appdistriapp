@@ -1,0 +1,13 @@
+<ion-content class="ion-padding">
+  <h6 class="ion-no-margin ion-margin-bottom">{{order.receiver}}</h6>
+  <h6>{{order.phone}}</h6>
+  <p>Paquete: {{order.description ? order.description : ' -'}}</p>
+
+  <ion-button (click)="callNumber(order)" class="full-width">
+    <ion-icon name="call-outline" class="ion-padding-horizontal"></ion-icon> Llamar
+  </ion-button>
+
+  <ion-button href='https://api.whatsapp.com/send/?phone={{order.phone}}&text=Hola' class="full-width whatsapp-color-background">
+    <ion-icon name="logo-whatsapp" class="ion-padding-horizontal"></ion-icon> Whatsapp
+  </ion-button>
+</ion-content>

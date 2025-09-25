@@ -1,0 +1,34 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar mode="ios">
+    <ion-buttons slot="start">
+      <ion-back-button color="dark" defaultHref="login"></ion-back-button>
+    </ion-buttons>
+    <ion-title color="primary">Crear cuenta</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="content">
+    <form [formGroup]="form">
+      <div class="form-group">
+        <input type="text" placeholder="Nombre" formControlName="name">
+      </div>
+      <div class="form-group">
+        <input type="text" placeholder="Correo electrónico" formControlName="email" inputmode="email">
+      </div>
+      <div class="form-group">
+        <input type="password" placeholder="Contraseña" formControlName="password">
+      </div>
+      <div class="form-group">
+        <input type="password" placeholder="Confirmar contraseña" formControlName="password_confirmation">
+      </div>
+    </form>
+
+    <div class="ion-text-center ion-margin">
+      <button (click)="submit()" [disabled]="!form.valid">
+        ACEPTAR
+      </button>
+    </div>
+  </div>
+</ion-content>
+

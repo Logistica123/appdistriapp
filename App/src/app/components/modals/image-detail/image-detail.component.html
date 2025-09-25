@@ -1,0 +1,11 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="medium">
+    <ion-buttons slot="end">
+      <ion-icon name="close" (click)="dismiss(false)" class="font-2em"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <img [src]="sanitizer.bypassSecurityTrustUrl(file.src)"/>
+</ion-content>

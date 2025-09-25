@@ -1,0 +1,156 @@
+<ion-content class="ion-text-center">
+  <ion-progress-bar class="ion-margin-top"
+                    type="indeterminate"
+                    *ngIf="loading">
+  </ion-progress-bar>
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div *ngIf="driver">
+    <div class="ion-margin-top">
+      <img src="assets/images/default_profile_img.png" alt="profile_img"
+           *ngIf="filesSrc.length <=0 && !driver?.has_profile_img" (click)="pickImage()">
+
+      <img [src]="filesSrc" alt="profile_img"
+           *ngIf="filesSrc.length > 0" (click)="pickImage()">
+
+      <img [src]="profileImg" alt="profile_img"
+           *ngIf="filesSrc.length <=0 && driver?.has_profile_img && profileImg" (click)="pickImage()">
+    </div>
+
+    <div class="ion-text-center ion-margin" *ngIf="filesSrc.length > 0">
+      <div class="update-profile-image small" (click)="uploadFile()">
+        Guardar nueva imagen de perfil
+      </div>
+    </div>
+
+    <div class="ion-text-center ion-margin">
+      <div class="update-password small" (click)="updatePassword()">
+        Cambiar contraseña
+      </div>
+    </div>
+
+    <div class="ion-text-center ion-margin">
+      <div class="update-password small" (click)="updateProfile()">
+        Editar información
+      </div>
+    </div>
+
+    <ion-grid class="contractor-toggle">
+      <ion-row>
+        <ion-col size="4" class="ion-align-self-center">
+          Terceros
+        </ion-col>
+        <ion-col size="4">
+          <ion-toggle color="light"
+                      (ionChange)="onToggleChange($event)"
+                      [checked]="driver?.contractor === 'logistic_company'">
+          </ion-toggle>
+        </ion-col>
+        <ion-col size="4" class="ion-align-self-center">
+          Empresa logística
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-grid class="profile-data">
+      <ion-row>
+        <ion-col size="6">
+          Ciudad
+        </ion-col>
+        <ion-col size="6">
+          {{driver?.city}}
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="6">
+          Teléfono
+        </ion-col>
+        <ion-col size="6">
+          {{driver?.phone_number}}
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="6">
+          Empresa
+        </ion-col>
+        <ion-col size="6">
+          {{driver?.company}}
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="6">
+          Valor por hora
+        </ion-col>
+        <ion-col size="6">
+          {{driver?.cost_per_hour}}
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="6">
+          Valor por kilómetro
+        </ion-col>
+        <ion-col size="6">
+          {{driver?.cost_per_km}}
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="6">
+          Marca unidad
+        </ion-col>
+        <ion-col size="6">
+          {{driver?.car_make}}
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="6">
+          Modelo unidad
+        </ion-col>
+        <ion-col size="6">
+          {{driver?.car_model}}
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="6">
+          Tonelaje
+        </ion-col>
+        <ion-col size="6">
+          {{driver?.tonnage}}
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="6">
+          Matrícula
+        </ion-col>
+        <ion-col size="6">
+          {{driver?.license_plate}}
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-item>
+      <ion-label>
+        <p class="distance-value">{{distance}} km.</p>
+        <p class="distance-text">Distancia cubierta</p>
+      </ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>
+        <p class="distance-value">{{duration}} h.</p>
+        <p class="distance-text">Tiempo cubierto</p>
+      </ion-label>
+    </ion-item>
+  </div>
+</ion-content>
+

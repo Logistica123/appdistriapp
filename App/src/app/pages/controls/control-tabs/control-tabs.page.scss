@@ -1,0 +1,23 @@
+ion-content {
+  --background: #f7f8f9;
+  font-family: NunitoSans, 'sans-serif';
+}
+
+ion-toolbar {
+  --background: #757dfb;
+  --color: white;
+}
+
+ion-tab-bar {
+  --background: #f7f8f9;;
+}
+
+ion-tab-button {
+  --color: #6e6f75;
+  --color-selected :#757dfb;
+}
+
+ion-tab-button .selected-tab-button {
+  --background: white;
+}
+

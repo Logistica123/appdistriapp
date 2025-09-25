@@ -1,0 +1,13 @@
+button {
+  margin: 10px;
+}
+
+#locationUpdateRequestMap {
+  width: 100%;
+  height: 290px;
+}
+
+.info {
+  border: 1px dotted black;
+  padding: 10px;
+}

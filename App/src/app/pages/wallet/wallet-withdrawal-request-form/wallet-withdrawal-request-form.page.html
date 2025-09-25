@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-icon name="close" (click)="dismiss(false)" class="font-2em"></ion-icon>
+    </ion-buttons>
+    <ion-title>Realizar solicitud</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-text-center">
+  <form [formGroup]="form">
+    <div class="form-group">
+      <ion-label>Tipo</ion-label>
+      <ion-list>
+        <ion-radio-group formControlName="type">
+          <ion-item>
+            <ion-label>Adelanto</ion-label>
+            <ion-radio value="adelanto"></ion-radio>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Retiro</ion-label>
+            <ion-radio value="retiro"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-list>
+
+      <p class="ion-no-margin form-error-message"
+         *ngIf="form.controls.type.invalid && showInputErrorMessage">
+        Este campo es requerido
+      </p>
+    </div>
+
+    <div class="form-group">
+      <ion-label>Monto</ion-label>
+      <input type="number" formControlName="amount" inputmode="number">
+      <p class="ion-no-margin form-error-message"
+         *ngIf="form.controls.amount.invalid && showInputErrorMessage">
+        Este campo es requerido
+      </p>
+    </div>
+  </form>
+
+  <div class="ion-padding">
+    <ion-progress-bar *ngIf="submitting" type="indeterminate">
+    </ion-progress-bar>
+    <ion-button class="custom-button"
+                [disabled]="submitting"
+                (click)="submit()">
+      Aceptar
+    </ion-button>
+  </div>
+</ion-content>
+

@@ -1,0 +1,9 @@
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6" *ngFor="let documentFile of documentFiles">
+        <img [src]="documentFile.file_url" alt="" width="100%" height="100" style="object-fit: contain">
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

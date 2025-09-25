@@ -1,0 +1,167 @@
+<h4 mat-dialog-title class="text-center">Detalle</h4>
+<mat-dialog-content>
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <h5>Datos del distribuidor</h5>
+    </div>
+    <div class="col-md-12">
+      <p><b>Conductor: </b>{{operationControl.driver.full_name}} ({{operationControl.driver.email}}) </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <h5>Datos del servicio</h5>
+    </div>
+    <div class="col-md-6">
+      <p><b>Fecha: </b>{{operationControl.date | date: 'd/M/yyyy'}}</p>
+      <p><b>Empresa: </b>{{operationControl.branch?.company?.name}} </p>
+      <p><b>Sucursal: </b>{{operationControl.branch?.name}} </p>
+      <p><b>Zona: </b>{{operationControl.zone}} </p>
+      <p><b>Material: </b>{{operationControl.material_ubi?.material?.name}} </p>
+      <p><b>Ubicación: </b>{{operationControl.material_ubi?.ubi?.name}} </p>
+      <p><b>Servicio: </b>{{operationControl.service}}</p>
+<!--      <p><b>Unidad: </b>{{operationControl.transportModel}} - {{operationControl.transportMake}}-->
+<!--        - {{operationControl.tonnage}} t. </p>-->
+    </div>
+
+    <div class="col-md-6">
+      <p><b>Horas: </b>{{operationControl.hours}}</p>
+      <p><b>Km: </b> {{operationControl.km}}  </p>
+      <p>
+        <b>Asignados: </b>{{operationControl.assigned}}
+        <b>Entregados: </b>{{operationControl.delivered}}
+        <b>Devueltos: </b>{{operationControl.assigned - operationControl.delivered}}
+      </p>
+      <p><b>Observaciones:</b>{{operationControl.description}} </p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <h5>Montos configurados en la sucursal</h5>
+    </div>
+    <div class="col-md-6">
+      <p><b>Hora: </b>{{operationControl.branch?.hour_rate}}</p>
+      <p><b>KM: </b>{{operationControl.branch?.km_rate}}</p>
+      <p><b>Paquete: </b>{{operationControl.branch?.package_rate}}</p>
+    </div>
+    <div class="col-md-6">
+      <p><b>Fijo Horas: </b>{{operationControl.branch?.fixed_hours}}</p>
+      <p><b>Excedente KM: </b>{{operationControl.branch?.plus_km}}</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <h5>Valor material - ubicación</h5>
+    </div>
+    <div class="col-md-6">
+      <p><b>Valor: </b>{{operationControl.material_ubi?.value}}</p>
+    </div>
+  </div>
+
+  <div class="col-md-12 text-center" *ngIf="!allImagesLoaded && imagesCount > 0">
+    <p class="small">Cargando imágenes...</p>
+    <mat-progress-bar mode="buffer"></mat-progress-bar>
+  </div>
+
+  <div class=" col-md-12" *ngIf="allImagesLoaded">
+    <ng-image-slider [images]="imageObject"></ng-image-slider>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <mat-form-field>
+        <mat-select [formControl]="calculationModeFC" placeholder="Seleccione la forma de cálculo">
+          <mat-option value="1">
+            Paquetes por valor paquete
+          </mat-option>
+          <mat-option value="2">
+            Horas por valor hora
+          </mat-option>
+          <mat-option value="3">
+            (Excedente KM * valor km) + (fijo horas * valor hora)
+          </mat-option>
+          <mat-option value="4">
+            Paquetes por material y ubicación
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-12 calculation-wrapper" *ngIf="showMode1CalculationDetails">
+      <h5 class="text-center">
+        Empresa: {{operationControl.branch.company.name}} - Sucursal: {{operationControl.branch.name}}
+      </h5>
+<!--      <p>-->
+<!--        Paquetes entregados del control de operaciones: {{operationControl.delivered}}-->
+<!--      </p>-->
+<!--      <p>-->
+<!--        Valor del paquete configurado en la sucursal: {{operationControl.branch.package_rate}}-->
+<!--      </p>-->
+      <p>
+        <b>Total: {{amount | number: '1.2-2'}}</b>
+      </p>
+    </div>
+
+    <div class="col-md-12 calculation-wrapper" *ngIf="showMode2CalculationDetails">
+      <h5 class="text-center">
+        Empresa: {{operationControl.branch.company.name}} - Sucursal: {{operationControl.branch.name}}
+      </h5>
+<!--      <p>-->
+<!--        Horas del control de operaciones: {{operationControl.hours}}-->
+<!--      </p>-->
+<!--      <p>-->
+<!--        Valor hora configurado en la sucursal: {{operationControl.branch.hour_rate}}-->
+<!--      </p>-->
+      <p>
+        <b>Total: {{amount | number: '1.2-2'}}</b>
+      </p>
+    </div>
+
+    <div class="col-md-12 calculation-wrapper" *ngIf="showMode3CalculationDetails">
+      <h5 class="text-center">
+        Empresa: {{operationControl.branch.company.name}} - Sucursal: {{operationControl.branch.name}}
+      </h5>
+<!--      <p class="m-0">-->
+<!--        KM del control de operaciones: {{operationControl.km}}-->
+<!--      </p>-->
+<!--      <p class="m-0">-->
+<!--        Excedente sobre los {{operationControl.branch.plus_km}}-->
+<!--        KM: {{operationControl.km - operationControl.branch.plus_km > 0 ? operationControl.km - operationControl.branch.plus_km : 0}}-->
+<!--      </p>-->
+<!--      <p class="m-0">-->
+<!--        Valor km configurado en la sucursal: {{operationControl.branch.km_rate}}-->
+<!--      </p>-->
+<!--      <p class="m-0">-->
+<!--        Fijo horas:{{operationControl.branch.fixed_hours}}-->
+<!--      </p>-->
+<!--      <p class="m-0">-->
+<!--        Valor hora configurado en la sucursal: {{operationControl.branch.hour_rate}}-->
+<!--      </p>-->
+      <p>
+        <b>Total: {{amount | number: '1.2-2'}}</b>
+      </p>
+    </div>
+
+    <div class="col-md-12 calculation-wrapper" *ngIf="showMode4CalculationDetails">
+      <h5 class="text-center">
+        Empresa: {{operationControl.branch.company.name}} - Sucursal: {{operationControl.branch.name}}
+      </h5>
+      <p>
+        <b>Total: {{amount | number: '1.2-2'}}</b>
+      </p>
+    </div>
+
+    <div class="text-center p-4">
+      <button mat-raised-button color="primary"
+              (click)="submit()"
+              [disabled]="!calculationModeFC.value || submitting">
+        Aceptar importe
+      </button>
+      <button mat-raised-button (click)="close(false)">
+        Cancelar
+      </button>
+    </div>
+  </div>
+</mat-dialog-content>

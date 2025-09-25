@@ -1,0 +1,94 @@
+<div class="close-btn-outer text-right">
+  <button mat-button mat-dialog-close (click)="close(false)">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-dialog-content>
+  <form [formGroup]="driverForm">
+    <div class="col-md-12">
+      <div class="col-md-6">
+        <mat-form-field>
+          <input matInput placeholder="Nombre"
+                 formControlName="name">
+          <mat-error *ngIf="driverForm.controls['name'].hasError('required')">
+            Campo requerido
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field>
+          <input matInput placeholder="Apellido"
+                 formControlName="lastName">
+          <mat-error *ngIf="driverForm.controls['lastName'].hasError('required')">
+            Campo requerido
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field>
+          <input matInput placeholder="Email"
+                 formControlName="email">
+          <mat-error *ngIf="driverForm.controls['email'].hasError('required')">
+            Campo requerido
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field>
+          <input matInput placeholder="Teléfono"
+                 formControlName="phoneNumber">
+          <mat-error *ngIf="driverForm.controls['phoneNumber'].hasError('required')">
+            Campo requerido
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field>
+          <input matInput placeholder="Marca del vehículo"
+                 formControlName="carMake">
+          <mat-error *ngIf="driverForm.controls['carMake'].hasError('required')">
+            Campo requerido
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field>
+          <input matInput placeholder="Modelo del vehículo"
+                 formControlName="carModel">
+          <mat-error *ngIf="driverForm.controls['carModel'].hasError('required')">
+            Campo requerido
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field>
+          <input matInput placeholder="Año del vehículo"
+                 formControlName="carYear">
+          <mat-error *ngIf="driverForm.controls['carYear'].hasError('required')">
+            Campo requerido
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field>
+          <input matInput placeholder="Patente del vehículo"
+                 formControlName="licensePlate">
+          <mat-error *ngIf="driverForm.controls['licensePlate'].hasError('required')">
+            Campo requerido
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-12 text-center m10">
+        <button mat-raised-button
+                class="button-background"
+                [disabled]="!driverForm.valid"
+                (click)="submit();">
+          {{buttonText}}
+        </button>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+

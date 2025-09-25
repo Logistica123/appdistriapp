@@ -1,0 +1,83 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="navigateBack()">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end" *ngIf="selectedOrder">
+      <ion-button href='https://api.whatsapp.com/send/?phone={{selectedOrder.phone}}&text=Hola'>
+        <ion-icon slot="icon-only" name="logo-whatsapp"></ion-icon>
+      </ion-button>
+
+      <ion-button *ngIf="selectedOrder" (click)="callNumber(selectedOrder)">
+        <ion-icon slot="icon-only" name="call-outline"></ion-icon>
+      </ion-button>
+
+<!--      <ion-button (click)="toggleAllMarkers()">-->
+<!--        <ion-icon slot="icon-only" name="map-outline" [color]="showAllMarkersFlag ? 'warning' : 'light'"></ion-icon>-->
+<!--      </ion-button>-->
+
+      <ion-button (click)="viewDeliveryOrderMap()">
+        <ion-icon slot="icon-only" name="map-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Mapa de entregas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <app-map [currentOrder]="currentOrder"
+           [nearbyOrders]="nearbyOrders"
+           [markersOrders]="markersOrders"
+           [driverPosition]="driverPosition"
+           [radius]="radius"
+           (deliverOrderEvent)="deliverOrder()"
+           (notDeliverOrderEvent)="showNotDeliverOptions()"
+           (updateDeliveryOrderEvent)="showDeliveryOrderOptions()"
+           (selectOrderEvent)="selectOrder($event)">
+  </app-map>
+
+  <div class="ion-text-center">
+    <h6 class="ion-no-margin">
+      <b>{{selectedOrder?.location.address}}</b>
+    </h6>
+    <p class="ion-no-margin">
+      {{selectedOrder?.receiver}} ({{selectedOrder?.phone}})
+    </p>
+    <p class="ion-no-margin">{{selectedOrder?.description ? selectedOrder?.description : ' -'}}</p>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-grid class="ion-no-padding">
+      <ion-row>
+        <ion-col size="4" class="ion-no-padding">
+          <ion-tab-button (click)="deliverOrder()">
+            <ion-icon name="checkmark-done" *ngIf="!deliveringOrder"></ion-icon>
+            <ion-spinner name="bubbles" *ngIf="deliveringOrder"></ion-spinner>
+            <ion-label *ngIf="!deliveringOrder">Entregar</ion-label>
+            <ion-label *ngIf="deliveringOrder">Entregando...</ion-label>
+          </ion-tab-button>
+        </ion-col>
+        <ion-col size="4" class="ion-no-padding">
+          <ion-tab-button (click)="showNotDeliverOptions()">
+            <ion-icon name="alert-circle" *ngIf="!notDeliveringOrder"></ion-icon>
+            <ion-spinner name="bubbles" *ngIf="notDeliveringOrder"></ion-spinner>
+            <ion-label *ngIf="!notDeliveringOrder">No entregado</ion-label>
+            <ion-label *ngIf="notDeliveringOrder">No entregado...</ion-label>
+          </ion-tab-button>
+        </ion-col>
+        <ion-col size="4" class="ion-no-padding">
+          <ion-tab-button (click)="skip()">
+            <ion-icon name="arrow-forward-circle" *ngIf="!skipping"></ion-icon>
+            <ion-spinner name="bubbles" *ngIf="skipping"></ion-spinner>
+            <ion-label *ngIf="!skipping">Saltar</ion-label>
+            <ion-label *ngIf="skipping">Saltando...</ion-label>
+          </ion-tab-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-footer>

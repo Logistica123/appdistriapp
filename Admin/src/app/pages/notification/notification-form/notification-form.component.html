@@ -1,0 +1,21 @@
+<mat-dialog-content>
+  <mat-form-field>
+    <mat-label>Repartidores</mat-label>
+    <mat-select [formControl]="driversFormControl" multiple>
+      <mat-option *ngFor="let driver of drivers" [value]="driver.id">{{driver.full_name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <textarea matInput placeholder="Mensaje" [formControl]="messageFormControl" maxlength="150" cols="30" rows="10"></textarea>
+  </mat-form-field>
+
+  <div class="text-center">
+    <button class="mat-raised-button" (click)="send()" [disabled]="!messageFormControl.value || !driversFormControl.value">
+      Enviar
+    </button>
+    <button class="mat-raised-button" (click)="cancel()">
+      Cancelar
+    </button>
+  </div>
+</mat-dialog-content>

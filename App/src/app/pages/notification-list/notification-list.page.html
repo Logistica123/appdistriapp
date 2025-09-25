@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>NOTIFICACIONES</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-progress-bar class="ion-margin-top"
+                    type="indeterminate"
+                    *ngIf="loading">
+  </ion-progress-bar>
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <p class="ion-padding" *ngIf="!loading && notifications.length <= 0">
+    No tienes notificaciones
+  </p>
+
+  <ion-list>
+    <ion-item *ngFor="let notification of notifications">
+      <ion-label class="ion-text-wrap">
+        <p class="notification-date"> <b>{{notification.created_at | date: 'd/M/yyyy'}}</b></p>
+        <p class="notification-text">{{notification.text}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

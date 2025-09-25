@@ -1,0 +1,68 @@
+<ion-content class="ion-padding">
+  <ion-item lines="none" class="custom-date-item">
+    <ion-datetime displayFormat="MMMM YYYY"
+                  [formControl]="dateFC"
+                  (ionChange)="onDateChange($event)"
+                  display-timezone="America/Argentina/Buenos_Aires"
+                  placeholder="Selecciona el mes"
+                  doneText="ok"
+                  cancelText="cancelar"
+                  monthNames="enero, febrero, marzo, abril, mayo, junio, julio, agosto, septiembre, octubre, noviembre, diciembre"
+                  monthShortNames="ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic"
+                  dayNames="domingo, lunes, martes, miércoles, jueves, viernes, sábado, domingo"
+                  dayShortNames="dom, lun, mar, mié, jue, vie, sáb, dom">
+    </ion-datetime>
+  </ion-item>
+
+  <ion-progress-bar class="ion-margin-top"
+                    type="indeterminate"
+                    *ngIf="loading || submitting">
+  </ion-progress-bar>
+
+  <div class="ion-text-center ion-padding-bottom">
+    <ion-button class="custom-button" (click)="addFuelControl()">
+      AGREGAR
+    </ion-button>
+  </div>
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <p class="ion-padding-horizontal" *ngIf="!loading && fuelControls.length <= 0">
+    <b>No tienes ningún registro para el mes seleccionado</b>
+  </p>
+
+  <ion-item-sliding *ngFor="let fuelControl of fuelControls; let i = index"
+                    class="ion-margin-bottom">
+    <ion-item lines="none">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="7">
+            <p class="ion-no-margin">Estación  {{fuelControl.station}}</p>
+            <p class="ion-no-margin">{{fuelControl.fuel_type}}</p>
+            <p class="ion-no-margin">{{fuelControl.liters}} litros (${{fuelControl.price}}) -
+              ${{fuelControl.total}}
+            </p>
+          </ion-col>
+          <ion-col size="5">
+            <p class="ion-no-margin">
+              <b>{{fuelControl.date | date: 'dd/MM/yyyy'}}</b>
+            </p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item-options>
+      <ion-item-option color="light" (click)="editFuelControl(fuelControl)">
+        <ion-icon slot="end" name="create"></ion-icon>
+        Editar
+      </ion-item-option>
+      <ion-item-option color="light" (click)="presentDeleteFuelControlAlertConfirm(fuelControl)">
+        <ion-icon slot="end" name="trash"></ion-icon>
+        Eliminar
+      </ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
+</ion-content>
+

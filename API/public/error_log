@@ -1,0 +1,13 @@
+[07-Mar-2021 16:40:43 America/Chicago] PHP Parse error:  syntax error, unexpected 'class' (T_CLASS), expecting identifier (T_STRING) or variable (T_VARIABLE) or '{' or '$' in /home3/boostncy/api-logapp.palmariusdev.com/index.php on line 52
+[07-Mar-2021 16:41:11 America/Chicago] PHP Parse error:  syntax error, unexpected 'class' (T_CLASS), expecting identifier (T_STRING) or variable (T_VARIABLE) or '{' or '$' in /home3/boostncy/api-logapp.palmariusdev.com/index.php on line 52
+[07-Mar-2021 16:42:06 America/Chicago] PHP Parse error:  syntax error, unexpected 'class' (T_CLASS), expecting identifier (T_STRING) or variable (T_VARIABLE) or '{' or '$' in /home3/boostncy/api-logapp.palmariusdev.com/index.php on line 52
+[08-Mar-2021 10:45:21 America/Chicago] PHP Warning:  Missing boundary in multipart/form-data POST data in Unknown on line 0
+[08-Mar-2021 10:45:22 America/Chicago] PHP Warning:  Missing boundary in multipart/form-data POST data in Unknown on line 0
+[08-Mar-2021 12:57:03 America/Chicago] PHP Warning:  Missing boundary in multipart/form-data POST data in Unknown on line 0
+[08-Mar-2021 13:14:04 America/Chicago] PHP Warning:  Missing boundary in multipart/form-data POST data in Unknown on line 0
+[11-Mar-2021 12:47:15 America/Chicago] PHP Warning:  Missing boundary in multipart/form-data POST data in Unknown on line 0
+[11-Mar-2021 12:50:18 America/Chicago] PHP Warning:  Missing boundary in multipart/form-data POST data in Unknown on line 0
+[12-Mar-2021 22:25:27 America/Argentina/Buenos_Aires] PHP Fatal error:  Trait 'App\Traits\HereMapsAPITrait' not found in /home3/boostncy/api-logapp.palmariusdev.com/Laravel/app/Http/Controllers/V1/App/OrderController.php on line 23
+[12-Mar-2021 22:26:11 America/Argentina/Buenos_Aires] PHP Fatal error:  Trait 'App\Traits\HereMapsAPITrait' not found in /home3/boostncy/api-logapp.palmariusdev.com/Laravel/app/Http/Controllers/V1/App/OrderController.php on line 23
+[12-Mar-2021 22:27:08 America/Argentina/Buenos_Aires] PHP Fatal error:  Trait 'App\Traits\HereMapsAPITrait' not found in /home3/boostncy/api-logapp.palmariusdev.com/Laravel/app/Http/Controllers/V1/App/OrderController.php on line 23
+[16-Feb-2022 05:05:36 America/Chicago] PHP Warning:  Missing boundary in multipart/form-data POST data in Unknown on line 0

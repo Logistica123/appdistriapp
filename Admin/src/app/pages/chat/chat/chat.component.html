@@ -1,0 +1,53 @@
+<div class="row">
+  <div class="col-md-3 driver-list">
+    <mat-list>
+      <mat-list-item *ngFor="let driver of drivers" (click)="selectDriverChat(driver)" class="pointer"
+                     [ngClass]="{'selected-driver': selectedDriver && driver.id === selectedDriver.id}">
+        {{driver.full_name}}
+        <mat-divider></mat-divider>
+      </mat-list-item>
+    </mat-list>
+  </div>
+  <div class="col-md-8">
+    <mat-card>
+      <mat-card-subtitle class="text-center" *ngIf="selectedDriver">Chat de {{selectedDriver.full_name}}</mat-card-subtitle>
+      <mat-card-content #scrollMe>
+        <div class="row" *ngFor="let message of messages">
+          <div class="col-md-12">
+            <div *ngIf="message.senderId === firebaseUID" class="message-container message-sent-container">
+              <div class="message message-sent">
+                {{message.message}}
+              </div>
+            </div>
+
+            <div *ngIf="message.senderId !== firebaseUID" class="message-container message-received-container">
+              <div class="message message-received">
+                {{message.message}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+
+      <mat-card-footer>
+        <div class="row">
+          <div class="col-md-9">
+            <mat-form-field>
+              <input matInput type="text" placeholder="Escriba aquí..." [formControl]="newMessage">
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-3">
+            <button mat-raised-button class="mt10" (click)="addMessage()" [disabled]="!newMessage.value">
+              ENVIAR
+            </button>
+          </div>
+        </div>
+      </mat-card-footer>
+    </mat-card>
+
+    <div class="text-center mt-3" *ngIf="showErrorMessage">
+      <h6><b>Ocurrió un error</b></h6>
+    </div>
+  </div>
+</div>

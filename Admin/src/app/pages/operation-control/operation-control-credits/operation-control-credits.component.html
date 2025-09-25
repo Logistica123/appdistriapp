@@ -1,0 +1,18 @@
+<h4 mat-dialog-title class="text-center">Créditos sumados</h4>
+<mat-dialog-content>
+  <div class="row">
+    <div class="col-md-12">
+      <p>Sumados los créditos correspondientes a: </p>
+      <ul>
+        <li *ngFor="let action of operationControl.actions">
+          <span *ngIf="action.action === 'km'">
+            Kilómetros
+          </span>
+          <span *ngIf="action.action === 'no-devolution'">
+            Devolución 0 paquetes
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</mat-dialog-content>

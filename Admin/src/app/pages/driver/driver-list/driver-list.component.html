@@ -1,0 +1,116 @@
+<div class="row">
+  <div class="col-md-12">
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar...">
+    </mat-form-field>
+  </div>
+
+  <div class="col-md-12">
+    <button (click)="addDriver()" matTooltip="Agregar conductor" mat-raised-button class="add-item-button">
+      AGREGAR
+    </button>
+
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" matSort>
+        <!-- First Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre</th>
+          <td mat-cell *matCellDef="let row"
+              class="underline pointer"
+              (click)="editDriver(row)">
+            {{row.name}}
+          </td>
+        </ng-container>
+
+        <!-- Last Name Column -->
+        <ng-container matColumnDef="last_name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Apellido</th>
+          <td mat-cell *matCellDef="let row" class="underline pointer"
+              (click)="editDriver(row)">
+            {{row.last_name}}
+          </td>
+        </ng-container>
+
+        <!-- Email Column -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Email</th>
+          <td mat-cell *matCellDef="let row" class="underline pointer"
+              (click)="editDriver(row)">
+            {{row.email}}
+          </td>
+        </ng-container>
+
+        <!-- Phone Number Column -->
+        <ng-container matColumnDef="phone_number">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Teléfono</th>
+          <td mat-cell *matCellDef="let row" class="underline pointer"
+              (click)="editDriver(row)">
+            {{row.phone_number}}
+          </td>
+        </ng-container>
+
+        <!-- Company Column -->
+        <ng-container matColumnDef="driver_company.name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Empresa</th>
+          <td mat-cell *matCellDef="let row">
+            {{row.driver_company ? row.driver_company.name : '-'}}
+          </td>
+        </ng-container>
+
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Estatus</th>
+          <td mat-cell *matCellDef="let row">
+            <mat-slide-toggle
+              [checked]="row.status === 'active'"
+              (change)="updateStatus($event, row)">
+            </mat-slide-toggle>
+          </td>
+        </ng-container>
+
+        <!-- Options Column -->
+        <ng-container matColumnDef="options">
+          <th mat-header-cell *matHeaderCellDef>Opciones</th>
+          <td mat-cell *matCellDef="let row">
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="sendNotification(row)">
+                <mat-icon>chat</mat-icon>
+                <span>Enviar mensaje</span>
+              </button>
+              <button mat-menu-item (click)="editDriver(row)">
+                <mat-icon>info</mat-icon>
+                <span>Editar</span>
+              </button>
+              <button mat-menu-item (click)="assignCompanyToDriver(row)">
+                <mat-icon>info</mat-icon>
+                <span>Asignar empresa</span>
+              </button>
+<!--              <button mat-menu-item (click)="approveSettings(row)">-->
+<!--                <mat-icon>checkmark</mat-icon>-->
+<!--                <span>Aprobar valor por hora y km.</span>-->
+<!--              </button>-->
+<!--              <button mat-menu-item (click)="deleteDriver(row)">-->
+<!--                <mat-icon>delete</mat-icon>-->
+<!--                <span>Eliminar</span>-->
+<!--              </button>-->
+              <button mat-menu-item (click)="resetDriverPassword(row)">
+                <mat-icon>edit</mat-icon>
+                <span>Restablecer contraseña</span>
+              </button>
+            </mat-menu>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+        </tr>
+      </table>
+
+      <mat-paginator [pageSize]="50" [pageSizeOptions]="[50, 100, 200]"></mat-paginator>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+<ion-content class="ion-padding ion-margin-top">
+  <form [formGroup]="phoneNumberForm">
+    <ion-item>
+      <ion-label position="floating">Número de teléfono</ion-label>
+      <ion-input formControlName="phoneNumber"></ion-input>
+    </ion-item>
+  </form>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button size="full" shape="round" [disabled]="!phoneNumberForm.valid" (click)="submitForm()">
+      ACEPTAR
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

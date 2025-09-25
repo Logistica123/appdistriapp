@@ -1,0 +1,26 @@
+<h4 mat-dialog-title class="text-center">{{order.location.name}}</h4>
+<mat-dialog-content>
+  <div *ngIf="order.status_es === 'entregada'" class="text-center status">
+    <p class="badge delivered"> {{order.status_es | uppercase}}</p>
+    <p class="date">Fecha de entrega: {{order.delivered_at | date: 'dd/M/yyyy h:mm:ss a'}}</p>
+  </div>
+
+  <div *ngIf="order.status_es === 'saltada'" class="text-center status">
+    <p class="badge skipped"> {{order.status_es | uppercase}}</p>
+    <p class="date">Fecha marcada como saltada: {{order.skipped_at | date: 'dd/M/yyyy h:mm:ss a'}}</p>
+  </div>
+
+  <div *ngIf="order.status_es === 'pendiente'" class="text-center status">
+    <p class="badge pending"> {{order.status_es | uppercase}}</p>
+    <p class="date">Fecha de la orden: {{order.created_at | date: 'dd/M/yyyy h:mm:ss a'}}</p>
+  </div>
+
+  <h4 class="text-center"> {{order.location.full_address}}</h4>
+  <p><b>Horarios:</b> {{order.location.opening_hours ? order.location.opening_hours : '-'}}</p>
+  <p><b>Not. ayuda para llegar:</b> {{order.location.notes ? order.location.notes : '-'}}</p>
+  <p><b>Teléfonos:</b> {{order.location.phones ? order.location.phones : '-'}}</p>
+
+</mat-dialog-content>
+
+
+

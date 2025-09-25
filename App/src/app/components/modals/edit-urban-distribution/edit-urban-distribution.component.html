@@ -1,0 +1,81 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss(false)">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="form">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="4">
+          <ion-label>Barrio</ion-label>
+          <input type="text" formControlName="b">
+        </ion-col>
+        <ion-col size="2">
+          <ion-label>Viv</ion-label>
+          <input type="text" formControlName="v">
+        </ion-col>
+        <ion-col size="2">
+          <ion-label>Sec</ion-label>
+          <input type="text" formControlName="s">
+        </ion-col>
+        <ion-col size="2">
+          <ion-label>Mz</ion-label>
+          <input type="text" formControlName="m">
+        </ion-col>
+        <ion-col size="2">
+          <ion-label>Casa</ion-label>
+          <input type="text" formControlName="c">
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">
+          <ion-label>Dirección</ion-label>
+          <textarea type="text" formControlName="address" rows="2"></textarea>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">
+          <ion-label>Ciudad</ion-label>
+          <input type="text" formControlName="city">
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="12">
+          <ion-label>Nombre/Razón social</ion-label>
+          <input type="text" formControlName="company_name">
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="12">
+          <ion-label>Teléfono</ion-label>
+          <input type="tel" formControlName="phone">
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="12">
+          <ion-label>Detalles del paquete (opcional)</ion-label>
+          <textarea type="text" formControlName="details" rows="3"></textarea>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+
+  <ion-button size="full"
+              color="primary"
+              shape="round"
+              [disabled]="!form.valid || submitting"
+              (click)="submit()">
+    <ion-spinner *ngIf="submitting"></ion-spinner>
+    <span *ngIf="!submitting">Aceptar</span>
+  </ion-button>
+</ion-content>
+

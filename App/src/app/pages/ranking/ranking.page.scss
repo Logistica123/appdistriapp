@@ -1,0 +1,89 @@
+@import "../../../theme/custom-theme.scss";
+
+ion-content {
+  //--background: #f39f05;
+  --background: #757dfb;
+}
+
+ion-toolbar {
+  --border-style: none;
+}
+
+img {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.crown {
+  width: 35px;
+  height: 35px;
+}
+
+.podium-driver-score {
+  font-weight: bold;
+  color: white;
+  font-size: 1.3em;
+}
+
+.mt-80 {
+  margin-top: 80px;
+}
+
+.list-place {
+  padding: 1px 20px;
+  margin: 10px;
+  border-radius: 50px;
+  background: #757abf;
+  opacity: 0.9;
+  color: white;
+}
+
+ion-item {
+  animation: popIn 0.2s calc(var(--animation-order) * 200ms) both ease-in;
+}
+
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.6) translateY(-8px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.driver-podium-name {
+  font-weight: bold;
+  color: white;
+}
+
+.driver-name {
+  font-weight: bold;
+}
+
+.driver-place {
+  text-align: center;
+  background: #565dd2;
+  padding: 10px;
+  border-radius: 50%;
+  color: white;
+  font-weight: bold;
+}
+
+.driver-score {
+  color: #139013;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.podium-score {
+  --padding-bottom: 15px;
+  --padding-top: 15px;
+  --padding-start: 15px;
+  --padding-end: 15px;
+  border-radius: 35px;
+}

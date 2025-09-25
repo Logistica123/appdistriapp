@@ -1,0 +1,45 @@
+/* You can add global styles to this file, and also import other style files */
+
+/*.table-bordered > thead > tr > th,*/
+/*.table-bordered > tbody > tr > th,*/
+/*.table-bordered > tfoot > tr > th,*/
+/*.table-bordered > thead > tr > td,*/
+/*.table-bordered > tbody > tr > td,*/
+/*.table-bordered > tfoot > tr > td {*/
+/*  border-color: #eae3e3;*/
+/*}*/
+
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+table {
+  width: 100%;
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+mat-form-field{
+  width: 100%!important;
+  padding: 10px;
+}
+
+.add-item-button {
+  margin: 5px 0 !important;
+}
+
+.m10 {
+  margin: 10px;
+}
+
+.mt10 {
+  margin-top: 10px !important;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.p-4 {
+  padding: 2rem;
+}

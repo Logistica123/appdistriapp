@@ -1,0 +1,47 @@
+# Node / Angular / Ionic
+Admin/node_modules/
+Admin/dist/
+Admin/tmp/
+App/node_modules/
+App/www/
+App/platforms/
+App/plugins/
+App/coverage/
+App/tmp/
+
+# Laravel
+API/vendor/
+API/node_modules/
+API/storage/app/public/
+API/storage/framework/cache/
+API/storage/framework/sessions/
+API/storage/framework/testing/
+API/storage/framework/views/
+API/storage/logs/
+API/bootstrap/cache/*.php
+!API/bootstrap/cache/.gitignore
+
+# Environment & local configs
+.env
+API/.env
+API/.env.*
+*.local
+*.env.backup
+
+# OS / tooling
+.DS_Store
+Thumbs.db
+__MACOSX/
+
+# Archives & installers
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+
+# Misc build artefacts
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+

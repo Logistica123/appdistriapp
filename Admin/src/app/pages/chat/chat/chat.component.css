@@ -1,0 +1,52 @@
+mat-card {
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.driver-list {
+  height: 400px;
+  overflow-y: scroll;
+}
+
+.mat-card-header {
+  display: flex;
+  flex-direction: row;
+  flex-shrink: 0;
+}
+
+.mat-card-content {
+  flex-grow: 1;
+  overflow: auto;
+  overflow-x: hidden;
+  outline: 1px solid darkgray;
+}
+
+.message {
+  padding: 5px;
+  margin: 4px;
+  color: white;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+.message-container {
+  max-width: 80%;
+  text-align: left;
+}
+
+.message-sent-container {
+  float: right;
+}
+
+.message-received-container {
+  float: left;
+}
+
+.message-received {
+  background: darkgray;
+}
+
+.message-sent {
+  background: dodgerblue;
+}

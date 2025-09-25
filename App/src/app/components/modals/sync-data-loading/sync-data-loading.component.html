@@ -1,0 +1,27 @@
+<ion-content class="ion-padding">
+  <div class="ion-text-center ion-margin-vertical" *ngIf="loading">
+    <p>Por favor espere...</p>
+    <ion-progress-bar [value]="uploadedP" [buffer]="1 - uploadedP" class="ion-margin-top"></ion-progress-bar>
+
+    <h3>
+      <b>
+        {{uploadedP * 100 | number: '1.0-0'}}%
+      </b>
+    </h3>
+
+    <ion-spinner></ion-spinner>
+  </div>
+
+  <p class="ion-text-center" *ngIf="syncingError">
+    Ocurrió un error sincronizando con el servidor
+  </p>
+
+  <div class="ion-margin-top" *ngIf="syncingError">
+    <ion-button color="primary" expand="block" (click)="retry()">
+      Reintentar
+    </ion-button>
+    <ion-button color="danger" expand="block" (click)="abort()">
+      Abortar sincr.
+    </ion-button>
+  </div>
+</ion-content>

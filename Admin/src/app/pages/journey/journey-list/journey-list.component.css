@@ -1,0 +1,27 @@
+.delivered {
+  background: lightgreen;
+}
+
+.skipped {
+  background: orangered;
+}
+
+.pending {
+  background: dodgerblue;
+}
+
+.badge {
+  padding: 6px;
+  color: white;
+  border-radius: 5px;
+  display: inline;
+}
+
+.date {
+  font-weight: bold;
+  padding: 6px 6px 0;
+}
+
+.status {
+  margin: 10px 10px 5px 0;
+}

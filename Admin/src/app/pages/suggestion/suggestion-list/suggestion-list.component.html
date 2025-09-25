@@ -1,0 +1,25 @@
+<div class="row" *ngIf="suggestions.length <= 0 && !loading">
+  <div class="col-md-12">
+    <p>No hay ninguna sugerencia cargada</p>
+  </div>
+</div>
+
+<div class="row"  *ngIf="suggestions.length > 0 && !loading">
+  <div class="col-md-12">
+    <mat-accordion>
+      <mat-expansion-panel *ngFor="let suggestion of suggestions">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{suggestion.driver.full_name}}
+          </mat-panel-title>
+          <mat-panel-description>
+            enviada el {{suggestion.created_at | date: 'dd/M/yyyy'}}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <p>{{suggestion.suggestion}}</p>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>
+

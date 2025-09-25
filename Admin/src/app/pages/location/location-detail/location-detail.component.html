@@ -1,0 +1,21 @@
+<div class="close-btn-outer text-right">
+  <button mat-button mat-dialog-close (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<h4 mat-dialog-title class="text-center">{{location.name}}</h4>
+<mat-dialog-content>
+  <h4 class="text-center"> {{location.full_address}}</h4>
+  <p><b>Horarios:</b> {{location.opening_hours ? location.opening_hours : '-'}}</p>
+  <p><b>Not. ayuda para llegar:</b> {{location.notes ? location.notes : '-'}}</p>
+  <p><b>Teléfonos:</b> {{location.phones ? location.phones : '-'}}</p>
+
+  <div #locationDetailMap id=locationDetailMap>
+
+  </div>
+
+</mat-dialog-content>
+
+
+

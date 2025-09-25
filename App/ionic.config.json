@@ -1,0 +1,7 @@
+{
+  "name": "distribution-app-ion",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

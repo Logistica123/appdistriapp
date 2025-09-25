@@ -1,0 +1,13 @@
+<h3 mat-dialog-title>Imágenes</h3>
+<mat-dialog-content>
+  <div class="row">
+    <div class="col-md-12 text-center" *ngIf="!allImagesLoaded && imagesCount > 0">
+      <p class="small">Cargando imágenes...</p>
+      <mat-progress-bar mode="buffer"></mat-progress-bar>
+    </div>
+
+    <div class=" col-md-12" *ngIf="allImagesLoaded">
+      <ng-image-slider [images]="imageObject"></ng-image-slider>
+    </div>
+  </div>
+</mat-dialog-content>

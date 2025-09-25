@@ -1,0 +1,34 @@
+import {PaymentMethod} from './PaymentMethod';
+import {Admin} from './Admin';
+import {Company} from "./Company";
+
+export interface Driver {
+  id: number;
+  firebase_uid: string;
+  admin_firebase_uid: string;
+  name: string;
+  last_name: string;
+  full_name: string;
+  email: string;
+  city: string;
+  phone_number: string;
+  car: string;
+  car_make: string;
+  car_model: string;
+  car_year: string;
+  license_plate: string;
+  status: string;
+  pusher_chat_id: string;
+  img_url: string;
+  tonnage: string;
+  company: string;
+  has_profile_img: boolean;
+  cost_per_km: number;
+  cost_per_hour: number;
+  contractor: 'logistic_company' | 'none';
+  score: number;
+  payment_methods: PaymentMethod[];
+  admin: Admin;
+  admin_created: boolean;
+  driver_company: Company;
+}

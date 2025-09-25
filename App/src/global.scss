@@ -1,0 +1,236 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+/* Core CSS required for Ionic components to work properly */
+@import "~@ionic/angular/css/core.css";
+/* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import '~@ionic/angular/css/display.css';
+/* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+@import "theme/forms.scss";
+
+@import "theme/utils";
+@import "theme/menu.scss";
+
+ion-progress-bar {
+  height: 1px;
+}
+
+ion-title {
+  font-size: 0.8em;
+  text-overflow: unset !important;
+  white-space: unset !important;
+}
+
+ion-back-button, ion-menu-button {
+  color: white !important;
+}
+
+.searchbar-input.sc-ion-searchbar-md {
+  box-shadow: none;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+}
+
+.alert-radio-label.sc-ion-alert-md, .alert-radio-label.sc-ion-alert-ios {
+  white-space: normal !important;
+}
+
+.form-error-message {
+  margin: 0;
+  text-align: center;
+  font-size: 0.85em;
+  color: darkred;
+}
+
+.spinner ion-spinner {
+  position: fixed !important;
+  z-index: 999 !important;
+  margin: auto !important;
+  top: 0 !important;
+  left: 0 !important;
+  bottom: 0 !important;
+  right: 0 !important;
+  color: white !important;
+}
+
+ion-loading.custom-loading {
+  --color: white !important;
+  color: white !important;
+
+  .loading-wrapper {
+    background: transparent;
+    box-shadow: none;
+
+    .spinner-crescent circle {
+      stroke-width: 8px;
+    }
+  }
+}
+
+/*
+__________________________________________________________
+
+CUSTOM MODALS
+___________________________________________________________
+ */
+.modal-location-form .modal-wrapper {
+  height: 70%;
+  top: 15%;
+  width: 80%;
+  position: absolute;
+  display: block;
+  border-radius: 10px;
+}
+
+.modal-show-delivery-order-map .modal-wrapper {
+  height: 80%;
+  top: 10%;
+  width: 90%;
+  position: absolute;
+  display: block;
+  border-radius: 10px;
+}
+
+.modal-document-form .modal-wrapper {
+  height: 85%;
+  top: 10%;
+  width: 90%;
+  position: absolute;
+  display: block;
+  border-radius: 10px;
+}
+
+.modal-document-image-view .modal-wrapper {
+  height: 80%;
+  top: 10%;
+  width: 90%;
+  position: absolute;
+  display: block;
+  border-radius: 10px;
+}
+
+.modal-show-location-map .modal-wrapper {
+  height: 85%;
+  top: 10%;
+  width: 90%;
+  position: absolute;
+  display: block;
+  border-radius: 10px;
+}
+
+.modal-update-phone-number .modal-wrapper {
+  height: 30%;
+  top: 15%;
+  width: 80%;
+  position: absolute;
+  display: block;
+  border-radius: 10px;
+}
+
+.modal-update-password .modal-wrapper {
+  height: 70%;
+  top: 15%;
+  width: 85%;
+  position: absolute;
+  display: block;
+  border-radius: 10px;
+}
+
+.modal-edit-urban-distribution .modal-wrapper {
+  height: 50%;
+  top: 15%;
+  width: 90%;
+  position: absolute;
+  display: block;
+  border-radius: 10px;
+}
+
+.modal-deliver-order .modal-wrapper {
+  height: 80%;
+  top: 15%;
+  width: 90%;
+  position: absolute;
+  display: block;
+  border-radius: 10px;
+}
+
+///
+.modal-not-deliver-options .modal-wrapper {
+  height: 85%;
+  top: 10%;
+  width: 90%;
+  position: absolute;
+  display: block;
+  border-radius: 10px;
+}
+
+.modal-alert .modal-wrapper {
+  height: 50%;
+  top: 10%;
+  width: 90%;
+  position: absolute;
+  display: block;
+  border-radius: 10px;
+}
+
+/*
+__________________________________________________________
+**********************************************************
+___________________________________________________________
+ */
+
+.menu {
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  background: var(--ion-color-tertiary);
+}
+
+ion-button {
+  --border-radius: 10px !important;
+}
+
+/*
+__________________________________________________________
+**********************************************************
+___________________________________________________________
+ */
+.custom-button {
+  --border-radius: 20px !important;
+  --padding-start: 45px !important;
+  --padding-end: 45px !important;
+  --padding-top: 20px;
+  --padding-bottom: 20px;
+  --background: #363444;
+}
+
+.custom-secondary-button {
+  --border-radius: 20px !important;
+  --padding-start: 25px !important;
+  --padding-end: 25px !important;
+  --padding-top: 15px;
+  --padding-bottom: 15px;
+  --background: #ea6836
+}
+
+.whatsapp-color-background {
+  --background: #25D366;
+}
+
+
+

@@ -1,0 +1,46 @@
+<ion-content>
+  <ion-list class="ion-margin">
+    <ion-item>
+      <ion-label>TIPO</ion-label>
+      <ion-select placeholder="Seleccione" okText="Ok" cancelText="Cancelar" [formControl]="documentFormControl">
+        <ion-select-option class="ion-text-wrap" *ngFor="let document of documents" [value]="document.id">
+          {{document.name}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+
+  <div class="first-item item-section" tappable (click)="takePicture()">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="2">
+          <ion-icon name="camera"></ion-icon>
+        </ion-col>
+        <ion-col size="10" class="item-text">
+          AGREGAR FOTO
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <div class="item item-section" tappable (click)="pickImages()">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="2">
+          <ion-icon name="images"></ion-icon>
+        </ion-col>
+        <ion-col size="10" class="item-text">
+          AGREGAR DESDE GALERÍA
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button color="light" size="full" shape="round" (click)="submit()">
+      ACEPTAR
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

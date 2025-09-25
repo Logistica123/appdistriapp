@@ -1,0 +1,32 @@
+@import "../../../../theme/urban-distribution.scss";
+
+ion-footer ion-toolbar {
+  --background: transparent;
+}
+
+ion-progress-bar {
+  height: 1px;
+}
+
+ion-content {
+  --background: white;
+}
+
+.info {
+  border: 1px dotted black;
+  padding: 10px;
+  font-weight: 900;
+}
+
+ion-card {
+  width: 100%;
+}
+
+ion-item-sliding {
+  border-radius: 15px;
+  box-shadow: 0 0 7px 2px lightgrey;
+}
+
+.network-status {
+  font-size: 0.7em;
+}

@@ -1,0 +1,20 @@
+<div class="close-btn-outer text-right">
+  <button mat-button mat-dialog-close (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-dialog-content>
+  <mat-form-field>
+    <textarea matInput [formControl]="messageFormControl" maxlength="150" cols="30" rows="10"></textarea>
+  </mat-form-field>
+
+  <div class="text-center">
+    <button class="mat-raised-button" (click)="send()" [disabled]="!messageFormControl.value">
+      Enviar
+    </button>
+    <button class="mat-raised-button" (click)="cancel()">
+      Cancelar
+    </button>
+  </div>
+</mat-dialog-content>

@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-icon name="close"></ion-icon>
+    </ion-buttons>
+    <ion-title>DETALLE</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <app-order-detail-map [order]="order">
+
+  </app-order-detail-map>
+
+  <div class="ion-padding" *ngIf="order">
+    <p class="ion-text-center location-name">
+      <b>{{order.location.name}}</b>
+    </p>
+
+    <p>
+      <b>Dirección:</b> {{order.location.address}}
+    </p>
+
+    <p>
+      <b>Ciudad:</b> {{order.location.city}}
+    </p>
+
+    <p>
+      <b>Not. ayuda para llegar:</b> {{order.location.notes}}
+    </p>
+
+    <p>
+      <b>Horario:</b> {{order.location.opening_hours}}
+    </p>
+
+    <p>
+      <b>Teléfonos:</b> {{order.location.phones}}
+    </p>
+  </div>
+</ion-content>
+
+<ion-footer *ngIf="order?.status != 'delivered'">
+  <ion-toolbar>
+    <ion-button color="light" size="full" shape="round"
+                (click)="presentDeleteLocationAlertConfirm()">
+      ELIMINAR DE MI HOJA DE RUTA
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,17 @@
+<mat-dialog-content>
+  <div class="row mb-1" *ngFor="let documentFile of documentFiles">
+    <div class="col-md-9">
+      {{documentFile.filename}}
+    </div>
+
+    <div class="col-md-3 text-right">
+      <mat-icon class="pointer" (click)="downloadFile(documentFile)">download</mat-icon>
+    </div>
+  </div>
+
+  <div class="row text-center" style="margin-top: 25px;">
+    <button mat-raised-button (click)="close()" class="button-margin-bottom" tabindex="-1">
+      Cerrar
+    </button>
+  </div>
+</mat-dialog-content>

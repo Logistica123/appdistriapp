@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss(false)">
+        <ion-icon name="close" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      Entregar orden
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="ion-text-center">
+    <h6 class="ion-no-margin">
+      <b>{{order.location.address}}</b>
+    </h6>
+    <p class="ion-no-margin">
+      {{order.receiver}} ({{order.phone}})
+    </p>
+    <p class="ion-no-margin">{{order.description ? order.description : ' -'}}</p>
+  </div>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6" *ngFor="let file of files; let i=index">
+        <img class="control-image"
+             (click)="viewImage(file)"
+             [src]="sanitizer.bypassSecurityTrustUrl(file.src)"
+             alt="control-image">
+        <ion-icon name="trash" class="delete-icon" (click)="deleteImage(i)"
+                  *ngIf="uploadedFilesIndexes.indexOf(i) <= -1">
+        </ion-icon>
+        <ion-icon name="checkmark" class="checkmark-icon" color="success"
+                  *ngIf="uploadedFilesIndexes.indexOf(i) > -1">
+        </ion-icon>
+        <ion-progress-bar type="indeterminate" *ngIf="uploadingFileIndex === i"></ion-progress-bar>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div class="ion-text-center" *ngIf="currentMode">
+    <ion-button class="custom-secondary-button"
+                [disabled]="submitting"
+                (click)="takePicture()">
+      Tomar foto DNI
+    </ion-button>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-progress-bar *ngIf="submitting" type="indeterminate" class="ion-padding-horizontal">
+  </ion-progress-bar>
+  <ion-toolbar class="ion-text-center ion-padding-horizontal">
+    <ion-item lines="none">
+      <ion-label>Guardar cliente</ion-label>
+      <ion-checkbox color="primary" [formControl]="saveClientFC">
+      </ion-checkbox>
+    </ion-item>
+    <ion-button class="custom-button ion-margin-bottom"
+                [disabled]="submitting"
+                (click)="submit()">
+      Entregar
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

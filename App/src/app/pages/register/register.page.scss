@@ -1,0 +1,39 @@
+ion-content {
+  --background: var(--ion-color-primary);
+}
+
+input {
+  width: 100%;
+  height: 45px;
+  border: none;
+  padding: 10px;
+  text-align: center;
+  border-radius: 10px;
+  outline: none;
+  font-weight: 500;
+  letter-spacing: 0em !important;
+}
+
+input::placeholder {
+  letter-spacing: 0em !important;
+}
+
+.form-group {
+  margin: 20px;
+}
+
+ion-item {
+  background: transparent;
+  --background: transparent;
+  color: white;
+  margin: -15px 0px;
+}
+
+button {
+  background: white;
+  border-radius: 10px;
+  height: 45px;
+  outline: none;
+  padding: 12px 30px;
+  font-weight: bold;
+}

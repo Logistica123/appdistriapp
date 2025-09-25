@@ -1,0 +1,36 @@
+<h4 mat-dialog-title class="text-center">{{order.location.name}}</h4>
+<mat-dialog-content>
+  <div class="row">
+    <div class="col-md-12">
+      <div *ngIf="order.status_es === 'entregada'" class="text-center status">
+        <p class="badge delivered"> {{order.status_es | uppercase}}</p>
+        <p class="date">Fecha de entrega: {{order.delivered_at | date: 'dd/M/yyyy h:mm:ss a'}}</p>
+      </div>
+
+      <div *ngIf="order.status_es === 'saltada'" class="text-center status">
+        <p class="badge skipped"> {{order.status_es | uppercase}}</p>
+        <p class="date">Fecha marcada como saltada: {{order.skipped_at | date: 'dd/M/yyyy h:mm:ss a'}}</p>
+      </div>
+
+      <div *ngIf="order.status_es === 'pendiente'" class="text-center status">
+        <p class="badge pending"> {{order.status_es | uppercase}}</p>
+        <p class="date">Fecha de la orden: {{order.created_at | date: 'dd/M/yyyy h:mm:ss a'}}</p>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <h4 class="text-center"> {{order.location.full_address}}</h4>
+      <p><b>Razón Social:</b> {{order.receiver ? order.receiver : '-'}}</p>
+      <p><b>Detalles del paquete:</b> {{order.description ? order.description : '-'}}</p>
+    </div>
+  </div>
+
+  <div class="col-md-12 text-center" *ngIf="!allImagesLoaded && imagesCount > 0">
+    <p class="small">Cargando imágenes...</p>
+    <mat-progress-bar mode="buffer"></mat-progress-bar>
+  </div>
+
+  <div class=" col-md-12" *ngIf="allImagesLoaded">
+    <ng-image-slider [images]="imageObject"></ng-image-slider>
+  </div>
+
+</mat-dialog-content>

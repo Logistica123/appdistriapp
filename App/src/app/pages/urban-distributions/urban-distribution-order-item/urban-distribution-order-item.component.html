@@ -1,0 +1,78 @@
+<ion-item lines="none">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="4" class="ion-align-self-center">
+        <ion-reorder>
+          <ion-badge class="index">{{i + 1}}</ion-badge>
+          <ion-icon name="flag" [ngStyle]="{'color': order.flag_color}" class="ion-margin-start"></ion-icon>
+          <ion-icon name="locate" *ngIf="order.location.saved_client"></ion-icon>
+        </ion-reorder>
+      </ion-col>
+
+      <ion-col size="6">
+        <ion-badge
+          [color]="order.status === 'delivered' ? 'primary'
+          : (order.status === 'skipped' || order.status === 'pending') ? 'warning'
+          : 'danger'">
+          {{order.status_es | uppercase}}
+        </ion-badge>
+      </ion-col>
+
+      <ion-col size="2" class="ion-text-right" (click)="showItemOptions(order, $event)">
+        <ion-icon name="ellipsis-vertical"></ion-icon>
+      </ion-col>
+    </ion-row>
+
+    <ion-row (click)="viewOrderDetail(order)">
+      <ion-col size="12">
+        <h6 class="ion-no-margin">#{{order.id}}</h6>
+      </ion-col>
+      <ion-col size="12">
+        <b>{{order.location.name | uppercase}}</b>
+      </ion-col>
+
+      <ion-col size="12" class="ion-no-padding">
+        <p class="ion-no-margin p-small">
+          {{order.location.b ? ('B: ' + order.location.b) : ''}}
+          {{order.location.v ? ('Viv: ' + order.location.v) : ''}}
+          {{order.location.s ? ('Sec: ' + order.location.s) : ''}}
+          {{order.location.m ? ('Mz: ' + order.location.m) : ''}}
+          {{order.location.c ? ('Casa: ' + order.location.c) : ''}}
+        </p>
+      </ion-col>
+
+      <ion-col size="12" class="ion-no-padding">
+        <p class="ion-no-margin p-small">
+          Razón social: {{order.receiver ? order.receiver : '-'}}
+        </p>
+      </ion-col>
+
+      <ion-col size="12" class="ion-no-padding">
+        <p class="ion-no-margin p-small">
+          Teléfono: {{order.phone ? order.phone : '-'}}
+        </p>
+      </ion-col>
+
+      <ion-col size="12" class="ion-no-padding">
+        <p class="ion-no-margin p-small">
+          Paquete: {{order.description ? order.description : '-'}}
+        </p>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="6">
+        <ion-button color="light" (click)="deliverOrder(order)">
+          Entregar
+        </ion-button>
+      </ion-col>
+
+      <ion-col size="6">
+        <ion-button color="light" (click)="showNotDeliverOptions(order)">
+          No entregado
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-item>
+

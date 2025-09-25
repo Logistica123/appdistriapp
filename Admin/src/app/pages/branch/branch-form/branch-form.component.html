@@ -1,0 +1,99 @@
+<div class="close-btn-outer text-right">
+  <button mat-button mat-dialog-close (click)="close(false)">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="col-md-6">
+          <mat-form-field>
+            <mat-select formControlName="company_id" placeholder="Empresa">
+              <mat-option *ngFor="let company of companies" [value]="company.id">
+                {{company.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field>
+            <mat-select formControlName="type" placeholder="Tipo">
+              <mat-option value="1">
+                Cabecera
+              </mat-option>
+              <mat-option value="2">
+                Interior
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field>
+            <input matInput placeholder="Nombre"
+                   formControlName="name">
+            <mat-error *ngIf="form.controls['name'].hasError('required')">
+              Campo requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field>
+            <input matInput placeholder="Valor Hora"
+                   formControlName="hour_rate">
+            <mat-error *ngIf="form.controls['hour_rate'].hasError('required')">
+              Campo requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field>
+            <input matInput placeholder="Valor KM"
+                   formControlName="km_rate">
+            <mat-error *ngIf="form.controls['km_rate'].hasError('required')">
+              Campo requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field>
+            <input matInput placeholder="Valor Paquete"
+                   formControlName="package_rate">
+            <mat-error *ngIf="form.controls['package_rate'].hasError('required')">
+              Campo requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field>
+            <input matInput placeholder="Fijo horas"
+                   formControlName="fixed_hours">
+            <mat-error *ngIf="form.controls['fixed_hours'].hasError('required')">
+              Campo requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field>
+            <input matInput placeholder="Excedente KM"
+                   formControlName="plus_km">
+            <mat-error *ngIf="form.controls['plus_km'].hasError('required')">
+              Campo requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-12 text-center m10">
+          <button mat-raised-button
+                  class="button-background"
+                  [disabled]="!form.valid"
+                  (click)="submit();">
+            {{buttonText}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+

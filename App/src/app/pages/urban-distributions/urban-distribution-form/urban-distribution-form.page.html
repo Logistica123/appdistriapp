@@ -1,0 +1,184 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="openSelectDatePopover($event)">
+        <ion-icon name="calendar" class="ion-padding-end"></ion-icon>
+        {{orderDate | orderDate}}
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-slides [options]="slideOpts" #urbanDistributionSlide>
+    <ion-slide>
+      <ion-searchbar [formControl]="searchInputFC"
+                     placeholder="Buscar"
+                     debounce="1000"
+                     [disabled]="locations.length <= 0"
+                     (ionChange)="searchByKeyword($event)"
+                     (ionClear)="clear()">
+      </ion-searchbar>
+
+      <div class="ion-padding-horizontal" *ngIf="locations.length <= 0">
+        <ion-progress-bar type="indeterminate"></ion-progress-bar>
+        <p class="ion-no-margin ion-text-center small">Cargando ubicaciones...</p>
+      </div>
+
+      <div *ngIf="searching">
+        <ion-item tappable (click)="addNewLocation()">
+          <ion-label class="ion-text-wrap ion-text-center">
+            <p><b>Agregar nueva ubicación</b></p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item tappable (click)="addNewClient()">
+          <ion-label class="ion-text-wrap ion-text-center">
+            <p><b>Agregar nuevo cliente</b></p>
+          </ion-label>
+        </ion-item>
+
+        <ion-list *ngIf="searching" class="search-list">
+          <div *ngFor="let location of filteredLocations" class="location-item">
+            <ion-item lines="none"
+                      class="transparent-ion-item"
+                      (click)="selectLocation(location)">
+              <ion-label class="ion-text-wrap">
+                <p><b>{{location.name}}</b></p>
+                <p>{{location.full_address}}</p>
+              </ion-label>
+            </ion-item>
+
+            <ion-item lines="none"
+                      class="order-receivers transparent-ion-item"
+                      detail
+                      *ngFor="let order of location.orders" (click)="selectReceiver(order)">
+              <p *ngIf="order.receiver">
+                <b>
+                  {{order.receiver}} {{order.phone ? ('- ' + order.phone) : ''}}
+                </b>
+              </p>
+            </ion-item>
+          </div>
+        </ion-list>
+      </div>
+
+      <ion-grid class="ion-margin-top ion-padding-horizontal ion-text-center">
+        <ion-label>Selecciona el color del marcador</ion-label>
+        <ion-row>
+          <ion-col size="4" class="red-flag" (click)="selectFlagColor('#FF4051')"
+                   [ngClass]="{'selected': flagColor === '#FF4051'}">
+            <ion-icon name="flag"></ion-icon>
+          </ion-col>
+          <ion-col size="4" class="golden-flag" (click)="selectFlagColor('#ffd700')"
+                   [ngClass]="{'selected': flagColor === '#ffd700'}">
+            <ion-icon name="flag"></ion-icon>
+          </ion-col>
+          <ion-col size="4" class="green-flag" (click)="selectFlagColor('#62D962')"
+                   [ngClass]="{'selected': flagColor === '#62D962'}">
+            <ion-icon name="flag"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <div [hidden]="searching" class="location-form">
+        <form [formGroup]="form">
+          <ion-grid>
+            <ion-row>
+              <ion-col size="12">
+                <ion-label>Nombre/Razón social</ion-label>
+                <input type="text" formControlName="company_name">
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+          <ion-grid>
+            <ion-row>
+              <ion-col size="12">
+                <ion-label>Dirección</ion-label>
+                <textarea type="text" formControlName="address" rows="2"></textarea>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+          <ion-grid>
+            <ion-row>
+              <ion-col size="12">
+                <ion-label>Ciudad</ion-label>
+                <input type="text" formControlName="city">
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </form>
+        <ion-button (click)="setNextSlide()"
+                    [disabled]="submitting"
+                    class="custom-button">
+          Continuar
+        </ion-button>
+      </div>
+    </ion-slide>
+
+    <ion-slide>
+      <form [formGroup]="form">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="4">
+              <ion-label>Barrio</ion-label>
+              <input type="text" formControlName="b">
+            </ion-col>
+            <ion-col size="2">
+              <ion-label>Viv</ion-label>
+              <input type="text" formControlName="v">
+            </ion-col>
+            <ion-col size="2">
+              <ion-label>Sec</ion-label>
+              <input type="text" formControlName="s">
+            </ion-col>
+            <ion-col size="2">
+              <ion-label>Mz</ion-label>
+              <input type="text" formControlName="m">
+            </ion-col>
+            <ion-col size="2">
+              <ion-label>Casa</ion-label>
+              <input type="text" formControlName="c">
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12">
+              <ion-label>Teléfono</ion-label>
+              <input type="tel" formControlName="phone">
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12">
+              <ion-label>Detalles del paquete (opcional)</ion-label>
+              <textarea type="text" formControlName="details" rows="3"></textarea>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </form>
+
+      <ion-progress-bar *ngIf="submitting || geocoding"
+                        type="indeterminate"
+                        class="ion-padding-horizontal">
+      </ion-progress-bar>
+      <ion-button (click)="submit()"
+                  [disabled]="submitting"
+                  class="custom-button">
+        Aceptar
+      </ion-button>
+    </ion-slide>
+  </ion-slides>
+</ion-content>
+

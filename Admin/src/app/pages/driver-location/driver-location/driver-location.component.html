@@ -1,0 +1,43 @@
+<div class="row">
+  <div class="col-md-6">
+    <mat-form-field>
+      <mat-label>Seleccione conductor</mat-label>
+      <mat-select [formControl]="driverFC" disableOptionCentering="true">
+        <!--        <mat-option value="all">-->
+        <!--          Ver todos-->
+        <!--        </mat-option>-->
+        <mat-option *ngFor="let driver of drivers"
+                    [value]="driver">
+          {{driver.full_name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+<!--  <div class="col-md-6">-->
+<!--    <mat-form-field>-->
+<!--      <input matInput readonly [matDatepicker]="start_date_picker" placeholder="Fecha"-->
+<!--             [formControl]="dateFC" (dateChange)="filterByDate()">-->
+<!--      <mat-datepicker-toggle matSuffix [for]="start_date_picker"></mat-datepicker-toggle>-->
+<!--      <mat-datepicker #start_date_picker></mat-datepicker>-->
+<!--    </mat-form-field>-->
+<!--  </div>-->
+
+<!--  <div class="col-md-6 col-md-offset-3" *ngIf="noLocationsMessage && !loading">-->
+<!--    <div>-->
+<!--      <mat-card>-->
+<!--        No hay ubicaciones registradas para este conductor en la fecha seleccionada-->
+<!--      </mat-card>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  <div #driverLocationMap id=driverLocationMap-->
+<!--       [ngClass]="{'show-map': !noLocationsMessage && !loading, 'hide-map': noLocationsMessage && !loading}">-->
+
+<!--  </div>-->
+
+  <div #driverLocationMap id="driverLocationMap">
+
+  </div>
+
+</div>

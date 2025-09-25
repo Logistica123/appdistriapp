@@ -1,0 +1,90 @@
+<div class="row">
+  <div class="col-md-12">
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar...">
+    </mat-form-field>
+  </div>
+
+  <div class="col-md-12">
+    <!--    <button (click)="addDriver()" matTooltip="Agregar conductor" mat-raised-button class="add-item-button">-->
+    <!--      AGREGAR-->
+    <!--    </button>-->
+
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" matSort>
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre</th>
+          <td mat-cell *matCellDef="let row">
+            {{row.name}}
+          </td>
+        </ng-container>
+
+        <!-- Address Column -->
+        <ng-container matColumnDef="address">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Dirección</th>
+          <td mat-cell *matCellDef="let row">
+            {{row.address}}
+          </td>
+        </ng-container>
+
+        <!-- City Column -->
+        <ng-container matColumnDef="city">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Ciudad</th>
+          <td mat-cell *matCellDef="let row">
+            {{row.city}}
+          </td>
+        </ng-container>
+
+        <!-- Has Request Column -->
+        <ng-container matColumnDef="created_at">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha registro</th>
+          <td mat-cell *matCellDef="let row">
+            {{row.created_at | date: 'dd/MM/yyyy hh:mm a'}}
+          </td>
+        </ng-container>
+
+        <!-- Has Request Column -->
+        <ng-container matColumnDef="has_request">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Sol. cambio ubic.</th>
+          <td mat-cell *matCellDef="let row">
+            {{row.has_request}}
+          </td>
+        </ng-container>
+
+        <!-- Options Column -->
+        <ng-container matColumnDef="options">
+          <th mat-header-cell *matHeaderCellDef>Opciones</th>
+          <td mat-cell *matCellDef="let row">
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="viewLocationDetail(row)">
+                <mat-icon>chat</mat-icon>
+                <span>Ver detalle</span>
+              </button>
+
+              <button mat-menu-item (click)="edit(row)">
+                <mat-icon>chat</mat-icon>
+                <span>Editar</span>
+              </button>
+
+              <button mat-menu-item (click)="viewUpdateLocationRequests(row)" *ngIf="row.has_request === 'Sí'">
+                <mat-icon>chat</mat-icon>
+                <span>Ver sol. de cambio de ubic.</span>
+              </button>
+            </mat-menu>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+        </tr>
+      </table>
+
+      <mat-paginator [pageSize]="25" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+    </div>
+  </div>
+</div>

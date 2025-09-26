@@ -34,6 +34,7 @@ export class DeliveryMapPage implements OnInit, AfterViewInit, OnDestroy {
   showAllMarkersFlag = false;
   type: string;
   markersOrders: Order[] = [];
+  ordersOptimized = false;
 
   // @ViewChild('deliveryMap', {static: true}) mapElement: ElementRef;
   // map: GoogleMap;
@@ -59,7 +60,9 @@ export class DeliveryMapPage implements OnInit, AfterViewInit, OnDestroy {
     this.currentOrdersSubscription = this.orderService.getCurrentOrders$()
       .subscribe(orders => {
         this.orders = orders;
+        this.ordersOptimized = false;
         console.log(this.orders);
+        this.tryOptimizeOrders();
         this.currentOrder = this.orders[this.currentOrderIndex];
         this.selectedOrder = this.currentOrder;
         console.log(this.currentOrder);
@@ -73,6 +76,7 @@ export class DeliveryMapPage implements OnInit, AfterViewInit, OnDestroy {
       .subscribe(driverPosition => {
         if (driverPosition) {
           this.driverPosition = driverPosition;
+          this.tryOptimizeOrders();
         }
       });
   }
@@ -163,6 +167,62 @@ export class DeliveryMapPage implements OnInit, AfterViewInit, OnDestroy {
     this.currentOrder = this.orders[this.currentOrderIndex];
     this.selectedOrder = this.currentOrder;
     this.findNearbyMarkers();
+  }
+
+  private tryOptimizeOrders() {
+    if (this.ordersOptimized) {
+      return;
+    }
+
+    if (!this.orders || this.orders.length === 0) {
+      return;
+    }
+
+    if (!this.driverPosition || !this.driverPosition.coords) {
+      return;
+    }
+
+    if (!(window as any).google || !google.maps?.geometry?.spherical) {
+      return;
+    }
+
+    const optimized = this.getOptimizedOrderSequence();
+    if (optimized.length === this.orders.length) {
+      this.orders = optimized;
+      this.currentOrderIndex = 0;
+      this.currentOrder = this.orders[this.currentOrderIndex];
+      this.selectedOrder = this.currentOrder;
+      this.ordersOptimized = true;
+    }
+  }
+
+  private getOptimizedOrderSequence(): Order[] {
+    const remaining = [...this.orders];
+    const optimized: Order[] = [];
+    let currentPoint = new google.maps.LatLng(this.driverPosition.coords.latitude, this.driverPosition.coords.longitude);
+
+    while (remaining.length > 0) {
+      let nearestIdx = 0;
+      let nearestDistance = Number.POSITIVE_INFINITY;
+
+      remaining.forEach((order, index) => {
+        if (!order?.location?.lat || !order?.location?.lng) {
+          return;
+        }
+        const orderPoint = new google.maps.LatLng(+order.location.lat, +order.location.lng);
+        const distance = google.maps.geometry.spherical.computeDistanceBetween(currentPoint, orderPoint);
+        if (distance < nearestDistance) {
+          nearestDistance = distance;
+          nearestIdx = index;
+        }
+      });
+
+      const nextOrder = remaining.splice(nearestIdx, 1)[0];
+      optimized.push(nextOrder);
+      currentPoint = new google.maps.LatLng(+nextOrder.location.lat, +nextOrder.location.lng);
+    }
+
+    return optimized;
   }
 
   findNearbyMarkers() {

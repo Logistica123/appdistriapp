@@ -56,6 +56,8 @@ export class InterceptorService {
           //   || (request.url.includes('routes') && request.url.includes('locations') && request.method === 'POST')
           //   || (request.url.includes('toll-controls') && request.method === 'GET')
           // ) {
+          const isApiRequest = request.url.startsWith(environment.API_URL);
+
           if (
             (request.url.includes('auth/sign-in') && request.method === 'POST')
           ) {
@@ -93,7 +95,7 @@ export class InterceptorService {
               if (!environment.production) {
                 console.error(error);
               }
-              if (error.status === 401) {
+              if (error.status === 401 && isApiRequest) {
                 this.navController.navigateRoot('login').then(() => {
                   if (error.error.custom_message) {
                     this.toastComponent.presentToast(error.error.custom_message, 'bottom');

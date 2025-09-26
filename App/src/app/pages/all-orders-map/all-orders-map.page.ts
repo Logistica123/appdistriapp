@@ -82,8 +82,8 @@ export class AllOrdersMapPage implements OnInit, AfterViewInit, OnDestroy {
 
   initMap() {
     Environment.setEnv({
-      API_KEY_FOR_BROWSER_RELEASE: 'AIzaSyDARGsWcTV9y4JU_921nPc-KO2K_oiCCNo',
-      API_KEY_FOR_BROWSER_DEBUG: 'AIzaSyDARGsWcTV9y4JU_921nPc-KO2K_oiCCNo'
+      API_KEY_FOR_BROWSER_RELEASE: 'AIzaSyCQ5AidfjBOg7VI2sgkbpnKHPBGAoLQ15w',
+      API_KEY_FOR_BROWSER_DEBUG: 'AIzaSyCQ5AidfjBOg7VI2sgkbpnKHPBGAoLQ15w'
     });
 
     const mapOptions: GoogleMapOptions = {

@@ -1,12 +1,13 @@
 <ion-item lines="none">
-  <ion-grid>
+  <ion-reorder class="reorder-wrapper">
+    <ion-grid>
     <ion-row>
       <ion-col size="4" class="ion-align-self-center">
-        <ion-reorder>
+        <div class="order-meta">
           <ion-badge class="index">{{i + 1}}</ion-badge>
           <ion-icon name="flag" [ngStyle]="{'color': order.flag_color}" class="ion-margin-start"></ion-icon>
           <ion-icon name="locate" *ngIf="order.location.saved_client"></ion-icon>
-        </ion-reorder>
+        </div>
       </ion-col>
 
       <ion-col size="6">
@@ -73,6 +74,6 @@
         </ion-button>
       </ion-col>
     </ion-row>
-  </ion-grid>
+    </ion-grid>
+  </ion-reorder>
 </ion-item>
-

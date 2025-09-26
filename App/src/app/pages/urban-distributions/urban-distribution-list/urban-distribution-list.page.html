@@ -45,6 +45,10 @@
     <ion-button class="custom-button" (click)="addLocation()">
       AGREGAR
     </ion-button>
+    <ion-button class="custom-button" color="medium" (click)="openCsvImporter()" [disabled]="importing">
+      IMPORTAR CSV
+    </ion-button>
+    <input #csvInput type="file" accept=".csv" hidden (change)="onCsvSelected($event)">
   </div>
 
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">

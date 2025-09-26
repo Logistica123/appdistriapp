@@ -12,7 +12,7 @@ export class GeocodeService {
               private http: HttpClient) {
   }
 
-  mapQuestGeocode(addressToGeocode, country) {
+  mapQuestGeocode(addressToGeocode, country): Promise<{lat: number; lng: number}> {
     return new Promise((resolve, reject) => {
       const address = `${addressToGeocode},${country}`;
       this.geocodeMapQuestAddress(address)
@@ -23,8 +23,8 @@ export class GeocodeService {
               if (data.results[0].locations[0].latLng) {
                 const lat = data.results[0].locations[0].latLng.lat;
                 const lng = data.results[0].locations[0].latLng.lng;
-                resolve({lat, lng});
-              }
+            resolve({lat, lng});
+          }
             }
           } else {
             reject();
@@ -35,7 +35,7 @@ export class GeocodeService {
     });
   }
 
-  GMGeocodeAddress(addressToGeocode, country) {
+  GMGeocodeAddress(addressToGeocode, country): Promise<{lat: number; lng: number}> {
     return new Promise((resolve, reject) => {
       const self = this;
       const address = `${addressToGeocode},${country}`;

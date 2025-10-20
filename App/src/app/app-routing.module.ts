@@ -28,9 +28,27 @@ const routes: Routes = [
       .then(m => m.HelpPageModule)
   },
   {
+    path: 'complaint-list',
+    loadChildren: () => import('./pages/complaints/complaint-list.module').then(m => m.ComplaintListPageModule)
+  },
+  {
+    path: 'liquidation-list',
+    loadChildren: () => import('./pages/liquidations/liquidation-list.module').then(m => m.LiquidationListPageModule)
+  },
+  {
     path: 'notification-list',
     loadChildren: () => import('./pages/notification-list/notification-list.module')
       .then(m => m.NotificationListPageModule)
+  },
+  {
+    path: 'insurance',
+    loadChildren: () => import('./pages/insurance/insurance.module')
+      .then(m => m.InsurancePageModule)
+  },
+  {
+    path: 'benefits',
+    loadChildren: () => import('./pages/benefits/benefits.module')
+      .then(m => m.BenefitsPageModule)
   },
   {
     path: 'suggestion-form',

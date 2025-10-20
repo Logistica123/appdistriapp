@@ -25,20 +25,19 @@
     </form>
 
     <div class="ion-text-center ion-margin">
-      <button (click)="signIn()" [disabled]="!signInForm.valid">
+      <button type="button" (click)="signIn()" [disabled]="!signInForm.valid">
         INGRESAR
       </button>
     </div>
 
-<!--    <div class="ion-text-center ion-margin">-->
-<!--      <button (click)="register()" [disabled]="!signInForm.valid">-->
-<!--        CREAR CUENTA-->
-<!--      </button>-->
-<!--    </div>-->
+    <div class="ion-text-center ion-margin">
+      <button type="button" class="secondary" (click)="register()">
+        CREAR CUENTA
+      </button>
+    </div>
   </div>
 
   <div class="footer">
     V3.2.5
   </div>
 </ion-content>
-

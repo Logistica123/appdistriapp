@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Reclamos</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openCreateModal()">
+        <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+        Nuevo
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="loadComplaints($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list *ngIf="complaints.length > 0; else emptyState">
+    <ion-item *ngFor="let complaint of complaints">
+      <ion-label>
+        <div class="type-pill" *ngIf="complaint.type">
+          {{ getTypeLabel(complaint.type) }}
+        </div>
+        <h2>{{ getTypeLabel(complaint.type) }}</h2>
+        <p>{{ complaint.message }}</p>
+        <p class="status" [ngClass]="complaint.status">{{ getStatusLabel(complaint.status) }}</p>
+        <p class="date">{{ complaint.created_at | date:'short' }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ng-template #emptyState>
+    <div class="empty-state">
+      <ion-icon name="chatbox-ellipses-outline"></ion-icon>
+      <p>No registras reclamos.</p>
+      <ion-button (click)="openCreateModal()">Crear reclamo</ion-button>
+    </div>
+  </ng-template>
+</ion-content>

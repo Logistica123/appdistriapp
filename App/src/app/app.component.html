@@ -1,59 +1,68 @@
 <ion-app>
+  <!--  <div #fabButtonAnim class="fab-button-anim" [hidden]="!activeService">-->
+  <!--    <ion-fab-button (click)="showPopover($event)">-->
+  <!--      <ion-icon name="cube-outline"></ion-icon>-->
+  <!--    </ion-fab-button>-->
+  <!--  </div>-->
 
-<!--  <div #fabButtonAnim class="fab-button-anim" [hidden]="!activeService">-->
-<!--    <ion-fab-button (click)="showPopover($event)">-->
-<!--      <ion-icon name="cube-outline"></ion-icon>-->
-<!--    </ion-fab-button>-->
-<!--  </div>-->
-
-  <ion-split-pane contentId="main-content">
+  <ion-split-pane contentId="main-content" when="(min-width: 1400px)">
     <ion-menu contentId="main-content" type="overlay">
-<!--      <ion-header no-border>-->
-<!--        <ion-toolbar>-->
-<!--          <div class="menu-header">-->
-<!--            <ion-grid>-->
-<!--              <ion-row>-->
-<!--                <ion-col size="12" class="ion-text-center">-->
-<!--                  <img src="assets/logo.jpg" alt="DistriApp">-->
-<!--                </ion-col>-->
-<!--              </ion-row>-->
-<!--            </ion-grid>-->
-<!--          </div>-->
-<!--        </ion-toolbar>-->
-<!--      </ion-header>-->
+      <ion-header class="menu-header" translucent="false">
+        <div class="menu-header__inner">
+          <img src="assets/logo-empresa.png" alt="Distribución Urbana" class="menu-header__logo" />
+        </div>
+      </ion-header>
+
       <ion-content>
-        <ion-menu-toggle>
-          <ion-grid *ngIf="driver" class="grid-profile-data">
-            <ion-row routerLink="../profile/profile-data">
-              <ion-col size="12" class="ion-text-center ion-no-padding">
-                <div [hidden]="!showProfileImage">
-                  <img [src]="profileImg" alt="profile_img" class="profile-img"
-                       *ngIf="driver && driver.has_profile_img">
-                </div>
-              </ion-col>
-              <ion-col  size="12" class="ion-text-center ion-no-padding">
-                <p class="name">{{driver.full_name}}</p>
-                <p class="email">{{driver.email}}</p>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-menu-toggle>
-        <!--        <ion-item-divider></ion-item-divider>-->
-
-<!--        <div class="ion-padding-horizontal">-->
-<!--          <div class="divider"></div>-->
-<!--        </div>-->
-
-        <ion-list>
-          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
-            <ion-item lines="none" [routerDirection]="'root'" [routerLink]="[p.url]">
-              <ion-icon color="light" slot="start" [src]="p.icon"></ion-icon>
-              <ion-label>
-                {{p.title}}
-              </ion-label>
-            </ion-item>
+        <div class="menu-content">
+          <ion-menu-toggle>
+            <div *ngIf="driver" class="profile-card" routerLink="../profile/profile-data">
+              <div class="profile-card__avatar" *ngIf="driver && driver.has_profile_img && showProfileImage">
+                <img [src]="profileImg" alt="profile_img" />
+              </div>
+              <div class="profile-card__avatar placeholder" *ngIf="!showProfileImage || !driver.has_profile_img">
+                <ion-icon name="person-circle-outline"></ion-icon>
+              </div>
+              <div class="profile-card__info">
+                <p class="profile-card__name">{{ driver.full_name }}</p>
+                <p class="profile-card__email">{{ driver.email }}</p>
+                <span class="profile-card__tagline">Gasificá cada recorrido.</span>
+              </div>
+            </div>
           </ion-menu-toggle>
-        </ion-list>
+
+          <div class="theme-toggle">
+            <ion-button size="small"
+                        class="theme-toggle__button"
+                        (click)="toggleTheme()">
+              <ion-icon slot="start" [name]="themeToggleIcons[currentTheme]"></ion-icon>
+              {{ themeToggleLabels[currentTheme] }}
+            </ion-button>
+          </div>
+
+          <div class="menu-section">
+            <p class="menu-section__label">Panel de control</p>
+            <ion-list class="menu-list">
+              <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
+                <ion-item lines="none"
+                          detail="false"
+                          [routerDirection]="'root'"
+                          [routerLink]="[p.url]"
+                          routerLinkActive="is-active"
+                          class="menu-item">
+                  <div class="menu-item__content">
+                    <ion-icon class="menu-item__icon" slot="start" [name]="p.icon"></ion-icon>
+                    <div class="menu-item__text">
+                      <span class="menu-item__title">{{ p.title }}</span>
+                      <span class="menu-item__subtitle" *ngIf="p.subtitle">{{ p.subtitle }}</span>
+                    </div>
+                    <ion-badge color="light" *ngIf="p.badge">{{ p.badge }}</ion-badge>
+                  </div>
+                </ion-item>
+              </ion-menu-toggle>
+            </ion-list>
+          </div>
+        </div>
 
         <ion-item-divider></ion-item-divider>
 
@@ -67,6 +76,7 @@
         </ion-menu-toggle>
       </ion-content>
     </ion-menu>
+
     <ion-router-outlet id="main-content"></ion-router-outlet>
   </ion-split-pane>
 </ion-app>

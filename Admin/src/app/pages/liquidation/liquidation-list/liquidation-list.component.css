@@ -1,0 +1,14 @@
+.placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  color: #777;
+}
+
+.placeholder mat-icon {
+  font-size: 72px;
+  margin-bottom: 16px;
+  color: #3c8dbc;
+}

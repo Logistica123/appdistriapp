@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('auth/sign-in', [AuthController::class, 'login']);
 Route::post('drivers/register', [DriverController::class, 'register']);
+Route::get('drivers/lookup/{cuil}', [DriverController::class, 'lookupByCuil']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     //BRANCH CONTROLLER

@@ -12,7 +12,7 @@ img {
 }
 
 ion-content {
-  --background: var(--ion-color-primary);
+  --background: linear-gradient(180deg, rgba(16, 50, 93, 0.08) 0%, rgba(8, 29, 54, 0.18) 100%);
 }
 
 ion-row {
@@ -36,6 +36,14 @@ ion-row {
   margin: 15px;
   color: white;
   padding: 15px;
+  font-family: var(--ion-font-family);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(26, 73, 160, 0.85) 0%, rgba(10, 31, 61, 0.95) 100%);
+  box-shadow: 0 12px 28px rgba(10, 31, 61, 0.25);
 }
 
 .help {
@@ -44,4 +52,3 @@ ion-row {
   right: 42px;
   position: fixed;
 }
-

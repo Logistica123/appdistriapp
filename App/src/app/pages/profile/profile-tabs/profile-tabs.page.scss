@@ -1,23 +1,22 @@
 ion-content {
-  --background: #f7f8f9;
-  font-family: NunitoSans, 'sans-serif';
+  --background: var(--ion-background-color);
+  font-family: var(--ion-font-family);
 }
 
 ion-toolbar {
-  --background: #757dfb;
-  --color: white;
+  --background: var(--app-gradient);
+  --color: #ffffff;
 }
 
 ion-tab-bar {
-  --background: #f7f8f9;;
+  --background: #0d1e38;
 }
 
 ion-tab-button {
-  --color: #6e6f75;
-  --color-selected :#757dfb;
+  --color: rgba(255, 255, 255, 0.65);
+  --color-selected: #ffffff;
 }
 
 ion-tab-button .selected-tab-button {
-  --background: white;
+  --background: transparent;
 }
-

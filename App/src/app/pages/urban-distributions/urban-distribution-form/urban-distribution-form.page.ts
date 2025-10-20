@@ -13,6 +13,7 @@ import {OrderDateService} from '../../../services/utils/order-date.service';
 import {PopoverSelectDateComponent} from '../popover-select-date/popover-select-date.component';
 import {GeocodeService} from '../../../services/v1/geocode.service';
 import {OrderManagerService} from '../../../services/v1/order-manager.service';
+import {ToastComponent} from '../../../components/toast/toast.component';
 
 @Component({
   selector: 'app-urban-distribution-form',
@@ -59,6 +60,7 @@ export class UrbanDistributionFormPage implements OnInit {
               private orderManagerService: OrderManagerService,
               private driverService: DriverService,
               private loadingSpinnerComponent: LoadingSpinnerComponent,
+              private toastComponent: ToastComponent,
               private modalController: ModalController) {
 
     this.form = this.formBuilder.group({
@@ -256,6 +258,8 @@ export class UrbanDistributionFormPage implements OnInit {
         this.submitting = false;
       }, error => {
         this.submitting = false;
+        const message = error?.error?.custom_message || 'No se pudo registrar la dirección';
+        this.toastComponent.presentToast(message, 'middle', 3000);
       });
   }
 

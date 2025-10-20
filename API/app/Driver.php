@@ -20,6 +20,11 @@ class Driver extends Authenticatable
         'fcm_token'
     ];
 
+    protected $casts = [
+        'start_lat' => 'float',
+        'start_lng' => 'float',
+    ];
+
     protected $with = [
         'driverCompany'
     ];
@@ -127,6 +132,16 @@ class Driver extends Authenticatable
     public function paymentMethods()
     {
         return $this->belongsToMany(PaymentMethod::class);
+    }
+
+    public function complaints()
+    {
+        return $this->hasMany(Complaint::class);
+    }
+
+    public function insuranceRequests()
+    {
+        return $this->hasMany(InsuranceRequest::class);
     }
 
     public function driverCompany()

@@ -1,0 +1,111 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Beneficios</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="chevron-down-circle-outline" refreshingSpinner="crescent"></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="benefits-wrapper" [class.is-loading]="loading">
+    <section class="hero" *ngIf="heroBenefits.length">
+      <ion-slides [options]="heroSlideOptions">
+        <ion-slide *ngFor="let benefit of heroBenefits" [ngClass]="getAnimationClass(benefit)">
+          <div class="hero-card" [ngStyle]="getBackgroundStyle(benefit)" [class.has-media]="benefit.image_url">
+            <div class="hero-card__overlay"></div>
+            <div class="hero-card__content">
+              <ion-chip class="hero-card__badge" color="light" *ngIf="benefit.meta?.badge">
+                <ion-label>{{ benefit.meta?.badge }}</ion-label>
+              </ion-chip>
+              <h1>{{ benefit.title }}</h1>
+              <p>{{ benefit.short_description || benefit.description }}</p>
+              <ion-button color="secondary" fill="solid" *ngIf="benefit.cta_label" (click)="openBenefitLink(benefit)">
+                <ion-icon slot="start" name="flash-outline"></ion-icon>
+                {{ benefit.cta_label }}
+              </ion-button>
+            </div>
+          </div>
+        </ion-slide>
+      </ion-slides>
+    </section>
+
+    <section class="highlight-grid" *ngIf="highlightBenefits.length">
+      <div class="section-heading">
+        <h2>Mové tu energía con beneficios reales</h2>
+        <p>Promos pensadas para gasificar tu operación y sumar potencia a cada kilómetro.</p>
+      </div>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="12" sizeMd="6" *ngFor="let benefit of highlightBenefits" [ngClass]="getAnimationClass(benefit)">
+            <div class="highlight-card" [ngStyle]="getBackgroundStyle(benefit)">
+              <div class="highlight-card__accent" [ngStyle]="getAccentStyle(benefit)"></div>
+              <div class="highlight-card__body">
+                <div class="highlight-card__icon" *ngIf="benefit.meta?.icon">
+                  <ion-icon [name]="benefit.meta?.icon"></ion-icon>
+                </div>
+                <h3>{{ benefit.title }}</h3>
+                <p>{{ benefit.short_description || benefit.description }}</p>
+                <ion-button fill="clear" color="light" size="small" *ngIf="benefit.cta_label" (click)="openBenefitLink(benefit)">
+                  {{ benefit.cta_label }}
+                  <ion-icon slot="end" name="arrow-forward-circle-outline"></ion-icon>
+                </ion-button>
+              </div>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </section>
+
+    <section class="feature-showcase" *ngIf="featureBenefits.length">
+      <div class="section-heading">
+        <h2>Experiencias diseñadas para conductores</h2>
+        <p>Elegí tu próxima ventaja y hacé crecer tu operación con aliados estratégicos.</p>
+      </div>
+      <div class="feature-cards">
+        <div class="feature-card" *ngFor="let benefit of featureBenefits" [ngStyle]="getBackgroundStyle(benefit)" [ngClass]="getAnimationClass(benefit)">
+          <div class="feature-card__content">
+            <div class="feature-card__pill" *ngIf="benefit.meta?.badge" [ngStyle]="getAccentStyle(benefit)">
+              {{ benefit.meta?.badge }}
+            </div>
+            <h3>{{ benefit.title }}</h3>
+            <p>{{ benefit.short_description || benefit.description }}</p>
+            <ion-button size="small" color="light" fill="solid" *ngIf="benefit.cta_label" (click)="openBenefitLink(benefit)">
+              {{ benefit.cta_label }}
+            </ion-button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="benefit-catalog" *ngIf="cardBenefits.length">
+      <div class="section-heading">
+        <h2>Explorá la red de aliados</h2>
+        <p>Sumá puntos, canjeá premios y mantené tu flota siempre lista.</p>
+      </div>
+      <ion-grid class="catalog-grid">
+        <ion-row>
+          <ion-col size="12" sizeMd="6" sizeLg="4" *ngFor="let benefit of cardBenefits">
+            <ion-card class="catalog-card" [ngClass]="getAnimationClass(benefit)">
+              <div class="catalog-card__cover" [ngStyle]="getBackgroundStyle(benefit)"></div>
+              <ion-card-header>
+                <ion-card-subtitle *ngIf="benefit.meta?.badge">{{ benefit.meta?.badge }}</ion-card-subtitle>
+                <ion-card-title>{{ benefit.title }}</ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <p>{{ benefit.short_description || benefit.description }}</p>
+              </ion-card-content>
+              <ion-button expand="block" fill="outline" color="primary" *ngIf="benefit.cta_label" (click)="openBenefitLink(benefit)">
+                {{ benefit.cta_label }}
+              </ion-button>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </section>
+  </div>
+</ion-content>

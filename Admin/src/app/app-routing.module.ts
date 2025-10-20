@@ -59,6 +59,20 @@ const routes: Routes = [
         },
       },
       {
+        path: 'admin/reclamos',
+        loadChildren: () => import('./pages/complaint/complaint.module').then(m => m.ComplaintModule),
+        data: {
+          title: 'Reclamos'
+        },
+      },
+      {
+        path: 'admin/liquidaciones',
+        loadChildren: () => import('./pages/liquidation/liquidation.module').then(m => m.LiquidationModule),
+        data: {
+          title: 'Liquidaciones'
+        },
+      },
+      {
         path: 'admin/documentos-cargados',
         loadChildren: () => import('./pages/uploaded-document/uploaded-document.module').then(m => m.UploadedDocumentModule),
         data: {
@@ -70,6 +84,20 @@ const routes: Routes = [
         loadChildren: () => import('./pages/notification/notification.module').then(m => m.NotificationModule),
         data: {
           title: 'Notificaciones'
+        },
+      },
+      {
+        path: 'admin/seguros',
+        loadChildren: () => import('./pages/insurance/insurance.module').then(m => m.InsuranceModule),
+        data: {
+          title: 'Seguros'
+        },
+      },
+      {
+        path: 'admin/beneficios',
+        loadChildren: () => import('./pages/benefit/benefit.module').then(m => m.BenefitModule),
+        data: {
+          title: 'Beneficios'
         },
       },
       {

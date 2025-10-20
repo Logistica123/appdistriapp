@@ -18,7 +18,7 @@ import { CompanySelectDialogComponent } from '../company-select-dialog/company-s
 export class DriverListComponent implements OnInit {
   drivers: Driver[] = [];
   dataSource: MatTableDataSource<Driver>;
-  displayedColumns = ['name', 'email', 'phone_number', 'driver_company.name', 'status', 'options'];
+  displayedColumns = ['name', 'email', 'phone_number', 'bank_cbu', 'driver_company.name', 'status', 'options'];
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;

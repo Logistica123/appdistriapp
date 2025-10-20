@@ -26,10 +26,16 @@ export class DriverFormComponent implements OnInit {
       lastName: ['', Validators.required],
       email: ['', Validators.required],
       phoneNumber: ['', Validators.required],
+      bankCbu: [''],
+      bankOwnerIsDriver: [true],
+      bankHolderName: [''],
       carMake: ['', Validators.required],
       carModel: ['', Validators.required],
       carYear: ['', Validators.required],
       licensePlate: ['', Validators.required],
+      startAddress: [''],
+      startLat: [''],
+      startLng: [''],
     });
 
     if (data) {
@@ -98,18 +104,31 @@ export class DriverFormComponent implements OnInit {
     this.driverForm.controls.carModel.setValue(data.car_model);
     this.driverForm.controls.carYear.setValue(data.car_year);
     this.driverForm.controls.licensePlate.setValue(data.license_plate);
+    this.driverForm.controls.startAddress.setValue(data.start_address);
+    this.driverForm.controls.startLat.setValue(data.start_lat);
+    this.driverForm.controls.startLng.setValue(data.start_lng);
+    this.driverForm.controls.bankCbu.setValue(data.bank_cbu);
+    this.driverForm.controls.bankOwnerIsDriver.setValue(data.bank_owner_is_driver !== undefined ? data.bank_owner_is_driver : true);
+    this.driverForm.controls.bankHolderName.setValue(data.bank_holder_name || '');
   }
 
   setBody() {
+    const bankCbu = this.driverForm.value.bankCbu ? this.driverForm.value.bankCbu.replace(/\s+/g, '') : null;
     return {
       name: this.driverForm.value.name,
       last_name: this.driverForm.value.lastName,
       email: this.driverForm.value.email,
       phone_number: this.driverForm.value.phoneNumber,
+      bank_cbu: bankCbu,
+      bank_owner_is_driver: this.driverForm.value.bankOwnerIsDriver,
+      bank_holder_name: this.driverForm.value.bankOwnerIsDriver ? null : (this.driverForm.value.bankHolderName ? this.driverForm.value.bankHolderName.trim() : null),
       car_make: this.driverForm.value.carMake,
       car_model: this.driverForm.value.carModel,
       car_year: this.driverForm.value.carYear,
       license_plate: this.driverForm.value.licensePlate,
+      start_address: this.driverForm.value.startAddress,
+      start_lat: this.driverForm.value.startLat,
+      start_lng: this.driverForm.value.startLng,
     };
   }
 

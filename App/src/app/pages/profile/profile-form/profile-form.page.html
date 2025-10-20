@@ -30,70 +30,57 @@
         <ion-col size="6">
           <ion-label>Teléfono</ion-label>
           <input type="text" formControlName="phone_number">
-          <p class="ion-no-margin form-error-message" *ngIf="form.controls.car_make.invalid && showInputErrorMessage">
+          <p class="ion-no-margin form-error-message" *ngIf="form.controls.phone_number.invalid && showInputErrorMessage">
             Este campo es requerido
           </p>
-        </ion-col>
-
-        <ion-col size="12">
-          <ion-label>Empresa</ion-label>
-          <input type="text" formControlName="company">
-          <p class="ion-no-margin form-error-message" *ngIf="form.controls.company.invalid && showInputErrorMessage">
-            Este campo es requerido
-          </p>
-        </ion-col>
-
-        <ion-col size="6">
-          <ion-label>Valor por hora</ion-label>
-          <input type="tel" inputmode="numeric" pattern="[0-9]+(\.[0-9][0-9]?)?" formControlName="cost_per_hour">
-          <p class="ion-no-margin form-error-message"
-             *ngIf="form.controls.cost_per_hour.invalid && showInputErrorMessage">
-            Este campo es requerido
-          </p>
-        </ion-col>
-
-        <ion-col size="6">
-          <ion-label>Valor por kilómetro</ion-label>
-          <input type="tel" inputmode="numeric" pattern="[0-9]+(\.[0-9][0-9]?)?" formControlName="cost_per_km">
-          <p class="ion-no-margin form-error-message"
-             *ngIf="form.controls.cost_per_km.invalid && showInputErrorMessage">
-            Este campo es requerido
-          </p>
-        </ion-col>
-      </ion-row>
-
-      <ion-row class="ion-margin-top">
-        <ion-col size="12" class="ion-text-center">
-          <h5>Datos de unidad de transporte</h5>
         </ion-col>
       </ion-row>
 
       <ion-row>
-        <ion-col size="6">
-          <ion-label>Marca unidad</ion-label>
-          <input type="text" formControlName="car_make">
-          <p class="ion-no-margin form-error-message" *ngIf="form.controls.car_make.invalid && showInputErrorMessage">
-            Este campo es requerido
+        <ion-col size="12" class="ion-text-center">
+          <h5>Datos bancarios</h5>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="12">
+          <ion-item lines="none">
+            <ion-label>¿El CBU pertenece al conductor?</ion-label>
+            <ion-toggle formControlName="bank_owner_is_driver" (ionChange)="onBankOwnerToggle($event)"></ion-toggle>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngIf="!form.value.bank_owner_is_driver">
+        <ion-col size="12">
+          <ion-label>Nombre del titular</ion-label>
+          <input type="text" formControlName="bank_holder_name">
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="12">
+          <ion-label>CBU (22 dígitos)</ion-label>
+          <input type="text" formControlName="bank_cbu" inputmode="numeric">
+          <ion-note color="medium" class="hint">
+            Ingresá los 22 dígitos sin espacios, guiones ni caracteres especiales.
+          </ion-note>
+          <p class="ion-no-margin form-error-message"
+             *ngIf="form.controls.bank_cbu.invalid && form.controls.bank_cbu.value && showInputErrorMessage">
+            Debe contener 22 dígitos
           </p>
         </ion-col>
+      </ion-row>
 
-        <ion-col size="6">
-          <ion-label>Modelo unidad</ion-label>
-          <input type="text" formControlName="car_model">
-          <p class="ion-no-margin form-error-message" *ngIf="form.controls.car_model.invalid && showInputErrorMessage">
-            Este campo es requerido
-          </p>
+      <ion-row>
+        <ion-col size="12">
+          <ion-label>Empresa</ion-label>
+          <input type="text" formControlName="company">
         </ion-col>
+      </ion-row>
 
-        <ion-col size="6">
-          <ion-label>Tonelaje</ion-label>
-          <input type="text" formControlName="tonnage">
-          <p class="ion-no-margin form-error-message" *ngIf="form.controls.tonnage.invalid && showInputErrorMessage">
-            Este campo es requerido
-          </p>
-        </ion-col>
-
-        <ion-col size="6">
+      <ion-row>
+        <ion-col size="12">
           <ion-label>Matrícula</ion-label>
           <input type="text" formControlName="license_plate">
           <p class="ion-no-margin form-error-message"

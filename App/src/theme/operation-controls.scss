@@ -1,10 +1,10 @@
 ion-toolbar {
-  --background: #757dfb;
-  --color: white;
+  --background: var(--app-gradient);
+  --color: #ffffff;
 }
 
 ion-content {
-  --background: white;
+  --background: var(--ion-background-color);
 }
 
 ion-item-sliding {

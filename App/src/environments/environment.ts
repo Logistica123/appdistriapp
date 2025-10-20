@@ -20,8 +20,8 @@ export const environment = {
   pusher: {
     key: '70177c7279134eac5800',
     cluster: 'us2',
-    // authEndpoint: 'http://localhost:8005/broadcasting/auth'
-    authEndpoint: 'https://api-logapp.palmariusdev.com/broadcasting/auth'
+    authEndpoint: 'http://127.0.0.1:8000/broadcasting/auth'
+
   },
   // storageKeys: {
   //   requests: 'distriappreqs',

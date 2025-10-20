@@ -17,6 +17,10 @@ export class DriverService {
     return this.http.post(`${this.API_URL}${this.V2}drivers/register`, body);
   }
 
+  lookupByCuil(cuil: string) {
+    return this.http.get(`${this.API_URL}${this.V2}drivers/lookup/${cuil}`);
+  }
+
   getRanking() {
     return this.http.get(`${this.API_URL}${this.V2}drivers/ranking`);
   }

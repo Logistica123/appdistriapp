@@ -4,6 +4,8 @@ namespace App\Services\V1;
 
 use App\Company;
 use App\Driver;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class DriverService {
 
@@ -21,8 +23,82 @@ class DriverService {
     public static function setAttributes(Driver $driver, $attributes)
     {
         $driver->name = $attributes['name'];
+        if (isset($attributes['last_name'])) {
+            $driver->last_name = $attributes['last_name'];
+        }
         $driver->email = $attributes['email'];
         $driver->password = bcrypt($attributes['password']);
+
+        if (isset($attributes['cuil'])) {
+            $driver->cuil = $attributes['cuil'];
+        }
+
+        $driver->phone_number = $attributes['phone_number'] ?? ($attributes['telefono'] ?? '');
+        $driver->city = $attributes['city'] ?? ($driver->city ?? 'S/D');
+        $driver->car_make = $attributes['car_make'] ?? 'S/D';
+        $driver->car_model = $attributes['car_model'] ?? 'S/D';
+        $driver->car_year = $attributes['car_year'] ?? 'S/D';
+        $driver->license_plate = $attributes['license_plate']
+            ?? ($attributes['patente'] ?? 'S/D');
+        $driver->score = $attributes['score'] ?? 0;
+        if (isset($attributes['company'])) {
+            $driver->company = $attributes['company'] ?: $driver->company;
+        }
+        if (isset($attributes['bank_owner_is_driver'])) {
+            $driver->bank_owner_is_driver = (bool) $attributes['bank_owner_is_driver'];
+        }
+        if (array_key_exists('bank_holder_name', $attributes)) {
+            $driver->bank_holder_name = $attributes['bank_holder_name'] ?: null;
+        }
+        $driver->bank_cbu = isset($attributes['bank_cbu']) && $attributes['bank_cbu'] !== null
+            ? preg_replace('/\D/', '', $attributes['bank_cbu'])
+            : null;
+        $driver->bank_cvu = null;
+        $driver->bank_alias = $driver->bank_cbu;
+
         return $driver;
+    }
+
+    public static function syncBankDataWithPersonal(Driver $driver): void
+    {
+        if (! config('database.connections.personal')) {
+            return;
+        }
+
+        if (! $driver->cuil) {
+            return;
+        }
+
+        if (! $driver->bank_cbu) {
+            return;
+        }
+
+        try {
+            $query = DB::connection('personal')
+                ->table('personas')
+                ->where('cuil', $driver->cuil);
+
+            $person = $query->first();
+
+            if (! $person) {
+                return;
+            }
+
+            $update = [];
+            $alias = $driver->bank_cbu;
+
+            if ($alias !== ($person->cbu_alias ?? null)) {
+                $update['cbu_alias'] = $alias;
+            }
+
+            if (! empty($update)) {
+                $query->update($update);
+            }
+        } catch (\Throwable $exception) {
+            Log::error('Error syncing driver bank information with Personal', [
+                'driver_id' => $driver->id,
+                'error' => $exception->getMessage(),
+            ]);
+        }
     }
 }

@@ -13,6 +13,9 @@ export interface Driver {
   email: string;
   city: string;
   phone_number: string;
+  bank_cbu?: string;
+  bank_owner_is_driver?: boolean;
+  bank_holder_name?: string;
   car: string;
   car_make: string;
   car_model: string;
@@ -22,6 +25,9 @@ export interface Driver {
   pusher_chat_id: string;
   img_url: string;
   tonnage: string;
+  start_address?: string;
+  start_lat?: number;
+  start_lng?: number;
   has_profile_img: boolean;
   cost_per_km: number;
   cost_per_hour: number;

@@ -17,7 +17,13 @@ export class DriverService {
   }
 
   getProfile() {
-    return this.http.get(`${this.API_URL}${this.V1}drivers/profile`);
+    return this.http.get(`${this.API_URL}${this.V1}drivers/profile`).pipe(
+      tap((response: any) => {
+        if (response?.driver) {
+          this.setDriver$(response.driver);
+        }
+      })
+    );
   }
 
   getProfileImage() {

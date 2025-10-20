@@ -1,6 +1,6 @@
 @import "../../../../theme/operation-controls.scss";
 
 ion-toolbar {
-  --background: #757dfb;
-  --color: white;
+  --background: var(--app-gradient);
+  --color: #ffffff;
 }

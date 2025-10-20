@@ -31,9 +31,7 @@ use Guzzle\Plugin\Oauth\OauthPlugin;
 //use Twilio\Rest\Client as TwilioClient;
 //use Guzzle\Http\Client;
 //
-//Route::get('/', function () {
-//    return view('welcome');
-//});
+Route::view('/', 'welcome');
 
 //Route::get('chatkit', 'ChatkitController@chatkit');
 
@@ -244,7 +242,7 @@ use Guzzle\Plugin\Oauth\OauthPlugin;
 //    dd($server_output);
 //});
 
-Route::get('download/{time}', 'Admin\OperationController@export');
+Route::get('download/{time}', 'V1\Admin\OperationController@export');
 
 Route::get('query', function () {
     $date = Carbon::createFromFormat('d/m/Y', '11/06/1990')->format('d/m/y');

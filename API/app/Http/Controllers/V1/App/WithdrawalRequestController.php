@@ -22,10 +22,15 @@ class WithdrawalRequestController extends Controller
 
     public function store(Request $request)
     {
+        $data = $request->validate([
+            'amount' => 'required|numeric|min:1|max:9999999999999.99',
+            'type' => 'required|in:advance,loan'
+        ]);
+
         $withdrawalRequest = new WithdrawalRequest();
-        $withdrawalRequest->amount = $request->amount;
+        $withdrawalRequest->amount = $data['amount'];
         $withdrawalRequest->date = Carbon::now()->format('Y-m-d');
-        $withdrawalRequest->type = $request->type;
+        $withdrawalRequest->type = $data['type'];
         $withdrawalRequest->driver_id = $request->user()->id;
         $withdrawalRequest->save();
 
@@ -33,7 +38,7 @@ class WithdrawalRequestController extends Controller
             'success' => true,
             'created' => true,
             'message' => 'resource stored',
-            'custom_message' => 'Solicitud de retiro enviada'
+            'custom_message' => 'Solicitud enviada'
         ]);
     }
 }

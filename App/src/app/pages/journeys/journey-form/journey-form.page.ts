@@ -175,7 +175,8 @@ export class JourneyFormPage implements OnInit {
           this.hasNewOrder = true;
           this.router.navigateByUrl('journey-list');
         }, error => {
-          //
+          const message = error?.error?.custom_message || 'No se pudo registrar la dirección';
+          this.toastComponent.presentToast(message, 'middle', 3000);
         },
         () => {
           //

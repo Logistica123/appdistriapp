@@ -73,8 +73,16 @@ class OrderController extends Controller
 
     public function optimizeWithGoogle($orders, $request)
     {
-        $origin = $request->lat . ',' . $request->lng;
-        $destination = $request->lat . ',' . $request->lng;
+        $driver = $request->user();
+        $originLat = $driver->start_lat ?? $request->lat;
+        $originLng = $driver->start_lng ?? $request->lng;
+
+        if ($originLat === null || $originLng === null) {
+            throw new \InvalidArgumentException('Origin coordinates are required');
+        }
+
+        $origin = $originLat . ',' . $originLng;
+        $destination = $originLat . ',' . $originLng;
         $waypoints = 'optimize:true';
 
         foreach ($orders as $order) {
@@ -126,6 +134,14 @@ class OrderController extends Controller
 
     public function optimizeWithHereMapsApi($orders, $request)
     {
+        $driver = $request->user();
+        $originLat = $driver->start_lat ?? $request->lat;
+        $originLng = $driver->start_lng ?? $request->lng;
+
+        if ($originLat === null || $originLng === null) {
+            throw new \InvalidArgumentException('Origin coordinates are required');
+        }
+
         $destination = '';
         $i = 1;
         foreach ($orders as $order) {
@@ -135,7 +151,7 @@ class OrderController extends Controller
 
         $destination = ltrim($destination, $destination[0]);
         $params = $destination
-            . '&start=' . $request->lat . ',' . $request->lng
+            . '&start=' . $originLat . ',' . $originLng
 //            . '&end=' . $request->lat . ',' . $request->lng
             . '&improveFor=time'
             . '&mode=fastest;car'
@@ -511,6 +527,18 @@ class OrderController extends Controller
 
     public function optimizeOrders(Request $request)
     {
+        $driver = $request->user();
+        $originLat = $driver->start_lat ?? $request->lat;
+        $originLng = $driver->start_lng ?? $request->lng;
+
+        if ($originLat === null || $originLng === null) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Origin coordinates are required',
+                'custom_message' => 'No se pudo determinar el punto de partida del recorrido'
+            ], 422);
+        }
+
         $orders = Order::whereIn('id', $request->orders_ids)->with('location')->get();
         $destination = '';
         $i = 1;
@@ -521,7 +549,7 @@ class OrderController extends Controller
 
         $destination = ltrim($destination, $destination[0]);
         $params = $destination
-            . '&start=' . $request->lat . ',' . $request->lng
+            . '&start=' . $originLat . ',' . $originLng
 //            . '&end=' . $request->lat . ',' . $request->lng
             . '&improveFor=time'
             . '&mode=fastest;car'

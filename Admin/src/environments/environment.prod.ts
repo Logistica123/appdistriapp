@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  API_URL: 'https://api-logapp.palmariusdev.com/api/',
+  API_URL: 'https://api.distriapp.com.ar/api/',
   firebaseConfig : {
     apiKey: 'AIzaSyDw54VQaZ91JdVUw7_p98c_lTxa8Pt5Icw',
     authDomain: 'distriapp-2021.firebaseapp.com',

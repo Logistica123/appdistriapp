@@ -1,11 +1,12 @@
+ion-item { --background: transparent; }
 ion-content {
-  --background: #f7f8f9;
-  font-family: NunitoSans, 'sans-serif';
+  --background: var(--ion-background-color);
+  font-family: var(--ion-font-family);
 }
 
 ion-toolbar {
-  --background: #757dfb;
-  --color: white;
+  --background: var(--app-gradient);
+  --color: #ffffff;
 }
 
 input {
@@ -16,4 +17,10 @@ input {
 h5 {
   color: #828282;
   font-weight: bold;
+}
+
+.hint {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.75rem;
 }

@@ -47,5 +47,9 @@ return [
     'hereapi' => [
         'consumer_key' => env("HERE_CONSUMER_KEY"),
         'consumer_secret' => env("HERE_CONSUMER_SECRET")
-    ]
+    ],
+
+    'routes' => [
+        'max_location_distance_km' => env('ROUTE_MAX_DISTANCE_KM', 100),
+    ],
 ];

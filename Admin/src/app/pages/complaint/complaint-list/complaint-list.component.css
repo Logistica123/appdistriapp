@@ -1,0 +1,16 @@
+.filter-form {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 16px;
+}
+
+.filter-form mat-form-field {
+  width: 200px;
+  margin-right: 16px;
+}
+
+.empty {
+  margin-top: 24px;
+  text-align: center;
+  color: #777;
+}

@@ -47,6 +47,26 @@ class LocationController extends Controller
 
     public function store(Request $request)
     {
+        $driver = $request->user();
+        $maxDistance = config('services.routes.max_location_distance_km', 100);
+
+        if ($driver->start_lat && $driver->start_lng && $request->lat && $request->lng) {
+            $distance = $this->distanceInKm(
+                (float) $driver->start_lat,
+                (float) $driver->start_lng,
+                (float) $request->lat,
+                (float) $request->lng
+            );
+
+            if ($distance > $maxDistance) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Selected location is too far from driver start position',
+                    'custom_message' => 'La dirección se encuentra fuera del radio permitido de ' . $maxDistance . ' km'
+                ], 422);
+            }
+        }
+
         DB::transaction(function () use ($request) {
             $address = $request->address
                 ? $request->address
@@ -103,6 +123,23 @@ class LocationController extends Controller
             'custom_message' => 'Entrega registrada',
             'locations' => $locations
         ]);
+    }
+
+    protected function distanceInKm(float $lat1, float $lng1, float $lat2, float $lng2): float
+    {
+        $earthRadius = 6371; // km
+
+        $latFrom = deg2rad($lat1);
+        $latTo = deg2rad($lat2);
+        $latDelta = deg2rad($lat2 - $lat1);
+        $lngDelta = deg2rad($lng2 - $lng1);
+
+        $a = sin($latDelta / 2) * sin($latDelta / 2) +
+            cos($latFrom) * cos($latTo) *
+            sin($lngDelta / 2) * sin($lngDelta / 2);
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+
+        return $earthRadius * $c;
     }
 
     public function updateCoords(Request $request, $location_id)

@@ -1,12 +1,12 @@
 
 
 ion-menu {
-  --ion-background-color: var(--ion-menu-background-color);
-  --ion-text-color: var(--ion-color-primary-contrast);
+  --ion-background-color: var(--menu-background);
+  --ion-text-color: var(--menu-title-color);
   padding: 0;
 
   ion-toolbar {
-    --background: var(--ion-menu-background-color);
+    --background: var(--menu-background);
   }
 
   ion-list {/* optional, but it needs when you use gradient as a background color.*/
@@ -16,7 +16,7 @@ ion-menu {
   ion-label {
     font-weight: bolder;
     text-transform: uppercase;
-    color: white;
+    color: var(--menu-title-color);
     font-family: 'ITC', "Times New Roman", sans-serif !important;
   }
 
@@ -31,7 +31,7 @@ ion-menu {
   }
 
   ion-item.selected {
-    --color: var(--ion-color-light) !important;
+    --color: var(--menu-title-color) !important;
   }
 
   .menu-header {
@@ -46,6 +46,6 @@ ion-menu {
     border-radius: 0 0 70% 70%/0 0 45% 45%;
     border-bottom: 0;
     width: 100%;
-    background: white;
+    background: var(--profile-card-gradient);
   }
 }

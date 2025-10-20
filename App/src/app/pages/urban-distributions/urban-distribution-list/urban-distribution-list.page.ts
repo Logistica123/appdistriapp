@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {AlertController, IonReorderGroup, LoadingController, ModalController, PopoverController} from '@ionic/angular';
 import {OrderService} from '../../../services/v1/order.service';
 import {Order} from '../../../interfaces/Order';
@@ -23,13 +23,16 @@ import {SyncService} from '../../../services/utils/sync.service';
 import {GeocodeService} from '../../../services/v1/geocode.service';
 import * as Papa from 'papaparse';
 import {toPromise} from '../../../utils/to-promise';
+import {Driver} from '../../../interfaces/Driver';
+import {DriverService} from '../../../services/v1/driver.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-urban-distribution-list',
   templateUrl: './urban-distribution-list.page.html',
   styleUrls: ['./urban-distribution-list.page.scss'],
 })
-export class UrbanDistributionListPage implements OnInit, AfterViewInit {
+export class UrbanDistributionListPage implements OnInit, AfterViewInit, OnDestroy {
   orders: Order[] = [];
   optimizingOrders = false;
   loading = true;
@@ -37,6 +40,8 @@ export class UrbanDistributionListPage implements OnInit, AfterViewInit {
   date = new Date();
   driverPosition: Geoposition;
   driverCityFallback = 'Corrientes';
+  driver: Driver;
+  driverSubscription: Subscription;
   networkModeToggleFC = new FormControl();
   deletingOrder = false;
   @ViewChild(IonReorderGroup) ionReorderGroup;
@@ -52,6 +57,7 @@ export class UrbanDistributionListPage implements OnInit, AfterViewInit {
               private geolocation: Geolocation,
               private orderManagerService: OrderManagerService,
               private geolocationService: GeolocationService,
+              private driverService: DriverService,
               private loadingSpinnerComponent: LoadingSpinnerComponent,
               private modeService: ModeService,
               private router: Router,
@@ -64,6 +70,17 @@ export class UrbanDistributionListPage implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.driverSubscription = this.driverService.getDriver$()
+      .subscribe(driver => {
+        if (driver) {
+          this.driver = driver;
+        } else {
+          this.driverService.getProfile().subscribe((response: any) => {
+            this.driver = response.driver;
+          });
+        }
+      });
+
     this.checkWatchLocationsSubscription();
 
     this.offlineOrderManagerService.getSendingReqs$().subscribe(sendingRequests => {
@@ -79,6 +96,12 @@ export class UrbanDistributionListPage implements OnInit, AfterViewInit {
     this.dateFC.setValue(this.date.toISOString());
     this.networkModeToggleFC.setValue(1);
     this.getOrdersByDate();
+  }
+
+  ngOnDestroy() {
+    if (this.driverSubscription) {
+      this.driverSubscription.unsubscribe();
+    }
   }
 
   checkWatchLocationsSubscription() {
@@ -387,10 +410,23 @@ export class UrbanDistributionListPage implements OnInit, AfterViewInit {
   async optimizeOrders() {
     const undeliveredOrders = this.checkUndeliveredOrders();
 
-    if (this.checkDriverPosition() && undeliveredOrders.length > 0) {
+    let originLat = this.driver?.start_lat;
+    let originLng = this.driver?.start_lng;
+
+    if ((originLat === undefined || originLat === null) || (originLng === undefined || originLng === null)) {
+      if (!this.checkDriverPosition()) {
+        return;
+      }
+      originLat = this.driverPosition?.coords?.latitude;
+      originLng = this.driverPosition?.coords?.longitude;
+    }
+
+    if (undeliveredOrders.length > 0 && originLat !== undefined && originLat !== null && originLng !== undefined && originLng !== null) {
+      const lat = Number(originLat);
+      const lng = Number(originLng);
       const body = {
-        lat: this.driverPosition.coords.latitude,
-        lng: this.driverPosition.coords.longitude,
+        lat,
+        lng,
         orders_ids: undeliveredOrders.map(order => order.id),
       };
       console.log(body);
@@ -408,6 +444,12 @@ export class UrbanDistributionListPage implements OnInit, AfterViewInit {
         }, error => {
           this.optimizingOrders = false;
         });
+    } else if (undeliveredOrders.length > 0) {
+      this.toastComponent.presentToast(
+        'No se pudo determinar tu punto de partida. Configúralo en tu perfil o habilita el GPS.',
+        'middle',
+        3500
+      );
     }
   }
 

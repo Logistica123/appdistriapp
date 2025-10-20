@@ -17,6 +17,17 @@ import {FCM} from 'cordova-plugin-fcm-with-dependecy-updated/ionic';
 import {ToastComponent} from './components/toast/toast.component';
 import {AppRate} from '@ionic-native/app-rate/ngx';
 import {Subscription} from 'rxjs';
+import {ThemeService} from './services/theme.service';
+
+interface MenuPage {
+    title: string;
+    url: string;
+    icon: string;
+    subtitle?: string;
+    badge?: string;
+}
+
+type ThemeKey = 'theme-light' | 'theme-dark';
 
 @Component({
     selector: 'app-root',
@@ -33,64 +44,103 @@ export class AppComponent implements OnInit, OnDestroy {
     anim: Animation;
     activeService = false;
     driverSubscription: Subscription;
+    currentTheme: ThemeKey = 'theme-light';
+    readonly themeToggleLabels: Record<ThemeKey, string> = {
+        'theme-light': 'Modo oscuro',
+        'theme-dark': 'Modo claro'
+    };
+    readonly themeToggleIcons: Record<ThemeKey, string> = {
+        'theme-light': 'moon-outline',
+        'theme-dark': 'sunny-outline'
+    };
 
     // appPages = [];
 
-    public appPages = [
+    public appPages: MenuPage[] = [
         {
-            title: 'DISTRIBUCIÓN URBANA',
+            title: 'Distribución urbana',
             url: '/urban-distribution-list',
-            icon: 'assets/icons/menu/distribucion.svg'
+            icon: 'navigate-outline',
+            subtitle: 'Entregas del día'
         },
         {
-            title: 'VIAJES',
+            title: 'Viajes',
             url: '/journey-list',
-            icon: 'assets/icons/menu/viajes.svg'
+            icon: 'trail-sign-outline',
+            subtitle: 'Planificá rutas'
         },
         {
-            title: 'CONTROLES',
+            title: 'Controles',
             url: '/control-tabs/operation-control',
-            icon: 'assets/icons/menu/mantenimiento.svg'
+            icon: 'settings-outline',
+            subtitle: 'Controles operativos'
         },
         {
             title: 'Billetera',
             url: '/wallet-transaction-list',
-            icon: 'assets/icons/menu/mantenimiento.svg'
+            icon: 'wallet-outline',
+            subtitle: 'Movimientos de billetera'
         },
         {
             title: 'Ranking',
             url: '/ranking',
-            icon: 'assets/icons/menu/mantenimiento.svg'
+            icon: 'podium-outline',
+            subtitle: 'Tu ranking'
         },
         {
-            title: 'MANTENIMIENTO',
+            title: 'Mantenimiento',
             url: '/document-list',
-            icon: 'assets/icons/menu/mantenimiento.svg'
+            icon: 'construct-outline',
+            subtitle: 'Documentos & vencim.'
         },
         {
-            title: 'RECORDATORIOS',
+            title: 'Recordatorios',
             url: '/reminder-list',
-            icon: 'assets/icons/menu/notificaciones.svg'
+            icon: 'calendar-outline',
+            subtitle: 'Recordatorios'
         },
         {
-            title: 'NOTIFICACIONES',
+            title: 'Notificaciones',
             url: '/notification-list',
-            icon: 'assets/icons/menu/notificaciones.svg'
+            icon: 'megaphone-outline',
+            subtitle: 'Alertas'
         },
         {
-            title: 'PROPONER MEJORAS',
+            title: 'Beneficios',
+            url: '/benefits',
+            icon: 'sparkles-outline',
+            subtitle: 'Promos exclusivas',
+            badge: 'Nuevo'
+        },
+        {
+            title: 'Reclamos',
+            url: '/complaint-list',
+            icon: 'chatbubble-ellipses-outline',
+            subtitle: 'Reclamos'
+        },
+        {
+            title: 'Liquidaciones',
+            url: '/liquidation-list',
+            icon: 'receipt-outline',
+            subtitle: 'Liquidaciones'
+        },
+        {
+            title: 'Proponer mejoras',
             url: '/suggestion-form',
-            icon: 'assets/icons/menu/proponermejoras.svg'
+            icon: 'bulb-outline',
+            subtitle: 'Mejoras'
         },
         {
-            title: 'PERFIL',
+            title: 'Perfil',
             url: '/profile/profile-data',
-            icon: 'assets/icons/menu/proponermejoras.svg'
+            icon: 'id-card-outline',
+            subtitle: 'Tus datos'
         },
         {
-            title: 'AYUDA',
+            title: 'Ayuda',
             url: '/help',
-            icon: 'assets/icons/menu/ayuda.svg'
+            icon: 'help-buoy-outline',
+            subtitle: 'Ayuda y soporte'
         }
     ];
 
@@ -108,8 +158,10 @@ export class AppComponent implements OnInit, OnDestroy {
         private serviceService: ServiceService,
         private domSanitizer: DomSanitizer,
         private router: Router,
-        private appRate: AppRate
+        private appRate: AppRate,
+        private themeService: ThemeService
     ) {
+        this.currentTheme = this.themeService.initializeTheme();
         this.initializeApp();
     }
 
@@ -154,102 +206,116 @@ export class AppComponent implements OnInit, OnDestroy {
         // }
     }
 
+    toggleTheme(): void {
+        this.currentTheme = this.themeService.toggleTheme(this.currentTheme);
+    }
+
     pushAllPages() {
         this.appPages.push({
-            title: 'DISTRIBUCIÓN URBANA',
+            title: 'Distribución urbana',
             url: '/urban-distribution-list',
-            icon: 'assets/icons/menu/distribucion.svg'
+            icon: 'trail-sign-outline'
         });
         this.appPages.push({
-            title: 'VIAJES',
+            title: 'Viajes',
             url: '/journey-list',
-            icon: 'assets/icons/menu/viajes.svg'
+            icon: 'map-outline'
         });
         this.appPages.push({
-            title: 'CONTROLES',
+            title: 'Controles',
             url: '/control-tabs/operation-control',
-            icon: 'assets/icons/menu/mantenimiento.svg'
+            icon: 'options-outline'
         });
         this.appPages.push({
             title: 'Billetera',
             url: '/wallet-transaction-list',
-            icon: 'assets/icons/menu/mantenimiento.svg'
+            icon: 'wallet-outline'
         });
         this.appPages.push({
             title: 'Ranking',
             url: '/ranking',
-            icon: 'assets/icons/menu/mantenimiento.svg'
+            icon: 'trophy-outline'
         });
         this.appPages.push({
-            title: 'MANTENIMIENTO',
+            title: 'Mantenimiento',
             url: '/document-list',
-            icon: 'assets/icons/menu/mantenimiento.svg'
+            icon: 'construct-outline'
         });
         this.appPages.push({
-            title: 'RECORDATORIOS',
+            title: 'Recordatorios',
             url: '/reminder-list',
-            icon: 'assets/icons/menu/notificaciones.svg'
+            icon: 'alarm-outline'
         });
         this.appPages.push({
-            title: 'NOTIFICACIONES',
+            title: 'Notificaciones',
             url: '/notification-list',
-            icon: 'assets/icons/menu/notificaciones.svg'
+            icon: 'notifications-outline'
         });
         this.appPages.push({
-            title: 'PROPONER MEJORAS',
+            title: 'Seguros',
+            url: '/insurance',
+            icon: 'shield-checkmark-outline'
+        });
+        this.appPages.push({
+            title: 'Proponer mejoras',
             url: '/suggestion-form',
-            icon: 'assets/icons/menu/proponermejoras.svg'
+            icon: 'bulb-outline'
         });
         this.appPages.push({
-            title: 'PERFIL',
+            title: 'Perfil',
             url: '/profile/profile-data',
-            icon: 'assets/icons/menu/proponermejoras.svg'
+            icon: 'person-circle-outline'
         });
         this.appPages.push({
-            title: 'AYUDA',
+            title: 'Ayuda',
             url: '/help',
-            icon: 'assets/icons/menu/ayuda.svg'
+            icon: 'help-circle-outline'
         });
     }
 
     pushLimitedPages() {
         this.appPages.push({
-            title: 'DISTRIBUCIÓN URBANA',
+            title: 'Distribución urbana',
             url: '/urban-distribution-list',
             icon: 'assets/icons/menu/distribucion.svg'
         });
         this.appPages.push({
-            title: 'VIAJES',
+            title: 'Viajes',
             url: '/journey-list',
             icon: 'assets/icons/menu/viajes.svg'
         });
         this.appPages.push({
-            title: 'CONTROLES',
+            title: 'Controles',
             url: '/control-tabs/operation-control',
             icon: 'assets/icons/menu/mantenimiento.svg'
         });
         this.appPages.push({
-            title: 'MANTENIMIENTO',
+            title: 'Mantenimiento',
             url: '/document-list',
             icon: 'assets/icons/menu/mantenimiento.svg'
         });
         this.appPages.push({
-            title: 'RECORDATORIOS',
+            title: 'Recordatorios',
             url: '/reminder-list',
             icon: 'assets/icons/menu/notificaciones.svg'
         });
         this.appPages.push({
-            title: 'PROPONER MEJORAS',
+            title: 'Seguros',
+            url: '/insurance',
+            icon: 'assets/icons/menu/notificaciones.svg'
+        });
+        this.appPages.push({
+            title: 'Proponer mejoras',
             url: '/suggestion-form',
             icon: 'assets/icons/menu/proponermejoras.svg'
         });
         this.appPages.push({
-            title: 'PERFIL',
+            title: 'Perfil',
             url: '/profile/profile-data',
             icon: 'assets/icons/menu/proponermejoras.svg'
         });
         this.appPages.push({
-            title: 'AYUDA',
+            title: 'Ayuda',
             url: '/help',
             icon: 'assets/icons/menu/ayuda.svg'
         });

@@ -1,0 +1,33 @@
+.insurance .filter-form {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.insurance .table-wrapper {
+  position: relative;
+  min-height: 200px;
+}
+
+.insurance mat-progress-spinner {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.insurance table {
+  width: 100%;
+}
+
+.insurance td {
+  white-space: normal;
+  word-break: break-word;
+}
+
+.insurance .empty {
+  text-align: center;
+  color: #888;
+  margin-top: 16px;
+}

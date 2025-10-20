@@ -1,8 +1,7 @@
 @import "../../../theme/custom-theme.scss";
 
 ion-content {
-  //--background: #f39f05;
-  --background: #757dfb;
+  --background: var(--app-gradient);
 }
 
 ion-toolbar {
@@ -35,9 +34,8 @@ img {
   padding: 1px 20px;
   margin: 10px;
   border-radius: 50px;
-  background: #757abf;
-  opacity: 0.9;
-  color: white;
+  background: rgba(10, 31, 61, 0.75);
+  color: #ffffff;
 }
 
 ion-item {
@@ -58,19 +56,20 @@ ion-item {
 
 .driver-podium-name {
   font-weight: bold;
-  color: white;
+  color: var(--app-text-color);
 }
 
 .driver-name {
   font-weight: bold;
+  color: var(--app-text-color);
 }
 
 .driver-place {
   text-align: center;
-  background: #565dd2;
+  background: #1a49a0;
   padding: 10px;
   border-radius: 50%;
-  color: white;
+  color: #ffffff;
   font-weight: bold;
 }
 

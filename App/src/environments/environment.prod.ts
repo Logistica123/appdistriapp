@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   // API_URL: 'https://www.api-app-distribucion.palmariusdev.com/api/app/',
-  API_URL: 'http://127.0.0.1:8000/api/',
+  API_URL: 'https://api.distriapp.com.ar/api/',
   firebaseConfig : {
     apiKey: 'AIzaSyDw54VQaZ91JdVUw7_p98c_lTxa8Pt5Icw',
     authDomain: 'distriapp-2021.firebaseapp.com',
@@ -17,7 +17,7 @@ export const environment = {
   pusher: {
     key: '70177c7279134eac5800',
     cluster: 'us2',
-    authEndpoint: 'https://api-logapp.palmariusdev.com/broadcasting/auth'
+    authEndpoint: 'https://api.distriapp.com.ar/broadcasting/auth'
   },
   // storageKeys: {
   //   requests: 'distriappreqs',

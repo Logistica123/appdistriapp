@@ -30,6 +30,11 @@ class WithdrawalRequest extends Model
         if ($value === 'advance') {
             return 'Adelanto';
         }
-        return 'Retiro total';
+
+        if ($value === 'loan') {
+            return 'Préstamo';
+        }
+
+        return ucfirst($value);
     }
 }

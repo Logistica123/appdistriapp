@@ -21,10 +21,277 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+@import "~animate.css/animate.min.css";
 @import "theme/forms.scss";
 
 @import "theme/utils";
 @import "theme/menu.scss";
+
+:root {
+  --app-background: linear-gradient(180deg, #f4f0ea 0%, #ebf0ff 100%);
+  --app-text-color: #1a2641;
+  --app-muted-text: rgba(26, 38, 65, 0.58);
+  --surface-color: rgba(255, 255, 255, 0.95);
+  --menu-background: linear-gradient(185deg, #e9d5ba 0%, #d4e2ff 100%);
+  --menu-surface: rgba(255, 255, 255, 0.85);
+  --menu-surface-border: rgba(26, 38, 65, 0.1);
+  --menu-title-color: #1a2641;
+  --menu-subtitle-color: rgba(26, 38, 65, 0.62);
+  --profile-card-gradient: linear-gradient(150deg, rgba(244, 195, 139, 0.45) 0%, rgba(150, 180, 255, 0.7) 100%);
+  --profile-card-shadow: 0 16px 34px rgba(22, 34, 58, 0.18);
+  --app-toolbar-gradient: linear-gradient(180deg, #f4e6d6 0%, #cbd6f6 100%);
+  --menu-icon-gradient: linear-gradient(150deg, rgba(66, 105, 245, 0.65), rgba(244, 180, 139, 0.48));
+  --menu-item-hover-bg: rgba(66, 105, 245, 0.18);
+  --menu-item-active-bg: rgba(66, 105, 245, 0.26);
+  --menu-item-active-title-color: #1a2641;
+  --menu-item-active-subtitle-color: rgba(26, 38, 65, 0.72);
+  --menu-badge-background: rgba(66, 105, 245, 0.24);
+  --menu-badge-color: #1a2641;
+  --menu-badge-active-background: rgba(244, 180, 139, 0.34);
+  --menu-icon-border-color: rgba(26, 38, 65, 0.14);
+  --menu-icon-highlight-color: rgba(255, 255, 255, 0.82);
+  --menu-icon-shadow-color: rgba(26, 38, 65, 0.2);
+  --menu-icon-color: #1a2641;
+  --menu-icon-overlay-color: rgba(255, 255, 255, 0.5);
+  --menu-icon-active-gradient: linear-gradient(150deg, rgba(66, 105, 245, 0.76), rgba(244, 180, 139, 0.64));
+  --menu-divider-background: rgba(26, 38, 65, 0.14);
+  --menu-divider-color: rgba(26, 38, 65, 0.56);
+  --profile-card-avatar-background: rgba(255, 255, 255, 0.88);
+  --profile-card-placeholder-color: rgba(26, 38, 65, 0.46);
+  --complaint-type-pill-background: rgba(66, 105, 245, 0.18);
+  --complaint-type-pill-color: #1a2641;
+  --theme-toggle-border-color: rgba(66, 105, 245, 0.4);
+  --theme-toggle-text-color: #1a2641;
+  --theme-toggle-background: linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(235, 228, 255, 0.95));
+  --theme-toggle-hover-background: rgba(247, 236, 222, 0.98);
+  --theme-toggle-active-background: rgba(224, 218, 255, 0.94);
+  --theme-toggle-shadow: 0 12px 26px rgba(54, 90, 210, 0.24);
+  --toolbar-text-color: #1a2641;
+  --toolbar-icon-color: #1a2641;
+  --menu-bottom-offset: 68px;
+  --tab-bar-background: linear-gradient(180deg, #405aed 0%, #2436a4 100%);
+  --tab-bar-color: rgba(226, 232, 255, 0.78);
+  --tab-bar-color-selected: #ffffff;
+  --tab-bar-shadow: rgba(32, 44, 92, 0.38);
+}
+
+html.theme-light,
+body.theme-light {
+  --app-background: linear-gradient(180deg, #f4f0ea 0%, #ebf0ff 100%);
+  --app-text-color: #1a2641;
+  --app-muted-text: rgba(26, 38, 65, 0.58);
+  --surface-color: rgba(255, 255, 255, 0.95);
+  --menu-background: linear-gradient(185deg, #e9d5ba 0%, #d4e2ff 100%);
+  --menu-surface: rgba(255, 255, 255, 0.85);
+  --menu-surface-border: rgba(26, 38, 65, 0.1);
+  --menu-title-color: #1a2641;
+  --menu-subtitle-color: rgba(26, 38, 65, 0.62);
+  --profile-card-gradient: linear-gradient(150deg, rgba(244, 195, 139, 0.45) 0%, rgba(150, 180, 255, 0.7) 100%);
+  --profile-card-shadow: 0 16px 34px rgba(22, 34, 58, 0.18);
+  --app-toolbar-gradient: linear-gradient(180deg, #f4e6d6 0%, #cbd6f6 100%);
+  --menu-icon-gradient: linear-gradient(150deg, rgba(66, 105, 245, 0.65), rgba(244, 180, 139, 0.48));
+  --menu-item-hover-bg: rgba(66, 105, 245, 0.18);
+  --menu-item-active-bg: rgba(66, 105, 245, 0.26);
+  --menu-item-active-title-color: #1a2641;
+  --menu-item-active-subtitle-color: rgba(26, 38, 65, 0.72);
+  --menu-badge-background: rgba(66, 105, 245, 0.24);
+  --menu-badge-color: #1a2641;
+  --menu-badge-active-background: rgba(244, 180, 139, 0.34);
+  --menu-icon-border-color: rgba(26, 38, 65, 0.14);
+  --menu-icon-highlight-color: rgba(255, 255, 255, 0.82);
+  --menu-icon-shadow-color: rgba(26, 38, 65, 0.2);
+  --menu-icon-color: #1a2641;
+  --menu-icon-overlay-color: rgba(255, 255, 255, 0.5);
+  --menu-icon-active-gradient: linear-gradient(150deg, rgba(66, 105, 245, 0.76), rgba(244, 180, 139, 0.64));
+  --menu-divider-background: rgba(26, 38, 65, 0.14);
+  --menu-divider-color: rgba(26, 38, 65, 0.56);
+  --profile-card-avatar-background: rgba(255, 255, 255, 0.88);
+  --profile-card-placeholder-color: rgba(26, 38, 65, 0.46);
+  --complaint-type-pill-background: rgba(66, 105, 245, 0.18);
+  --complaint-type-pill-color: #1a2641;
+  --theme-toggle-border-color: rgba(66, 105, 245, 0.4);
+  --theme-toggle-text-color: #1a2641;
+  --theme-toggle-background: linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(235, 228, 255, 0.95));
+  --theme-toggle-hover-background: rgba(247, 236, 222, 0.98);
+  --theme-toggle-active-background: rgba(224, 218, 255, 0.94);
+  --theme-toggle-shadow: 0 12px 26px rgba(54, 90, 210, 0.24);
+  --toolbar-text-color: #1a2641;
+  --toolbar-icon-color: #1a2641;
+  --menu-bottom-offset: 68px;
+  --tab-bar-background: linear-gradient(180deg, #405aed 0%, #2436a4 100%);
+  --tab-bar-color: rgba(226, 232, 255, 0.78);
+  --tab-bar-color-selected: #ffffff;
+  --tab-bar-shadow: rgba(32, 44, 92, 0.38);
+}
+
+html.theme-dark,
+body.theme-dark {
+  --app-background: linear-gradient(180deg, #0a1424 0%, #02060d 100%);
+  --app-text-color: #e6ecf9;
+  --app-muted-text: rgba(230, 236, 249, 0.6);
+  --surface-color: rgba(12, 22, 37, 0.82);
+  --menu-background: linear-gradient(185deg, #081a33 0%, #030814 100%);
+  --menu-surface: rgba(8, 16, 30, 0.7);
+  --menu-surface-border: rgba(255, 255, 255, 0.04);
+  --menu-title-color: #dbe5f9;
+  --menu-subtitle-color: rgba(219, 229, 249, 0.65);
+  --profile-card-gradient: linear-gradient(140deg, rgba(20, 40, 69, 0.78) 0%, rgba(6, 14, 26, 0.95) 100%);
+  --profile-card-shadow: 0 10px 22px rgba(2, 8, 18, 0.46);
+  --app-toolbar-gradient: linear-gradient(185deg, #081a33 0%, #030814 100%);
+  --menu-icon-gradient: linear-gradient(140deg, rgba(90, 122, 214, 0.46), rgba(23, 32, 54, 0.7));
+  --menu-item-hover-bg: rgba(230, 236, 249, 0.08);
+  --menu-item-active-bg: rgba(230, 236, 249, 0.18);
+  --menu-item-active-title-color: #e6ecf9;
+  --menu-item-active-subtitle-color: rgba(230, 236, 249, 0.72);
+  --menu-badge-background: rgba(230, 236, 249, 0.16);
+  --menu-badge-color: #e6ecf9;
+  --menu-badge-active-background: rgba(230, 236, 249, 0.26);
+  --menu-icon-border-color: rgba(230, 236, 249, 0.12);
+  --menu-icon-highlight-color: rgba(230, 236, 249, 0.18);
+  --menu-icon-shadow-color: rgba(2, 8, 18, 0.46);
+  --menu-icon-color: rgba(230, 236, 249, 0.94);
+  --menu-icon-overlay-color: rgba(230, 236, 249, 0.22);
+  --menu-icon-active-gradient: linear-gradient(140deg, rgba(90, 122, 214, 0.58), rgba(30, 46, 78, 0.85));
+  --menu-divider-background: rgba(230, 236, 249, 0.08);
+  --menu-divider-color: rgba(230, 236, 249, 0.62);
+  --profile-card-avatar-background: rgba(230, 236, 249, 0.14);
+  --profile-card-placeholder-color: rgba(230, 236, 249, 0.82);
+  --complaint-type-pill-background: rgba(230, 236, 249, 0.18);
+  --complaint-type-pill-color: #e6ecf9;
+  --theme-toggle-border-color: rgba(230, 236, 249, 0.35);
+  --theme-toggle-text-color: var(--menu-title-color);
+  --theme-toggle-background: rgba(12, 22, 37, 0.82);
+  --theme-toggle-hover-background: rgba(16, 32, 52, 0.9);
+  --theme-toggle-active-background: rgba(20, 40, 69, 0.95);
+  --theme-toggle-shadow: 0 10px 18px rgba(2, 8, 18, 0.46);
+  --toolbar-text-color: #ffffff;
+  --toolbar-icon-color: #ffffff;
+  --menu-bottom-offset: 54px;
+  --tab-bar-background: linear-gradient(180deg, #040b16 0%, #02060d 100%);
+  --tab-bar-color: rgba(230, 236, 249, 0.65);
+  --tab-bar-color-selected: #ffffff;
+  --tab-bar-shadow: rgba(0, 0, 0, 0.45);
+}
+
+body,
+ion-app {
+  background: var(--app-background);
+  color: var(--app-text-color);
+  font-family: var(--ion-font-family);
+}
+
+body.theme-light {
+  --ion-background-color: var(--app-background);
+  --ion-text-color: var(--app-text-color);
+}
+
+body.theme-dark {
+  --ion-background-color: var(--app-background);
+  --ion-text-color: var(--app-text-color);
+}
+
+ion-toolbar {
+  --background: var(--app-toolbar-gradient);
+  --color: var(--toolbar-text-color);
+  --border-width: 0;
+  background: var(--app-toolbar-gradient);
+  color: var(--toolbar-text-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+ion-header {
+  --background: transparent;
+  background: transparent;
+}
+
+ion-content {
+  --background: var(--app-background);
+  color: var(--app-text-color);
+}
+
+ion-card {
+  background: var(--surface-color);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(10, 31, 61, 0.1);
+  border: 1px solid rgba(13, 43, 79, 0.06);
+  color: var(--app-text-color);
+}
+
+ion-chip,
+ion-badge {
+  --background: rgba(16, 50, 93, 0.12);
+  --color: var(--app-text-color);
+}
+
+body.theme-dark ion-chip,
+body.theme-dark ion-badge {
+  --background: rgba(230, 236, 249, 0.18);
+  --color: #e6ecf9;
+}
+
+ion-segment {
+  background: rgba(13, 43, 79, 0.08);
+  border-radius: 20px;
+  padding: 4px;
+}
+
+ion-segment-button {
+  --color: rgba(16, 50, 93, 0.6);
+  --color-checked: #ffffff;
+  --indicator-color: transparent;
+  --background: transparent;
+  --background-checked: linear-gradient(180deg, rgba(16, 50, 93, 0.95) 0%, rgba(8, 29, 54, 0.95) 100%);
+  border-radius: 16px;
+  min-height: 40px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+ion-button {
+  --border-radius: 24px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+ion-button[color="primary"] {
+  background: linear-gradient(180deg, #1a49a0 0%, #0d2b4f 100%);
+  --background: linear-gradient(180deg, #1a49a0 0%, #0d2b4f 100%);
+  --background-focused: linear-gradient(180deg, #163f8d 0%, #0b2545 100%);
+  --background-activated: linear-gradient(180deg, #163f8d 0%, #0b2545 100%);
+  box-shadow: 0 10px 20px rgba(10, 31, 61, 0.2);
+}
+
+ion-tab-bar {
+  --background: var(--tab-bar-background);
+  --color: var(--tab-bar-color);
+  --color-selected: var(--tab-bar-color-selected);
+  box-shadow: 0 -4px 12px var(--tab-bar-shadow);
+}
+
+ion-input,
+ion-textarea,
+ion-select,
+ion-datetime {
+  --background: #ffffff;
+  --padding-start: 12px;
+  --padding-end: 12px;
+  --padding-top: 14px;
+  --padding-bottom: 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(13, 43, 79, 0.12);
+}
+
+ion-item {
+  --background: var(--surface-color);
+  --border-color: rgba(13, 43, 79, 0.08);
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+ion-item ion-label {
+  color: var(--ion-text-color);
+}
 
 ion-progress-bar {
   height: 1px;
@@ -36,8 +303,9 @@ ion-title {
   white-space: unset !important;
 }
 
-ion-back-button, ion-menu-button {
-  color: white !important;
+ion-back-button,
+ion-menu-button {
+  color: var(--toolbar-icon-color) !important;
 }
 
 .searchbar-input.sc-ion-searchbar-md {
@@ -231,6 +499,3 @@ ___________________________________________________________
 .whatsapp-color-background {
   --background: #25D366;
 }
-
-
-

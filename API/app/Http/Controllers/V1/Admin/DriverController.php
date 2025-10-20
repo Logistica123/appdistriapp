@@ -34,6 +34,14 @@ class DriverController extends Controller
             $driver->last_name = $request->last_name;
             $driver->email = $request->email;
             $driver->phone_number = $request->phone_number;
+            $driver->bank_cbu = $request->bank_cbu ? preg_replace('/\D/', '', $request->bank_cbu) : null;
+            $driver->bank_cvu = null;
+            $driver->bank_alias = $driver->bank_cbu;
+            $driver->bank_owner_is_driver = filter_var($request->bank_owner_is_driver, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+            if ($driver->bank_owner_is_driver === null) {
+                $driver->bank_owner_is_driver = true;
+            }
+            $driver->bank_holder_name = $driver->bank_owner_is_driver ? null : ($request->bank_holder_name ?: null);
             $driver->car_make = $request->car_make;
             $driver->car_model = $request->car_model;
             $driver->car_year = $request->car_year;
@@ -41,10 +49,27 @@ class DriverController extends Controller
             $driver->password = bcrypt(123456);
             $driver->status = 'active';
             $driver->admin_id = $request->user()->id;
+
+            if ($request->has('start_address')) {
+                $driver->start_address = $request->start_address;
+            }
+
+            if ($request->has('start_lat')) {
+                $driver->start_lat = $request->start_lat;
+            }
+
+            if ($request->has('start_lng')) {
+                $driver->start_lng = $request->start_lng;
+            }
+
             $driver->save();
 
             return $driver;
         });
+
+        if ($driver->bank_cbu) {
+            DriverService::syncBankDataWithPersonal($driver);
+        }
 
         return response()->json([
             'success' => true,
@@ -65,7 +90,36 @@ class DriverController extends Controller
         $driver->car_model = $request->car_model;
         $driver->car_year = $request->car_year;
         $driver->license_plate = $request->license_plate;
+        $driver->bank_cbu = $request->bank_cbu ? preg_replace('/\D/', '', $request->bank_cbu) : null;
+        $driver->bank_cvu = null;
+        $driver->bank_alias = $driver->bank_cbu;
+        if (! is_null($request->bank_owner_is_driver)) {
+            $driver->bank_owner_is_driver = filter_var($request->bank_owner_is_driver, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+            if ($driver->bank_owner_is_driver === null) {
+                $driver->bank_owner_is_driver = true;
+            }
+        }
+        $driver->bank_holder_name = $driver->bank_owner_is_driver ? null : ($request->bank_holder_name ?: null);
+
+        if ($request->has('start_address')) {
+            $driver->start_address = $request->start_address;
+        }
+
+        if ($request->has('start_lat')) {
+            $driver->start_lat = $request->start_lat;
+        }
+
+        if ($request->has('start_lng')) {
+            $driver->start_lng = $request->start_lng;
+        }
+
         $driver->update();
+
+        if ($driver->bank_cbu) {
+            DriverService::syncBankDataWithPersonal($driver);
+        } else {
+            // if admin cleared the CBU we do not overwrite Personal
+        }
 
         return response()->json([
             'success' => true,

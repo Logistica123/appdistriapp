@@ -1,31 +1,36 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {Order} from '../../../interfaces/Order';
-import {Geoposition} from '@ionic-native/geolocation';
-import {AlertController, IonReorderGroup, LoadingController, ModalController} from '@ionic/angular';
-import {LocationService} from '../../../services/v1/location.service';
-import {GeolocationService} from '../../../services/v1/geolocation.service';
-import {Router} from '@angular/router';
-import {OrderService} from '../../../services/v1/order.service';
-import {Geolocation} from '@ionic-native/geolocation/ngx';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {DeliveryMapPage} from '../../delivery-map/delivery-map.page';
+import {Router} from '@angular/router';
+import {Geoposition} from '@ionic-native/geolocation';
+import {Geolocation} from '@ionic-native/geolocation/ngx';
+import {AlertController, IonReorderGroup, LoadingController, ModalController} from '@ionic/angular';
+import {Subscription} from 'rxjs';
 import {ToastComponent} from '../../../components/toast/toast.component';
+import {DeliveryMapPage} from '../../delivery-map/delivery-map.page';
 import {JourneyDetailPage} from '../journey-detail/journey-detail.page';
 import {JourneyFormPage} from '../journey-form/journey-form.page';
+import {Driver} from '../../../interfaces/Driver';
+import {Order} from '../../../interfaces/Order';
+import {DriverService} from '../../../services/v1/driver.service';
+import {GeolocationService} from '../../../services/v1/geolocation.service';
+import {LocationService} from '../../../services/v1/location.service';
+import {OrderService} from '../../../services/v1/order.service';
 
 @Component({
   selector: 'app-journey-list',
   templateUrl: './journey-list.page.html',
   styleUrls: ['./journey-list.page.scss'],
 })
-export class JourneyListPage implements OnInit, AfterViewInit {
+export class JourneyListPage implements OnInit, AfterViewInit, OnDestroy {
   orders: Order[] = [];
   dateFC = new FormControl();
   date = new Date();
   driverPosition: Geoposition;
+  driver: Driver;
   @ViewChild(IonReorderGroup, {static: true}) reorderGroup: IonReorderGroup;
   loading = true;
   optimizingOrders = false;
+  driverSubscription: Subscription;
 
   constructor(private modalController: ModalController,
               private locationService: LocationService,
@@ -34,18 +39,34 @@ export class JourneyListPage implements OnInit, AfterViewInit {
               private geolocation: Geolocation,
               private toastComponent: ToastComponent,
               private geolocationService: GeolocationService,
+              private driverService: DriverService,
               private router: Router,
               private orderService: OrderService) {
   }
 
   ngOnInit() {
-    //
+    this.driverSubscription = this.driverService.getDriver$()
+      .subscribe(driver => {
+        if (driver) {
+          this.driver = driver;
+        } else {
+          this.driverService.getProfile().subscribe((response: any) => {
+            this.driver = response.driver;
+          });
+        }
+      });
   }
 
   ngAfterViewInit() {
     this.date = new Date();
     this.dateFC.setValue(this.date.toISOString());
     this.getOrdersByDate();
+  }
+
+  ngOnDestroy() {
+    if (this.driverSubscription) {
+      this.driverSubscription.unsubscribe();
+    }
   }
 
   doReorder(ev: any) {
@@ -165,10 +186,23 @@ export class JourneyListPage implements OnInit, AfterViewInit {
   async optimizeOrders() {
     const undeliveredOrders = this.checkUndeliveredOrders();
 
-    if (this.checkDriverPosition() && undeliveredOrders.length > 0) {
+    let originLat = this.driver?.start_lat;
+    let originLng = this.driver?.start_lng;
+
+    if ((originLat === undefined || originLat === null) || (originLng === undefined || originLng === null)) {
+      if (!this.checkDriverPosition()) {
+        return;
+      }
+      originLat = this.driverPosition?.coords?.latitude;
+      originLng = this.driverPosition?.coords?.longitude;
+    }
+
+    if (undeliveredOrders.length > 0 && originLat !== undefined && originLat !== null && originLng !== undefined && originLng !== null) {
+      const lat = Number(originLat);
+      const lng = Number(originLng);
       const body = {
-        lat: this.driverPosition.coords.latitude,
-        lng: this.driverPosition.coords.longitude,
+        lat,
+        lng,
         orders_ids: undeliveredOrders.map(order => order.id),
       };
       console.log(body);
@@ -185,6 +219,12 @@ export class JourneyListPage implements OnInit, AfterViewInit {
         }, error => {
           this.optimizingOrders = false;
         });
+    } else if (undeliveredOrders.length > 0) {
+      this.toastComponent.presentToast(
+        'No se pudo determinar tu punto de partida. Configúralo en tu perfil o habilita el GPS.',
+        'middle',
+        3500
+      );
     }
   }
 

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\App\UpdateFCMTokenRequest;
 use App\Http\Requests\App\UpdatePasswordRequest;
 use App\OperationControl;
+use App\Services\V1\DriverService;
 //use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -53,17 +54,73 @@ class DriverController extends Controller
 
     public function updateProfile(Request $request)
     {
+        $validated = $request->validate([
+            'car_make' => 'nullable|string|max:255',
+            'car_model' => 'nullable|string|max:255',
+            'city' => 'nullable|string|max:255',
+            'company' => 'nullable|string|max:255',
+            'license_plate' => 'nullable|string|max:255',
+            'phone_number' => 'nullable|string|max:50',
+            'tonnage' => 'nullable|string|max:100',
+            'cost_per_hour' => 'nullable|numeric',
+            'cost_per_km' => 'nullable|numeric',
+            'start_address' => 'nullable|string|max:255',
+            'start_lat' => 'nullable|numeric',
+            'start_lng' => 'nullable|numeric',
+            'bank_cbu' => 'nullable|digits:22',
+            'bank_owner_is_driver' => 'nullable|boolean',
+            'bank_holder_name' => 'nullable|string|max:255',
+        ]);
+
         $driver = $request->user();
-        $driver->car_make = $request->car_make;
-        $driver->car_model = $request->car_model;
-        $driver->city = $request->city;
-        $driver->company = $request->company;
-        $driver->license_plate = $request->license_plate;
-        $driver->phone_number = $request->phone_number;
-        $driver->tonnage = $request->tonnage;
-        $driver->cost_per_hour = $request->cost_per_hour;
-        $driver->cost_per_km = $request->cost_per_km;
+        $driver->car_make = $validated['car_make'] ?? $driver->car_make;
+        $driver->car_model = $validated['car_model'] ?? $driver->car_model;
+        $driver->city = $validated['city'] ?? $driver->city;
+        $driver->company = $validated['company'] ?? $driver->company;
+        $driver->license_plate = $validated['license_plate'] ?? $driver->license_plate;
+        $driver->phone_number = $validated['phone_number'] ?? $driver->phone_number;
+        $driver->tonnage = $validated['tonnage'] ?? $driver->tonnage;
+        $driver->cost_per_hour = $validated['cost_per_hour'] ?? $driver->cost_per_hour;
+        $driver->cost_per_km = $validated['cost_per_km'] ?? $driver->cost_per_km;
+
+        if ($request->has('start_address')) {
+            $driver->start_address = $request->start_address;
+        }
+
+        if ($request->has('start_lat')) {
+            $driver->start_lat = $request->start_lat;
+        }
+
+        if ($request->has('start_lng')) {
+            $driver->start_lng = $request->start_lng;
+        }
+
+        if (array_key_exists('bank_cbu', $validated)) {
+            $driver->bank_cbu = $validated['bank_cbu'];
+            $driver->bank_alias = $validated['bank_cbu'];
+            $driver->bank_cvu = null;
+        }
+
+        if (array_key_exists('bank_owner_is_driver', $validated)) {
+            $driver->bank_owner_is_driver = filter_var($validated['bank_owner_is_driver'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+            if ($driver->bank_owner_is_driver === null) {
+                $driver->bank_owner_is_driver = true;
+            }
+        }
+
+        if (array_key_exists('bank_holder_name', $validated)) {
+            $driver->bank_holder_name = $validated['bank_holder_name'] ?: null;
+        }
+
+        if ($driver->bank_owner_is_driver && empty($validated['bank_holder_name'])) {
+            $driver->bank_holder_name = null;
+        }
+
         $driver->update();
+
+        if ($driver->bank_cbu) {
+            DriverService::syncBankDataWithPersonal($driver);
+        }
 
         return response()->json([
             'success' => true,

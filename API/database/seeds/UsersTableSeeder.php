@@ -31,7 +31,20 @@ class UsersTableSeeder extends Seeder
             ]
         ];
 
-        DB::table('users')->insert($users);
+        foreach ($users as $user) {
+            $timestamp = now();
+
+            $payload = array_merge($user, ['updated_at' => $timestamp]);
+            $updated = DB::table('users')
+                ->where('email', $user['email'])
+                ->update($payload);
+
+            if ($updated === 0) {
+                DB::table('users')->insert(array_merge($payload, [
+                    'created_at' => $timestamp,
+                ]));
+            }
+        }
 
         if (! app()->bound('ChatKit')) {
             return;

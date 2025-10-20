@@ -43,3 +43,27 @@ mat-form-field{
 .p-4 {
   padding: 2rem;
 }
+
+.sidebar-brand {
+  padding: 24px 16px 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sidebar-brand__logo {
+  width: 100%;
+  max-width: 140px;
+  height: auto;
+}
+
+.main-sidebar .sidebar {
+  padding-top: 0;
+}
+
+.main-sidebar {
+  padding-top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}

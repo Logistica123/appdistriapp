@@ -70,7 +70,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('fuel-control-images/{fuelControlImage}/image', 'FuelControlImageController@getImage');
 
     // CHATKIT CONTROLLER, HELP CONTROLLER
-    Route::get('chatkit/drivers/{driver}', 'ChatKitController@checkIfDriverRoomExists');
+    // Route disabled: legacy ChatKit controller removed from codebase.
+    // Route::get('chatkit/drivers/{driver}', 'ChatKitController@checkIfDriverRoomExists');
 
     //DOCUMENT FILE CONTROLLER
     Route::get('document-files/{documentFile}/download', 'DocumentFileController@download');
@@ -91,6 +92,20 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('notifications', 'NotificationController@index');
     Route::get('notifications/count', 'NotificationController@getNotificationsCount');
     Route::post('notifications', 'NotificationController@sendNotification');
+
+    // BENEFIT CONTROLLER
+    Route::get('benefits', 'BenefitController@index');
+    Route::post('benefits', 'BenefitController@store');
+    Route::get('benefits/{benefit}', 'BenefitController@show');
+    Route::put('benefits/{benefit}', 'BenefitController@update');
+    Route::delete('benefits/{benefit}', 'BenefitController@destroy');
+
+    // COMPLAINTS
+    Route::get('complaints', 'ComplaintController@index');
+    Route::put('complaints/{complaint}/status', 'ComplaintController@updateStatus');
+
+    // INSURANCE REQUESTS
+    Route::get('insurance-requests', 'InsuranceRequestController@index');
 
     //OPERATION CONTROL CONTROLLER
     Route::get('operation-controls/month/{month}/year/{year}', 'OperationControlController@index');
@@ -135,4 +150,3 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('withdrawal-requests/month/{month}/year/{year}', 'WithdrawalRequestController@index');
     Route::get('withdrawal-requests/download/{month}/{year}/{time}', 'WithdrawalRequestController@export');
 });
-

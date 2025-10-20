@@ -11,13 +11,13 @@
   <div *ngIf="driver">
     <div class="ion-margin-top">
       <img src="assets/images/default_profile_img.png" alt="profile_img"
-           *ngIf="filesSrc.length <=0 && !driver?.has_profile_img" (click)="pickImage()">
+           *ngIf="filesSrc.length <= 0 && !driver?.has_profile_img" (click)="pickImage()">
 
       <img [src]="filesSrc" alt="profile_img"
            *ngIf="filesSrc.length > 0" (click)="pickImage()">
 
       <img [src]="profileImg" alt="profile_img"
-           *ngIf="filesSrc.length <=0 && driver?.has_profile_img && profileImg" (click)="pickImage()">
+           *ngIf="filesSrc.length <= 0 && driver?.has_profile_img && profileImg" (click)="pickImage()">
     </div>
 
     <div class="ion-text-center ion-margin" *ngIf="filesSrc.length > 0">
@@ -57,100 +57,45 @@
 
     <ion-grid class="profile-data">
       <ion-row>
-        <ion-col size="6">
-          Ciudad
-        </ion-col>
-        <ion-col size="6">
-          {{driver?.city}}
+        <ion-col size="6">Ciudad</ion-col>
+        <ion-col size="6">{{driver?.city}}</ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="6">Teléfono</ion-col>
+        <ion-col size="6">{{driver?.phone_number}}</ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="6">CBU</ion-col>
+        <ion-col size="6" class="break-word">{{driver?.bank_cbu || 'Sin registrar'}}</ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="6">Titular</ion-col>
+        <ion-col size="6">{{driver?.bank_owner_is_driver ? 'Conductor' : (driver?.bank_holder_name || 'No informado')}}
         </ion-col>
       </ion-row>
 
       <ion-row>
-        <ion-col size="6">
-          Teléfono
-        </ion-col>
-        <ion-col size="6">
-          {{driver?.phone_number}}
-        </ion-col>
+        <ion-col size="6">Empresa</ion-col>
+        <ion-col size="6">{{driver?.company || 'Sin registrar'}}</ion-col>
       </ion-row>
 
       <ion-row>
-        <ion-col size="6">
-          Empresa
-        </ion-col>
-        <ion-col size="6">
-          {{driver?.company}}
-        </ion-col>
-      </ion-row>
-
-      <ion-row>
-        <ion-col size="6">
-          Valor por hora
-        </ion-col>
-        <ion-col size="6">
-          {{driver?.cost_per_hour}}
-        </ion-col>
-      </ion-row>
-
-      <ion-row>
-        <ion-col size="6">
-          Valor por kilómetro
-        </ion-col>
-        <ion-col size="6">
-          {{driver?.cost_per_km}}
-        </ion-col>
-      </ion-row>
-
-      <ion-row>
-        <ion-col size="6">
-          Marca unidad
-        </ion-col>
-        <ion-col size="6">
-          {{driver?.car_make}}
-        </ion-col>
-      </ion-row>
-
-      <ion-row>
-        <ion-col size="6">
-          Modelo unidad
-        </ion-col>
-        <ion-col size="6">
-          {{driver?.car_model}}
-        </ion-col>
-      </ion-row>
-
-      <ion-row>
-        <ion-col size="6">
-          Tonelaje
-        </ion-col>
-        <ion-col size="6">
-          {{driver?.tonnage}}
-        </ion-col>
-      </ion-row>
-
-      <ion-row>
-        <ion-col size="6">
-          Matrícula
-        </ion-col>
-        <ion-col size="6">
-          {{driver?.license_plate}}
-        </ion-col>
+        <ion-col size="6">Matrícula</ion-col>
+        <ion-col size="6">{{driver?.license_plate || 'Sin registrar'}}</ion-col>
       </ion-row>
     </ion-grid>
 
-    <ion-item>
-      <ion-label>
-        <p class="distance-value">{{distance}} km.</p>
-        <p class="distance-text">Distancia cubierta</p>
-      </ion-label>
-    </ion-item>
+    <div class="metric-card">
+      <p class="distance-value">{{distance}} km.</p>
+      <p class="distance-text">Distancia cubierta</p>
+    </div>
 
-    <ion-item>
-      <ion-label>
-        <p class="distance-value">{{duration}} h.</p>
-        <p class="distance-text">Tiempo cubierto</p>
-      </ion-label>
-    </ion-item>
+    <div class="metric-card metric-card--alt">
+      <p class="distance-value">{{duration}} h.</p>
+      <p class="distance-text">Tiempo cubierto</p>
+    </div>
   </div>
 </ion-content>
-

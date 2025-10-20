@@ -1,0 +1,50 @@
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  color: var(--ion-color-medium);
+
+  ion-icon {
+    font-size: 64px;
+    margin-bottom: 16px;
+    color: var(--ion-color-primary);
+  }
+}
+
+.type-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: var(--complaint-type-pill-background);
+  color: var(--complaint-type-pill-color);
+  margin-bottom: 6px;
+}
+
+.status {
+  font-weight: 600;
+  margin-top: 4px;
+
+  &.open {
+    color: var(--ion-color-warning);
+  }
+
+  &.in_progress {
+    color: var(--ion-color-medium);
+  }
+
+  &.resolved {
+    color: var(--ion-color-success);
+  }
+}
+
+.date {
+  font-size: 0.8rem;
+  color: var(--ion-color-medium);
+}

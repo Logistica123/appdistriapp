@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Nuevo reclamo</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="form">
+    <ion-list lines="none">
+      <ion-item>
+        <ion-label position="stacked">Tipo de reclamo</ion-label>
+        <ion-select
+          formControlName="type"
+          placeholder="Seleccionar"
+          interface="alert"
+          cancelText="Cancelar"
+          okText="Aceptar">
+          <ion-select-option *ngFor="let option of complaintTypes" [value]="option.value">
+            {{ option.label }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-note color="danger" *ngIf="form.controls.type.invalid && form.controls.type.touched">
+        Seleccioná un tipo de reclamo.
+      </ion-note>
+      <ion-item>
+        <ion-label position="stacked">Mensaje</ion-label>
+        <ion-textarea formControlName="message" autoGrow="true"></ion-textarea>
+      </ion-item>
+      <ion-note color="danger" *ngIf="form.controls.message.invalid && form.controls.message.touched">
+        El mensaje es obligatorio y debe tener al menos 5 caracteres.
+      </ion-note>
+    </ion-list>
+  </form>
+
+  <div class="ion-padding">
+    <ion-button expand="block" (click)="submit()" [disabled]="submitting">
+      <ion-spinner slot="start" *ngIf="submitting"></ion-spinner>
+      Enviar
+    </ion-button>
+  </div>
+</ion-content>

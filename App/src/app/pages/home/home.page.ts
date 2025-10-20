@@ -44,6 +44,10 @@ export class HomePage implements OnInit {
     this.navController.navigateForward('notification-list');
   }
 
+  navigateToInsurancePage() {
+    this.navController.navigateForward('insurance');
+  }
+
   navigateToSuggestFormPage() {
     this.navController.navigateForward('suggestion-form');
   }

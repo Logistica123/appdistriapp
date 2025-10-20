@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ModalController} from '@ionic/angular';
-import {TransactionService} from '../../../services/v2/transaction.service';
+import {WithdrawalRequestService} from '../../../services/v1/withdrawal-request.service';
 
 @Component({
   selector: 'app-wallet-withdrawal-request-form',
@@ -14,7 +14,7 @@ export class WalletWithdrawalRequestFormPage implements OnInit {
   submitting = false;
 
   constructor(private formBuilder: FormBuilder,
-              private transactionService: TransactionService,
+              private withdrawalRequestService: WithdrawalRequestService,
               private modalController: ModalController) {
     this.form = this.formBuilder.group({
       type: ['', Validators.required],
@@ -37,7 +37,7 @@ export class WalletWithdrawalRequestFormPage implements OnInit {
   storeWithdrawalRequest() {
     this.submitting = true;
     const body = this.setBody();
-    this.transactionService.storeWithdrawalRequest(body)
+    this.withdrawalRequestService.storeWithdrawalRequest(body)
       .subscribe((response: any) => {
         this.submitting = false;
         this.form.reset();

@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ModalController} from '@ionic/angular';
 import {Driver} from '../../../interfaces/Driver';
 import {DriverService} from '../../../services/v1/driver.service';
-import {ModalController} from '@ionic/angular';
 
 @Component({
   selector: 'app-profile-form',
@@ -20,13 +20,11 @@ export class ProfileFormPage implements OnInit {
     this.form = this.formBuilder.group({
       city: ['', Validators.required],
       phone_number: ['', Validators.required],
-      company: ['', Validators.required],
-      car_make: ['', Validators.required],
-      car_model: ['', Validators.required],
-      tonnage: ['', Validators.required],
+      bank_cbu: ['', Validators.pattern('^(\\s*|\\d{22})$')],
+      bank_owner_is_driver: [true],
+      bank_holder_name: ['', Validators.maxLength(255)],
+      company: [''],
       license_plate: ['', Validators.required],
-      cost_per_km: ['', Validators.required],
-      cost_per_hour: ['', Validators.required],
     });
   }
 
@@ -46,7 +44,7 @@ export class ProfileFormPage implements OnInit {
   updateProfile() {
     const body = this.setBody();
     this.driverService.updateProfile(body)
-      .subscribe((response: any) => {
+      .subscribe(() => {
         this.dismiss(true);
       });
   }
@@ -55,12 +53,10 @@ export class ProfileFormPage implements OnInit {
     this.form.controls.phone_number.setValue(this.driver.phone_number);
     this.form.controls.city.setValue(this.driver.city);
     this.form.controls.company.setValue(this.driver.company);
-    this.form.controls.car_make.setValue(this.driver.car_make);
-    this.form.controls.car_model.setValue(this.driver.car_model);
-    this.form.controls.tonnage.setValue(this.driver.tonnage);
+    this.form.controls.bank_cbu.setValue(this.driver.bank_cbu || '');
+    this.form.controls.bank_owner_is_driver.setValue(this.driver.bank_owner_is_driver !== undefined ? this.driver.bank_owner_is_driver : true);
+    this.form.controls.bank_holder_name.setValue(this.driver.bank_holder_name || '');
     this.form.controls.license_plate.setValue(this.driver.license_plate);
-    this.form.controls.cost_per_hour.setValue(this.driver.cost_per_hour);
-    this.form.controls.cost_per_km.setValue(this.driver.cost_per_km);
   }
 
   setBody() {
@@ -68,12 +64,10 @@ export class ProfileFormPage implements OnInit {
       city: this.form.value.city,
       phone_number: this.form.value.phone_number,
       company: this.form.value.company,
-      car_make: this.form.value.car_make,
-      car_model: this.form.value.car_model,
-      tonnage: this.form.value.tonnage,
       license_plate: this.form.value.license_plate,
-      cost_per_hour: this.form.value.cost_per_hour,
-      cost_per_km: this.form.value.cost_per_km,
+      bank_cbu: this.form.value.bank_cbu ? this.form.value.bank_cbu.replace(/\s+/g, '') : null,
+      bank_owner_is_driver: this.form.value.bank_owner_is_driver,
+      bank_holder_name: this.form.value.bank_owner_is_driver ? null : (this.form.value.bank_holder_name ? this.form.value.bank_holder_name.trim() : null),
     };
   }
 
@@ -81,4 +75,11 @@ export class ProfileFormPage implements OnInit {
     this.modalController.dismiss({success});
   }
 
+  onBankOwnerToggle(event: any) {
+    if (event?.detail?.checked) {
+      this.form.controls.bank_holder_name.setValue('');
+    }
+  }
+
 }
+

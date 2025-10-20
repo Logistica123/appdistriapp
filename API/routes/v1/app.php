@@ -45,6 +45,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //DRIVER GEOPOSITION CONTROLLER
     Route::post('driver-geopositions', 'DriverGeopositionController@store');
 
+    // COMPLAINTS
+    Route::get('complaints', 'ComplaintController@index');
+    Route::post('complaints', 'ComplaintController@store');
+
     //FUEL CONTROL CONTROLLER
     Route::get('fuel-controls/month/{month}/year/{year}', 'FuelControlController@getFuelControlsByMonthAndYear');
     Route::post('fuel-controls', 'FuelControlController@store');
@@ -55,7 +59,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('fuel-control-images', 'FuelControlImageController@store');
 
     //HELP CONTROLLER
-    Route::get('help', 'ChatKitController@checkChatStatus');
+    // Route disabled: ChatKit backend removed from codebase.
+    // Route::get('help', 'ChatKitController@checkChatStatus');
 
     //JOURNEY CONTROLLER
     Route::get('journeys', 'JourneyController@index');
@@ -73,6 +78,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //NOTIFICATION CONTROLLER
     Route::get('notifications', 'NotificationController@index');
+
+    // BENEFIT CONTROLLER
+    Route::get('benefits', 'BenefitController@index');
 
     //OPERATION CONTROL CONTROLLER
     Route::get('operation-controls/month/{month}/year/{year}', 'OperationControlController@getOperationControlsByMonthAndYear');
@@ -131,8 +139,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('uploaded-documents/{uploadedDocument}', 'UploadedDocumentController@delete');
 
     //WITHDRAWAL REQUEST CONTROLLER
-//    Route::get('withdrawal-requests', 'WithdrawalRequestController@index');
-//    Route::post('withdrawal-requests', 'WithdrawalRequestController@store');
+    Route::get('withdrawal-requests', 'WithdrawalRequestController@index');
+    Route::post('withdrawal-requests', 'WithdrawalRequestController@store');
 
     // LOGGING ROUTES
     Route::post('directions-route-request', function () {

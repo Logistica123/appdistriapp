@@ -14,14 +14,6 @@ class TransactionController extends Controller
 {
     public function index(Request $request)
     {
-        $driver = $request->user();
-
-        if ($driver->id !== 2 && $driver->id !== 4) {
-            return response()->json([
-                'custom_message' => 'Módulo no disponible'
-            ], 400);
-        }
-
         $transactions = TransactionService::getDriverTransactions($request->user());
         $amount = TransactionService::getDriverTransactionsAmount($request->user());
 

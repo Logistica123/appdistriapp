@@ -1,0 +1,168 @@
+.benefit-form .form-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 24px;
+}
+
+.benefit-form .form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.benefit-form .field-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.benefit-form .field-row mat-form-field {
+  flex: 1 1 200px;
+}
+
+.cta-row mat-form-field:first-child {
+  max-width: 260px;
+}
+
+.benefit-form mat-slide-toggle {
+  margin-top: 8px;
+}
+
+.media-fieldset {
+  border: 1px solid rgba(9, 42, 74, 0.12);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.media-fieldset .media-label {
+  font-weight: 600;
+}
+
+.media-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.media-actions input[type="file"] {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.meta-fieldset {
+  border: 1px dashed rgba(9, 42, 74, 0.2);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.meta-fieldset legend {
+  font-weight: 600;
+  padding: 0 8px;
+}
+
+.preview-panel h3 {
+  margin-top: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.preview-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  min-height: 260px;
+  padding: 24px;
+  color: #ffffff;
+  background: linear-gradient(135deg, #0a2744, #143d63);
+  display: flex;
+  align-items: flex-end;
+}
+
+.preview-card.has-image {
+  background-size: cover;
+  background-position: center;
+}
+
+.preview-card .overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(6, 24, 41, 0.05) 0%, rgba(6, 24, 41, 0.78) 100%);
+  pointer-events: none;
+}
+
+.preview-card .content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.preview-card .badge {
+  align-self: flex-start;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+}
+
+.preview-card .icon-container {
+  font-size: 28px;
+  opacity: 0.85;
+}
+
+.preview-card .icon-container span {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.14);
+}
+
+.preview-card h4 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.preview-card .subtitle {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.preview-card .description {
+  margin: 4px 0 0;
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+.preview-panel .preview-note {
+  font-size: 12px;
+  color: #6c757d;
+  margin-top: 12px;
+}
+
+@media (max-width: 1100px) {
+  .benefit-form .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .preview-panel {
+    order: -1;
+  }
+}

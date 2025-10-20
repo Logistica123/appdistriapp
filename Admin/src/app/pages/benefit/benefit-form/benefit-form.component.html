@@ -1,0 +1,152 @@
+<h2 mat-dialog-title>{{ isEditMode ? 'Editar beneficio' : 'Nuevo beneficio' }}</h2>
+
+<form [formGroup]="form" (ngSubmit)="save()" class="benefit-form">
+  <mat-dialog-content>
+    <div class="form-grid">
+      <div class="form-fields">
+        <div class="field-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Título</mat-label>
+            <input matInput formControlName="title" required maxlength="255">
+            <mat-error *ngIf="form.get('title').hasError('required')">El título es obligatorio</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Subtítulo</mat-label>
+            <input matInput formControlName="subtitle" maxlength="255">
+          </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Descripción breve</mat-label>
+          <input matInput formControlName="short_description" maxlength="255">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Descripción</mat-label>
+          <textarea matInput formControlName="description" rows="4"></textarea>
+        </mat-form-field>
+
+        <div class="field-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Tipo de bloque</mat-label>
+            <mat-select formControlName="type">
+              <mat-option *ngFor="let option of typeOptions" [value]="option.value">
+                {{ option.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Orden de aparición</mat-label>
+            <input matInput type="number" formControlName="position" min="0">
+          </mat-form-field>
+        </div>
+
+        <div class="field-row cta-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Texto del botón</mat-label>
+            <input matInput formControlName="cta_label" maxlength="255" placeholder="Ej: Conocer más">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>URL del botón</mat-label>
+            <input matInput formControlName="cta_url" maxlength="2048" placeholder="https://">
+          </mat-form-field>
+        </div>
+
+        <mat-slide-toggle formControlName="is_active">
+          Mostrar a los conductores
+        </mat-slide-toggle>
+
+        <div class="media-fieldset">
+          <label class="media-label">Imagen o banner</label>
+          <div class="media-actions">
+            <button mat-stroked-button type="button" (click)="fileInput.click()">Subir archivo</button>
+            <button mat-stroked-button type="button" color="warn" *ngIf="imagePreview" (click)="clearSelectedImage()">
+              Quitar imagen
+            </button>
+            <input #fileInput type="file" accept="image/*" (change)="onFileSelected($event)">
+          </div>
+
+          <mat-form-field appearance="outline">
+            <mat-label>URL externa de imagen</mat-label>
+            <input matInput formControlName="external_image_url" placeholder="https://">
+            <mat-hint>Utilizá esta opción si el arte ya está alojado en otro servidor.</mat-hint>
+          </mat-form-field>
+        </div>
+
+        <fieldset class="meta-fieldset">
+          <legend>Personalización visual</legend>
+          <div class="field-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Color de fondo</mat-label>
+              <input matInput formControlName="meta_backgroundColor" placeholder="#0a2a4a">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Color destacado</mat-label>
+              <input matInput formControlName="meta_accentColor" placeholder="#ffb703">
+            </mat-form-field>
+          </div>
+          <div class="field-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Badge / etiqueta</mat-label>
+              <input matInput formControlName="meta_badge" placeholder="Nuevo">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Animación</mat-label>
+              <mat-select formControlName="meta_animation">
+                <mat-option value="">Sin animación</mat-option>
+                <mat-option value="slide-in">Desplazar</mat-option>
+                <mat-option value="fade">Aparecer</mat-option>
+                <mat-option value="pulse">Pulso</mat-option>
+                <mat-option value="float">Flotar</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <mat-form-field appearance="outline">
+            <mat-label>Icono (Ionicon opcional)</mat-label>
+            <input matInput formControlName="meta_icon" placeholder="sparkles-outline">
+          </mat-form-field>
+        </fieldset>
+      </div>
+
+      <div class="preview-panel">
+        <h3>Vista previa</h3>
+        <div class="preview-card"
+             [class.has-image]="!!imagePreview"
+             [ngStyle]="{
+               'background-image': imagePreview ? 'url(' + imagePreview + ')' : '',
+               'background-color': form.value.meta_backgroundColor || '#0a2744'
+             }">
+          <div class="overlay"></div>
+          <div class="content">
+            <div class="badge" *ngIf="form.value.meta_badge">
+              {{ form.value.meta_badge }}
+            </div>
+            <div class="icon-container" *ngIf="form.value.meta_icon">
+              <span>{{ form.value.meta_icon }}</span>
+            </div>
+            <h4>{{ form.value.title || 'Título del beneficio' }}</h4>
+            <p class="subtitle" *ngIf="form.value.subtitle">{{ form.value.subtitle }}</p>
+            <p class="description" *ngIf="form.value.short_description">
+              {{ form.value.short_description }}
+            </p>
+            <button mat-raised-button color="accent" *ngIf="form.value.cta_label">
+              {{ form.value.cta_label }}
+            </button>
+          </div>
+        </div>
+        <p class="preview-note">
+          Esta vista previa es ilustrativa. El diseño final se adapta automáticamente al layout seleccionado en la app.
+        </p>
+      </div>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="close()">Cancelar</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="loading">
+      {{ loading ? 'Guardando...' : 'Guardar' }}
+    </button>
+  </mat-dialog-actions>
+</form>

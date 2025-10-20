@@ -42,6 +42,17 @@ class JourneyController extends Controller
     public function store(Request $request)
     {
         $driver = $request->user();
+        $originLat = $driver->start_lat ?? $request->lat;
+        $originLng = $driver->start_lng ?? $request->lng;
+
+        if ($originLat === null || $originLng === null) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Origin coordinates are required',
+                'custom_message' => 'No se pudo determinar el punto de partida'
+            ], 422);
+        }
+
         $journey = Journey::driverJourneys($driver)
             ->whereType($request->type)
             ->todayJourneys()
@@ -51,9 +62,13 @@ class JourneyController extends Controller
         if (!$journey) {
             $journey = new Journey();
             $journey->type = $request->type;
-            $journey->origin_lat = $request->lat;
-            $journey->origin_lng = $request->lng;
+            $journey->origin_lat = $originLat;
+            $journey->origin_lng = $originLng;
             $journey->driver_id = $driver->id;
+            $journey->save();
+        } else {
+            $journey->origin_lat = $originLat;
+            $journey->origin_lng = $originLng;
             $journey->save();
         }
 

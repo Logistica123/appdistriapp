@@ -318,6 +318,34 @@ ion-menu-button {
   white-space: normal !important;
 }
 
+html.theme-light ion-alert {
+  --background: rgba(255, 255, 255, 0.96);
+  --color: #1a2641;
+  --header-color: #1a2641;
+  --subheader-color: rgba(26, 38, 65, 0.7);
+  --button-color: rgba(66, 105, 245, 0.9);
+  --backdrop-opacity: 0.28;
+}
+
+html.theme-dark ion-alert {
+  --background: rgba(10, 16, 28, 0.96);
+  --color: #e6ecf9;
+  --header-color: #e6ecf9;
+  --subheader-color: rgba(230, 236, 249, 0.65);
+  --button-color: rgba(138, 167, 255, 0.95);
+  --border-color: rgba(230, 236, 249, 0.08);
+  --backdrop-opacity: 0.38;
+}
+
+html.theme-dark .alert-radio-label,
+html.theme-dark .alert-button {
+  color: rgba(230, 236, 249, 0.92);
+}
+
+html.theme-dark .alert-button-role-cancel {
+  color: rgba(230, 236, 249, 0.65);
+}
+
 .form-error-message {
   margin: 0;
   text-align: center;

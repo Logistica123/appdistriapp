@@ -4,6 +4,8 @@ import { ComplaintService } from '../../../services/complaint.service';
 import { Complaint } from '../../../models/Complaint';
 import { COMPLAINT_TYPE_LABELS } from '../../../constants/complaint-types';
 
+type ComplaintTypeLabels = typeof COMPLAINT_TYPE_LABELS;
+
 @Component({
   selector: 'app-complaint-list',
   templateUrl: './complaint-list.component.html',
@@ -53,6 +55,6 @@ export class ComplaintListComponent implements OnInit {
     if (!type) {
       return 'Sin tipo';
     }
-    return this.typeLabels[type as keyof typeof this.typeLabels] ?? 'Sin tipo';
+    return this.typeLabels[type as keyof ComplaintTypeLabels] ?? 'Sin tipo';
   }
 }

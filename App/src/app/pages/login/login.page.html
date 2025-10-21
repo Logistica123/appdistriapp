@@ -6,34 +6,42 @@
 
 <ion-content *ngIf="!checkingCredentials">
   <div class="header">
-    <img src="assets/logo.png" alt="DistriApp">
+    <img src="assets/distriapplogo-cropped.png" alt="DistriApp" class="header__logo">
   </div>
 
   <div class="content">
-    <form [formGroup]="signInForm">
-      <div class="form-group">
-        <input type="text" placeholder="Correo electrónico" formControlName="email" inputmode="email">
+    <div class="form-card">
+      <div class="form-card__header">
+        <span class="form-card__eyebrow">Acceso conductores</span>
+        <h2 class="form-card__title">Bienvenido a DistriApp</h2>
+        <p class="form-card__subtitle">Ingresá tus credenciales para continuar con tus entregas.</p>
       </div>
-      <div class="form-group">
-        <input type="password" placeholder="Contraseña" formControlName="password">
+
+      <form [formGroup]="signInForm" class="form-card__body">
+        <div class="input-field">
+          <ion-icon name="mail-outline"></ion-icon>
+          <input type="text" placeholder="Correo electrónico" formControlName="email" inputmode="email">
+        </div>
+        <div class="input-field">
+          <ion-icon name="lock-closed-outline"></ion-icon>
+          <input type="password" placeholder="Contraseña" formControlName="password">
+        </div>
+
+        <ion-item lines="none" class="remember-toggle">
+          <ion-label>Recordarme</ion-label>
+          <ion-checkbox formControlName="checkbox" slot="end" color="primary"></ion-checkbox>
+        </ion-item>
+      </form>
+
+      <div class="form-card__actions">
+        <button type="button" (click)="signIn()" [disabled]="!signInForm.valid">
+          INGRESAR
+        </button>
+
+        <button type="button" class="secondary" (click)="register()">
+          CREAR CUENTA
+        </button>
       </div>
-
-      <ion-item lines="none">
-        <ion-label>Recordarme</ion-label>
-        <ion-checkbox formControlName="checkbox" slot="end" color="primary"></ion-checkbox>
-      </ion-item>
-    </form>
-
-    <div class="ion-text-center ion-margin">
-      <button type="button" (click)="signIn()" [disabled]="!signInForm.valid">
-        INGRESAR
-      </button>
-    </div>
-
-    <div class="ion-text-center ion-margin">
-      <button type="button" class="secondary" (click)="register()">
-        CREAR CUENTA
-      </button>
     </div>
   </div>
 

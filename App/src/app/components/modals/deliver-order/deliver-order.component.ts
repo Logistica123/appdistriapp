@@ -121,42 +121,93 @@ export class DeliverOrderComponent implements OnInit {
     await modal.present();
   }
 
-  dismiss(success) {
+  dismiss(result: {success: boolean; saveClient?: boolean}) {
     console.log('clicking dismiss');
-    if (success) {
+    if (result.success) {
       this.order.status = 'delivered';
       this.order.status_es = 'entregada';
       this.orderService.setOrdersUpdated$(true);
     }
-    this.modalController.dismiss({success});
+    this.modalController.dismiss(result);
   }
 
-  submit() {
+  async submit() {
+    if (this.submitting) {
+      return;
+    }
     this.submitting = true;
     this.uploadedFilesIndexes = [];
     this.uploadingErrorFilesIndexes = [];
-    this.driverPosition = this.geolocationService.getDriverPosition();
 
-    this.uploadFiles().then(() => {
-      console.log('finished uploading files...');
-      const body = {
+    try {
+      await this.uploadFiles();
+      await this.ensureDriverPosition();
+
+      const coords = this.driverPosition?.coords || null;
+      const saveClient = !!this.saveClientFC.value;
+
+      if (saveClient && !coords) {
+      if (saveClient) {
+        this.toastComponent.presentToast(
+          'No se pudo obtener tu ubicación actual. Habilita el GPS para guardar el cliente.',
+          'middle',
+          3500
+        );
+        this.submitting = false;
+        return;
+      }
+      }
+
+      const body: any = {
         status: 'delivered',
-        save_client: this.saveClientFC.value,
-        lat: this.driverPosition.coords.latitude,
-        lng: this.driverPosition.coords.longitude
+        save_client: saveClient
       };
+
+      if (coords) {
+        body.lat = coords.latitude;
+        body.lng = coords.longitude;
+      }
+
       this.orderManagerService.setDeliveredOrder(this.order, body)
-        .subscribe((response: any) => {
-          this.submitting = false;
-          this.dismiss(true);
+        .subscribe({
+          next: () => {
+            this.submitting = false;
+            this.dismiss({success: true, saveClient});
+          },
+          error: (error) => {
+            console.error('Error setting delivered order', error);
+            this.submitting = false;
+            const message = error?.error?.custom_message
+              || error?.error?.message
+              || 'No se pudo registrar la entrega. Intenta nuevamente.';
+            this.toastComponent.presentToast(message, 'bottom', 3500);
+          }
         });
-    }).catch(err => {
+    } catch (err) {
+      console.error('Error during delivery submission', err);
       this.submitting = false;
-    });
+      if (err?.message) {
+        this.toastComponent.presentToast(err.message, 'middle', 3500);
+      }
+    }
   }
 
   deleteImage(i) {
     this.files.splice(i, 1);
+  }
+
+  private async ensureDriverPosition(): Promise<void> {
+    this.driverPosition = this.geolocationService.getDriverPosition();
+    if (this.driverPosition && this.driverPosition.coords) {
+      return;
+    }
+
+    try {
+      await this.geolocationService.getCurrentPosition();
+      this.driverPosition = this.geolocationService.getDriverPosition();
+    } catch (error) {
+      console.error('Unable to obtain driver position', error);
+    }
   }
 
 }

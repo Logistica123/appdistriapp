@@ -30,3 +30,15 @@ ion-item-sliding {
 .network-status {
   font-size: 0.7em;
 }
+
+:host-context(.theme-dark) {
+  ion-content {
+    --background: linear-gradient(185deg, #070f1f 0%, #0b162d 65%, #040914 100%);
+  }
+
+  ion-card,
+  ion-item-sliding {
+    box-shadow: 0 16px 32px rgba(2, 6, 16, 0.45);
+    background: transparent;
+  }
+}

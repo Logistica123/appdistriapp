@@ -48,9 +48,14 @@ class LocationController extends Controller
     public function store(Request $request)
     {
         $driver = $request->user();
-        $maxDistance = config('services.routes.max_location_distance_km', 100);
+        $maxDistance = (float) config('services.routes.max_location_distance_km', 100);
 
-        if ($driver->start_lat && $driver->start_lng && $request->lat && $request->lng) {
+        if ($maxDistance > 0
+            && $driver->start_lat
+            && $driver->start_lng
+            && $request->lat
+            && $request->lng
+        ) {
             $distance = $this->distanceInKm(
                 (float) $driver->start_lat,
                 (float) $driver->start_lng,

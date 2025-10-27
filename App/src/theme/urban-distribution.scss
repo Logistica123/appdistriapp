@@ -23,3 +23,14 @@ ion-item-option {
 .custom-date-item {
   --background: transparent;
 }
+
+:host-context(.theme-dark) {
+  ion-toolbar {
+    --background: linear-gradient(180deg, #09152a 0%, #040a16 100%);
+  }
+
+  ion-item-option {
+    --background: rgba(20, 36, 62, 0.92);
+    --color: #e6ecf9;
+  }
+}

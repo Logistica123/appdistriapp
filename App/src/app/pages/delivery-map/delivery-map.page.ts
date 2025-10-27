@@ -35,6 +35,14 @@ export class DeliveryMapPage implements OnInit, AfterViewInit, OnDestroy {
   type: string;
   markersOrders: Order[] = [];
   ordersOptimized = false;
+  showCelebration = false;
+  initialOrdersCount = 0;
+  completedOrdersCount = 0;
+  savedClientsCount = 0;
+  startTime = Date.now();
+  soundEnabled = true;
+  confettiPieces = Array.from({length: 50}, (_, index) => index);
+  celebrationSummary = {completed: 0, total: 0, saved: 0, duration: ''};
 
   // @ViewChild('deliveryMap', {static: true}) mapElement: ElementRef;
   // map: GoogleMap;
@@ -59,7 +67,22 @@ export class DeliveryMapPage implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     this.currentOrdersSubscription = this.orderService.getCurrentOrders$()
       .subscribe(orders => {
+        if (!orders) {
+          return;
+        }
         this.orders = orders;
+        if (this.initialOrdersCount === 0 && this.orders?.length) {
+          this.initialOrdersCount = this.orders.length;
+          this.startTime = Date.now();
+          this.completedOrdersCount = 0;
+          this.savedClientsCount = 0;
+        }
+        if (this.initialOrdersCount > 0) {
+          this.completedOrdersCount = this.initialOrdersCount - (this.orders?.length || 0);
+          if (this.completedOrdersCount < 0) {
+            this.completedOrdersCount = 0;
+          }
+        }
         this.ordersOptimized = false;
         console.log(this.orders);
         this.tryOptimizeOrders();
@@ -118,9 +141,12 @@ export class DeliveryMapPage implements OnInit, AfterViewInit, OnDestroy {
     await modal.present();
     const {data} = await modal.onWillDismiss();
     if (data?.success) {
+      if (data?.saveClient) {
+        this.savedClientsCount += 1;
+      }
       this.selectedOrder.status = 'delivered';
       this.selectedOrder.status_es = 'entregada';
-      this.skip();
+      this.goToNextOrder(true);
     }
   }
 
@@ -160,13 +186,7 @@ export class DeliveryMapPage implements OnInit, AfterViewInit, OnDestroy {
   }
 
   skip() {
-    this.currentOrderIndex + 1 >= this.orders.length
-      ? this.currentOrderIndex = 0
-      : this.currentOrderIndex++;
-
-    this.currentOrder = this.orders[this.currentOrderIndex];
-    this.selectedOrder = this.currentOrder;
-    this.findNearbyMarkers();
+    this.goToNextOrder(false);
   }
 
   private tryOptimizeOrders() {
@@ -194,6 +214,135 @@ export class DeliveryMapPage implements OnInit, AfterViewInit, OnDestroy {
       this.selectedOrder = this.currentOrder;
       this.ordersOptimized = true;
     }
+  }
+
+  private goToNextOrder(removeCurrent: boolean) {
+    if (!this.orders || this.orders.length === 0) {
+      return;
+    }
+
+    const currentId = this.selectedOrder?.id;
+    if (removeCurrent && currentId) {
+      const index = this.orders.findIndex(order => order.id === currentId);
+      if (index !== -1) {
+        this.orders.splice(index, 1);
+        if (index <= this.currentOrderIndex && this.currentOrderIndex > 0) {
+          this.currentOrderIndex--;
+        }
+      }
+    } else {
+      this.currentOrderIndex = (this.currentOrderIndex + 1) % this.orders.length;
+    }
+
+    if (this.orders.length === 0) {
+      this.orderService.setCurrentOrders$(this.orders.slice());
+      this.currentOrder = null;
+      this.selectedOrder = null;
+      this.markersOrders = [];
+      this.triggerCelebration();
+      return;
+    }
+
+    if (this.currentOrderIndex >= this.orders.length) {
+      this.currentOrderIndex = 0;
+    }
+
+    this.currentOrder = this.orders[this.currentOrderIndex];
+    this.selectedOrder = this.currentOrder;
+    this.findNearbyMarkers();
+    this.orderService.setCurrentOrders$(this.orders.slice());
+  }
+
+  finishDeliveries() {
+    this.showCelebration = false;
+    this.navigateBack();
+  }
+
+  private triggerCelebration() {
+    this.celebrationSummary = {
+      completed: this.completedOrdersCount,
+      total: this.initialOrdersCount,
+      saved: this.savedClientsCount,
+      duration: this.formatDuration(Date.now() - this.startTime)
+    };
+    this.showCelebration = true;
+    this.playCelebrationSound();
+  }
+
+  private playCelebrationSound() {
+    if (!this.soundEnabled) {
+      return;
+    }
+    try {
+      const AudioContext = (window as any).AudioContext || (window as any).webkitAudioContext;
+      if (!AudioContext) {
+        return;
+      }
+      const ctx = new AudioContext();
+      const endTime = ctx.currentTime + 1.8;
+
+      const melody = [
+        {freq: 523.25, start: 0, duration: 0.25},
+        {freq: 659.25, start: 0.15, duration: 0.25},
+        {freq: 783.99, start: 0.3, duration: 0.3},
+        {freq: 1046.5, start: 0.6, duration: 0.4},
+        {freq: 880.0, start: 1.0, duration: 0.5}
+      ];
+
+      melody.forEach(note => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = note.freq;
+        const startTime = ctx.currentTime + note.start;
+        const stopTime = startTime + note.duration;
+        gain.gain.setValueAtTime(0, startTime);
+        gain.gain.linearRampToValueAtTime(0.5, startTime + 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.001, stopTime);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(startTime);
+        osc.stop(stopTime);
+      });
+
+      ctx.close && setTimeout(() => ctx.close(), (endTime - ctx.currentTime) * 1000);
+    } catch (error) {
+      console.warn('Celebration sound not supported', error);
+    }
+  }
+
+  toggleSound() {
+    this.soundEnabled = !this.soundEnabled;
+  }
+
+  async shareCompletion() {
+    const message = `¡Ruta completada! ${this.completedOrdersCount}/${this.initialOrdersCount} entregas finalizadas en ${this.celebrationSummary.duration}.`;
+    try {
+      if ((navigator as any).share) {
+        await (navigator as any).share({
+          title: 'DistriApp',
+          text: message
+        });
+      } else if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(message);
+        window.alert('Resumen copiado al portapapeles');
+      } else {
+        window.alert(message);
+      }
+    } catch (error) {
+      console.warn('No se pudo compartir el resumen', error);
+    }
+  }
+
+  private formatDuration(ms: number): string {
+    const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    if (minutes === 0) {
+      return `${seconds}s`;
+    }
+    return `${minutes}m ${seconds.toString().padStart(2, '0')}s`;
   }
 
   private getOptimizedOrderSequence(): Order[] {

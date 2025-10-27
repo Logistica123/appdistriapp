@@ -24,3 +24,41 @@ ion-badge {
   display: flex;
   align-items: center;
 }
+
+:host-context(.theme-dark) {
+  ion-item {
+    --background: linear-gradient(160deg, rgba(18, 34, 58, 0.92), rgba(10, 22, 40, 0.95));
+    --color: #e6ecf9;
+    color: #e6ecf9;
+    border: 1px solid rgba(72, 118, 191, 0.2);
+    backdrop-filter: blur(6px);
+  }
+
+  ion-badge {
+    --background: rgba(255, 200, 80, 0.18);
+    --color: #ffda7a;
+    color: #ffda7a;
+  }
+
+  .index {
+    --background: linear-gradient(160deg, #1f6eb5 0%, #0d2b4f 100%);
+    background: linear-gradient(160deg, #1f6eb5 0%, #0d2b4f 100%);
+  }
+
+  ion-button[color="light"] {
+    --background: linear-gradient(140deg, #1f6eb5 0%, #0d3d78 80%);
+    --background-activated: linear-gradient(140deg, #185b9b 0%, #0a2f5e 80%);
+    --background-focused: linear-gradient(140deg, #185b9b 0%, #0a2f5e 80%);
+    --background-hover: linear-gradient(140deg, #226fc0 0%, #0f4887 80%);
+    --color: #ffffff;
+    --box-shadow: 0 12px 22px rgba(12, 38, 78, 0.45);
+  }
+
+  h6,
+  b,
+  p,
+  ion-icon,
+  ion-label {
+    color: #e6ecf9 !important;
+  }
+}

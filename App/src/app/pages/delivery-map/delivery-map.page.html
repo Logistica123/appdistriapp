@@ -26,27 +26,114 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <app-map [currentOrder]="currentOrder"
-           [nearbyOrders]="nearbyOrders"
-           [markersOrders]="markersOrders"
-           [driverPosition]="driverPosition"
-           [orders]="orders"
-           [radius]="radius"
-           (deliverOrderEvent)="deliverOrder()"
-           (notDeliverOrderEvent)="showNotDeliverOptions()"
-           (updateDeliveryOrderEvent)="showDeliveryOrderOptions()"
-           (selectOrderEvent)="selectOrder($event)">
-  </app-map>
+<ion-content fullscreen>
+  <div class="map-container">
+    <app-map [currentOrder]="currentOrder"
+             [nearbyOrders]="nearbyOrders"
+             [markersOrders]="markersOrders"
+             [driverPosition]="driverPosition"
+             [orders]="orders"
+             [radius]="radius"
+             (deliverOrderEvent)="deliverOrder()"
+             (notDeliverOrderEvent)="showNotDeliverOptions()"
+             (updateDeliveryOrderEvent)="showDeliveryOrderOptions()"
+             (selectOrderEvent)="selectOrder($event)">
+    </app-map>
 
-  <div class="ion-text-center">
-    <h6 class="ion-no-margin">
-      <b>{{selectedOrder?.location.address}}</b>
-    </h6>
-    <p class="ion-no-margin">
-      {{selectedOrder?.receiver}} ({{selectedOrder?.phone}})
-    </p>
-    <p class="ion-no-margin">{{selectedOrder?.description ? selectedOrder?.description : ' -'}}</p>
+    <div class="order-info-card" *ngIf="selectedOrder">
+      <div class="order-info-header">
+        <ion-badge [ngClass]="{
+            'status-delivered': selectedOrder?.status === 'delivered',
+            'status-pending': selectedOrder?.status === 'pending' || selectedOrder?.status === 'skipped',
+            'status-alert': selectedOrder?.status === 'not-delivered'
+          }">
+          {{selectedOrder?.status_es | uppercase}}
+        </ion-badge>
+        <span class="order-info-tag">Próxima parada</span>
+      </div>
+
+      <h2 class="order-info-title">
+        {{selectedOrder?.location?.name || selectedOrder?.location?.address}}
+      </h2>
+      <p class="order-info-address">
+        {{selectedOrder?.location?.address}}
+      </p>
+
+      <div class="order-info-meta">
+        <div class="meta-item">
+          <ion-icon name="business-outline"></ion-icon>
+          <span>{{selectedOrder?.receiver || 'Sin destinatario'}}</span>
+        </div>
+        <div class="meta-item" *ngIf="selectedOrder?.phone">
+          <ion-icon name="call-outline"></ion-icon>
+          <span>{{selectedOrder?.phone}}</span>
+        </div>
+        <div class="meta-item" *ngIf="selectedOrder?.location?.city">
+          <ion-icon name="location-outline"></ion-icon>
+          <span>{{selectedOrder?.location?.city}}</span>
+        </div>
+      </div>
+
+      <p class="order-info-notes" *ngIf="selectedOrder?.description">
+        {{selectedOrder?.description}}
+      </p>
+
+      <div class="order-info-flags">
+        <ion-chip *ngIf="selectedOrder?.id" color="light">
+          <ion-icon name="pricetag-outline"></ion-icon>
+          <ion-label>Orden #{{selectedOrder?.id}}</ion-label>
+        </ion-chip>
+        <ion-chip *ngIf="selectedOrder?.flag_color" [style.border-color]="selectedOrder?.flag_color">
+          <span class="color-dot" [style.background]="selectedOrder?.flag_color"></span>
+          <ion-label>Bandera</ion-label>
+        </ion-chip>
+      </div>
+    </div>
+  </div>
+
+  <div class="celebration-overlay" *ngIf="showCelebration">
+    <div class="confetti" aria-hidden="true">
+      <span *ngFor="let piece of confettiPieces"
+            [style.--confetti-index]="piece"
+            [style.--confetti-hue]="(piece * 37) % 360"></span>
+    </div>
+    <div class="celebration-backdrop"></div>
+    <div class="celebration-card" role="dialog" aria-modal="true" aria-label="Resumen de entregas completadas">
+      <div class="celebration-actions">
+        <ion-button fill="clear" size="small" (click)="toggleSound()" [attr.aria-pressed]="soundEnabled" aria-label="Alternar sonido">
+          <ion-icon [name]="soundEnabled ? 'volume-high' : 'volume-mute'"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear" size="small" (click)="shareCompletion()" aria-label="Compartir logro">
+          <ion-icon name="share-outline"></ion-icon>
+        </ion-button>
+      </div>
+      <div class="fireworks" aria-hidden="true">
+        <span class="firework firework-1"></span>
+        <span class="firework firework-2"></span>
+        <span class="firework firework-3"></span>
+        <span class="firework firework-4"></span>
+        <span class="firework firework-5"></span>
+      </div>
+      <h1>¡Felicitaciones!</h1>
+      <p>Completaste todas las entregas del día. ¡Gran trabajo!</p>
+      <div class="celebration-stats">
+        <div class="stat">
+          <span class="stat-label">Entregas completadas</span>
+          <span class="stat-value">{{celebrationSummary.completed}} / {{celebrationSummary.total}}</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Tiempo dedicado</span>
+          <span class="stat-value">{{celebrationSummary.duration}}</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Clientes guardados</span>
+          <span class="stat-value">{{celebrationSummary.saved}}</span>
+        </div>
+      </div>
+      <ion-button expand="block" color="primary" (click)="finishDeliveries()">
+        Volver al panel
+      </ion-button>
+    </div>
   </div>
 </ion-content>
 

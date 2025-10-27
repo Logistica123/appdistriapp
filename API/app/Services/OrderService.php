@@ -16,9 +16,12 @@ class OrderService {
             if ($request->save_client) {
                 $order->saved_client = 1;
 
-                $action = Action::where('action', 'geolocalization')->first();
-                $driver->score += $action->credits;
-                $driver->update();
+                $geoAction = Action::where('action', 'geolocalization')->first();
+                if ($geoAction) {
+                    $driver->score = ($driver->score ?? 0) + $geoAction->credits;
+                    $driver->update();
+                    $order->actions()->attach($geoAction);
+                }
 
                 $order->location->lat = $request->lat;
                 $order->location->lng = $request->lng;
@@ -27,10 +30,12 @@ class OrderService {
             }
             $order->update();
 
-            $action = Action::whereAction('delivered')->first();
-            $driver->score += $action->credits;
-            $driver->update();
-            $order->actions()->attach($action);
+            $deliveredAction = Action::whereAction('delivered')->first();
+            if ($deliveredAction) {
+                $driver->score = ($driver->score ?? 0) + $deliveredAction->credits;
+                $driver->update();
+                $order->actions()->attach($deliveredAction);
+            }
         });
     }
 }

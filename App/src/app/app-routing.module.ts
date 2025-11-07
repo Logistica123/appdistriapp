@@ -51,6 +51,11 @@ const routes: Routes = [
       .then(m => m.BenefitsPageModule)
   },
   {
+    path: 'reward-summary',
+    loadChildren: () => import('./pages/rewards/reward-summary/reward-summary.module')
+      .then(m => m.RewardSummaryPageModule)
+  },
+  {
     path: 'suggestion-form',
     loadChildren: () => import('./pages/suggestion-form/suggestion-form.module')
       .then(m => m.SuggestionFormPageModule)
@@ -62,8 +67,7 @@ const routes: Routes = [
   },
   {
     path: 'document-form',
-    loadChildren: () => import('./pages/maintenance/document-form/document-form.module')
-      .then(m => m.DocumentFormPageModule)
+    redirectTo: 'document-list'
   },
   {
     path: 'profile',
@@ -74,11 +78,6 @@ const routes: Routes = [
     path: 'delivery-order-map',
     loadChildren: () => import('./pages/delivery-order-map/delivery-order-map.module')
       .then(m => m.DeliveryOrderMapPageModule)
-  },
-  {
-    path: 'document-file-form',
-    loadChildren: () => import('./pages/maintenance/document-file-form/document-file-form.module')
-      .then(m => m.DocumentFileFormPageModule)
   },
   {
     path: 'urban-distribution-detail',
@@ -206,6 +205,10 @@ const routes: Routes = [
   {
     path: 'register',
     loadChildren: () => import('./pages/register/register.module').then( m => m.RegisterPageModule)
+  },
+  {
+    path: 'games',
+    loadChildren: () => import('./pages/games/games.module').then(m => m.GamesPageModule)
   }
 ];
 

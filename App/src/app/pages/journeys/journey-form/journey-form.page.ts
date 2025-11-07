@@ -104,10 +104,10 @@ export class JourneyFormPage implements OnInit {
       this.form.value.address + ', ' +
       this.form.value.city;
     const country = 'Argentina';
-    this.geocodeService.mapQuestGeocode(address, country).then((result: any) => {
+    this.geocodeService.GMGeocodeAddress(address, country, this.form.value.city).then((result: any) => {
       this.showLocationMap(result.lat, result.lng);
     }).catch(err => {
-      this.geocodeService.GMGeocodeAddress(address, country).then((result: any) => {
+      this.geocodeService.mapQuestGeocode(address, country, this.form.value.city).then((result: any) => {
         this.showLocationMap(result.lat, result.lng);
       }).catch(error => {
         this.showLocationMap(this.defaultLat, this.defaultLng);

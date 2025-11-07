@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 const THEME_STORAGE_KEY = 'app-theme';
-type ThemeName = 'theme-light' | 'theme-dark';
+export type ThemeName = 'theme-light' | 'theme-dark';
 
 @Injectable({
   providedIn: 'root'
@@ -21,10 +21,23 @@ export class ThemeService {
   }
 
   toggleTheme(current: ThemeName): ThemeName {
-    const next = current === this.availableThemes[0] ? this.availableThemes[1] : this.availableThemes[0];
+    const available = this.availableThemes;
+    const index = available.indexOf(current);
+    const next = available[(index + 1) % available.length];
     this.applyTheme(next);
     this.persistTheme(next);
     return next;
+  }
+
+  setTheme(theme: ThemeName): ThemeName {
+    const next = this.isValidTheme(theme) ? theme : this.defaultTheme;
+    this.applyTheme(next);
+    this.persistTheme(next);
+    return next;
+  }
+
+  getThemes(): ThemeName[] {
+    return [...this.availableThemes];
   }
 
   private applyTheme(theme: ThemeName): void {

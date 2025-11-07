@@ -19,7 +19,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('branches', [BranchController::class, 'getActiveBranches']);
 
     //DRIVER CONTROLLER
-    Route::get('drivers/ranking', [DriverController::class, 'getRanking']);
+    Route::match(['get', 'post'], 'drivers/ranking', [DriverController::class, 'getRanking']);
     Route::get('drivers/{driver}/profile-image', [DriverController::class, 'getDriverProfileImage']);
 
     //MATERIAL CONTROLLER

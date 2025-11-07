@@ -1,0 +1,134 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Juegos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-content>
+      <ion-segment [(ngModel)]="selectedGame" (ionChange)="onGameSelectionChange($event.detail.value)">
+        <ion-segment-button value="reflex">
+          <ion-label>Reflejos</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="tetris">
+          <ion-label>Tetris</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-card-content>
+  </ion-card>
+
+  <ng-container *ngIf="selectedGame === 'reflex'">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>¡Atrapa el objetivo!</ion-card-title>
+        <ion-card-subtitle>
+          Toca el círculo antes de que desaparezca. Tenés 30 segundos.
+        </ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="scoreboard">
+          <div>
+            <span class="scoreboard__label">Puntaje</span>
+            <span class="scoreboard__value">{{ reflexScore }}</span>
+          </div>
+          <div>
+            <span class="scoreboard__label">Tiempo</span>
+            <span class="scoreboard__value">{{ reflexTimeLeft }}s</span>
+          </div>
+          <div>
+            <span class="scoreboard__label">Mejor</span>
+            <span class="scoreboard__value">{{ reflexBestScore }}</span>
+          </div>
+        </div>
+
+        <div class="actions">
+          <ion-button color="primary" (click)="startReflex()" [disabled]="reflexIsPlaying">
+            Empezar
+          </ion-button>
+          <ion-button fill="clear" color="medium" (click)="endReflex()" [disabled]="!reflexIsPlaying">
+            Terminar
+          </ion-button>
+        </div>
+
+        <div class="game-area" [class.game-area--active]="reflexIsPlaying">
+          <div class="game-area__target"
+               [ngStyle]="reflexTargetStyle"
+               (click)="hitReflexTarget()"
+               [class.game-area__target--disabled]="!reflexIsPlaying">
+          </div>
+          <div class="game-area__overlay" *ngIf="!reflexIsPlaying">
+            <p>Tocá "Empezar" y sumá puntos tocando el objetivo.</p>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
+
+  <ng-container *ngIf="selectedGame === 'tetris'">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Tetris clásico</ion-card-title>
+        <ion-card-subtitle>
+          Mové las piezas con los controles y completá líneas para sumar puntos.
+        </ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="scoreboard">
+          <div>
+            <span class="scoreboard__label">Nivel</span>
+            <span class="scoreboard__value">{{ tetrisLevel }}</span>
+          </div>
+          <div>
+            <span class="scoreboard__label">Líneas</span>
+            <span class="scoreboard__value">{{ tetrisLines }}</span>
+          </div>
+          <div>
+            <span class="scoreboard__label">Puntaje</span>
+            <span class="scoreboard__value">{{ tetrisScore }}</span>
+          </div>
+          <div>
+            <span class="scoreboard__label">Mejor</span>
+            <span class="scoreboard__value">{{ tetrisBestScore }}</span>
+          </div>
+        </div>
+
+        <div class="actions">
+          <ion-button color="primary" (click)="startTetris()" [disabled]="tetrisIsPlaying">
+            Jugar
+          </ion-button>
+          <ion-button fill="clear" color="medium" (click)="pauseTetris()" [disabled]="!tetrisIsPlaying">
+            Pausa
+          </ion-button>
+        </div>
+
+        <div class="tetris-board">
+          <div class="tetris-row" *ngFor="let row of renderedBoard">
+            <div class="tetris-cell" *ngFor="let cell of row" [ngClass]="cell"></div>
+          </div>
+          <div class="tetris-overlay" *ngIf="!tetrisIsPlaying">
+            <p>Presioná "Jugar" y usá los controles para mover las piezas.</p>
+          </div>
+        </div>
+
+        <div class="tetris-controls">
+          <ion-button fill="clear" color="medium" (click)="rotatePiece()" [disabled]="!tetrisIsPlaying">
+            <ion-icon name="refresh"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" color="medium" (click)="movePiece(-1)" [disabled]="!tetrisIsPlaying">
+            <ion-icon name="arrow-back"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" color="medium" (click)="softDrop()" [disabled]="!tetrisIsPlaying">
+            <ion-icon name="arrow-down"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" color="medium" (click)="movePiece(1)" [disabled]="!tetrisIsPlaying">
+            <ion-icon name="arrow-forward"></ion-icon>
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
+</ion-content>

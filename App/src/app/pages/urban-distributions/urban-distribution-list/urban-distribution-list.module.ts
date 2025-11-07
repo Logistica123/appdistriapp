@@ -11,6 +11,7 @@ import {UrbanDistributionOrderItemComponent} from '../urban-distribution-order-i
 import {ComponentsModule} from '../../../components/components.module';
 import {PopoverItemOptionsComponent} from '../popover-item-options/popover-item-options.component';
 import {UrbanDistributionIndicatorsComponent} from '../urban-distribution-indicators/urban-distribution-indicators.component';
+import {RouteClosureFormComponent} from '../../route-closures/route-closure-form/route-closure-form.component';
 
 @NgModule({
   imports: [
@@ -25,7 +26,8 @@ import {UrbanDistributionIndicatorsComponent} from '../urban-distribution-indica
     UrbanDistributionListPage,
     UrbanDistributionOrderItemComponent,
     PopoverItemOptionsComponent,
-    UrbanDistributionIndicatorsComponent
+    UrbanDistributionIndicatorsComponent,
+    RouteClosureFormComponent
   ]
 })
 export class UrbanDistributionListPageModule {

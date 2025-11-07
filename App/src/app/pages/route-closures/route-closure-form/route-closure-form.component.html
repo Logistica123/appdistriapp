@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Enviar hoja de ruta</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <ion-item lines="none">
+      <ion-label position="stacked">Fecha</ion-label>
+      <ion-datetime formControlName="date"
+                    displayFormat="DD MMMM YYYY"
+                    doneText="OK"
+                    cancelText="Cancelar">
+      </ion-datetime>
+    </ion-item>
+    <ion-note color="danger" *ngIf="form.controls.date.invalid && form.controls.date.touched">
+      La fecha es obligatoria
+    </ion-note>
+
+    <ion-item lines="none">
+      <ion-label position="stacked">Entregas completadas</ion-label>
+      <ion-input type="number" formControlName="deliveries" placeholder="0"></ion-input>
+    </ion-item>
+    <ion-note color="danger" *ngIf="form.controls.deliveries.invalid && form.controls.deliveries.touched">
+      Ingresá un número válido
+    </ion-note>
+
+    <ion-item lines="none">
+      <ion-label position="stacked">Notas</ion-label>
+      <ion-textarea formControlName="notes" autoGrow="true" placeholder="Comentarios opcionales"></ion-textarea>
+    </ion-item>
+
+    <div class="upload-card">
+      <div class="upload-card__header">
+        <div>
+          <p class="upload-card__title">Hoja de ruta (foto o PDF)</p>
+          <small>Adjunta una foto legible de la hoja completada.</small>
+        </div>
+        <ion-button fill="outline" size="small" (click)="fileInput.click()">
+          <ion-icon slot="start" name="cloud-upload"></ion-icon>
+          Adjuntar
+        </ion-button>
+        <input hidden type="file" accept="image/*,application/pdf" #fileInput (change)="onFileChange($event)">
+      </div>
+
+      <div class="upload-card__preview" *ngIf="evidencePreview">
+        <img [src]="evidencePreview" alt="Preview hoja de ruta" *ngIf="evidencePreview">
+        <ion-button fill="clear" color="danger" size="small" (click)="removeEvidence()">
+          Quitar archivo
+        </ion-button>
+      </div>
+      <p class="upload-card__empty" *ngIf="!evidencePreview">No hay archivo seleccionado.</p>
+    </div>
+
+    <ion-button expand="block" type="submit" [disabled]="submitting">
+      <ion-spinner slot="start" *ngIf="submitting"></ion-spinner>
+      Enviar hoja de ruta
+    </ion-button>
+  </form>
+</ion-content>

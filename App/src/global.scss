@@ -69,10 +69,10 @@
   --toolbar-text-color: #1a2641;
   --toolbar-icon-color: #1a2641;
   --menu-bottom-offset: 68px;
-  --tab-bar-background: linear-gradient(180deg, #405aed 0%, #2436a4 100%);
-  --tab-bar-color: rgba(226, 232, 255, 0.78);
-  --tab-bar-color-selected: #ffffff;
-  --tab-bar-shadow: rgba(32, 44, 92, 0.38);
+  --tab-bar-background: linear-gradient(180deg, #dde4fb 0%, #cdd6f7 100%);
+  --tab-bar-color: rgba(26, 38, 65, 0.62);
+  --tab-bar-color-selected: #1a2641;
+  --tab-bar-shadow: rgba(26, 38, 65, 0.16);
 }
 
 html.theme-light,
@@ -118,10 +118,10 @@ body.theme-light {
   --toolbar-text-color: #1a2641;
   --toolbar-icon-color: #1a2641;
   --menu-bottom-offset: 68px;
-  --tab-bar-background: linear-gradient(180deg, #405aed 0%, #2436a4 100%);
-  --tab-bar-color: rgba(226, 232, 255, 0.78);
-  --tab-bar-color-selected: #ffffff;
-  --tab-bar-shadow: rgba(32, 44, 92, 0.38);
+  --tab-bar-background: linear-gradient(180deg, #f4f7ff 0%, #e4ebff 100%);
+  --tab-bar-color: rgba(26, 38, 65, 0.62);
+  --tab-bar-color-selected: #1a2641;
+  --tab-bar-shadow: rgba(26, 38, 65, 0.12);
 }
 
 html.theme-dark,
@@ -186,6 +186,21 @@ body.theme-light {
 }
 
 body.theme-dark {
+  --ion-background-color: var(--app-background);
+  --ion-text-color: var(--app-text-color);
+}
+
+body.theme-boca {
+  --ion-background-color: var(--app-background);
+  --ion-text-color: var(--app-text-color);
+}
+
+body.theme-river {
+  --ion-background-color: var(--app-background);
+  --ion-text-color: var(--app-text-color);
+}
+
+body.theme-mario {
   --ion-background-color: var(--app-background);
   --ion-text-color: var(--app-text-color);
 }
@@ -384,104 +399,72 @@ __________________________________________________________
 CUSTOM MODALS
 ___________________________________________________________
  */
+.modal-location-form .modal-wrapper,
+.modal-show-delivery-order-map .modal-wrapper,
+.modal-document-form .modal-wrapper,
+.modal-document-image-view .modal-wrapper,
+.modal-show-location-map .modal-wrapper,
+.modal-update-phone-number .modal-wrapper,
+.modal-update-password .modal-wrapper,
+.modal-edit-urban-distribution .modal-wrapper,
+.modal-deliver-order .modal-wrapper,
+.modal-not-deliver-options .modal-wrapper,
+.modal-alert .modal-wrapper,
+.modal-complaint-form .modal-wrapper,
+.modal-default .modal-wrapper {
+  position: absolute;
+  display: block;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 28px 64px rgba(13, 24, 46, 0.35);
+}
+
 .modal-location-form .modal-wrapper {
   height: 70%;
   top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
   width: 80%;
-  position: absolute;
-  display: block;
-  border-radius: 10px;
 }
 
-.modal-show-delivery-order-map .modal-wrapper {
-  height: 80%;
-  top: 10%;
+.modal-show-delivery-order-map .modal-wrapper,
+.modal-document-form .modal-wrapper,
+.modal-document-image-view .modal-wrapper,
+.modal-show-location-map .modal-wrapper,
+.modal-not-deliver-options .modal-wrapper {
+  height: 82%;
+  top: 9%;
   width: 90%;
-  position: absolute;
-  display: block;
-  border-radius: 10px;
-}
-
-.modal-document-form .modal-wrapper {
-  height: 85%;
-  top: 10%;
-  width: 90%;
-  position: absolute;
-  display: block;
-  border-radius: 10px;
-}
-
-.modal-document-image-view .modal-wrapper {
-  height: 80%;
-  top: 10%;
-  width: 90%;
-  position: absolute;
-  display: block;
-  border-radius: 10px;
-}
-
-.modal-show-location-map .modal-wrapper {
-  height: 85%;
-  top: 10%;
-  width: 90%;
-  position: absolute;
-  display: block;
-  border-radius: 10px;
 }
 
 .modal-update-phone-number .modal-wrapper {
-  height: 30%;
+  height: 32%;
   top: 15%;
-  width: 80%;
-  position: absolute;
-  display: block;
-  border-radius: 10px;
+  width: 78%;
 }
 
 .modal-update-password .modal-wrapper {
   height: 70%;
   top: 15%;
   width: 85%;
-  position: absolute;
-  display: block;
-  border-radius: 10px;
 }
 
 .modal-edit-urban-distribution .modal-wrapper {
-  height: 50%;
+  height: 52%;
   top: 15%;
   width: 90%;
-  position: absolute;
-  display: block;
-  border-radius: 10px;
 }
 
 .modal-deliver-order .modal-wrapper {
   height: 80%;
   top: 15%;
   width: 90%;
-  position: absolute;
-  display: block;
-  border-radius: 10px;
-}
-
-///
-.modal-not-deliver-options .modal-wrapper {
-  height: 85%;
-  top: 10%;
-  width: 90%;
-  position: absolute;
-  display: block;
-  border-radius: 10px;
 }
 
 .modal-alert .modal-wrapper {
   height: 50%;
-  top: 10%;
-  width: 90%;
-  position: absolute;
-  display: block;
-  border-radius: 10px;
+  top: 12%;
+  width: 88%;
 }
 
 /*
@@ -500,6 +483,34 @@ ___________________________________________________________
 ion-button {
   --border-radius: 10px !important;
 }
+
+ion-tab-bar.app-tab-bar {
+  --background: var(--tab-bar-background);
+  --color: var(--tab-bar-color);
+  --color-selected: var(--tab-bar-color-selected);
+  box-shadow: 0 -4px 12px var(--tab-bar-shadow);
+}
+
+ion-modal.profile-form-modal {
+  --width: min(780px, 95vw);
+  --height: 80vh;
+  --max-height: 90vh;
+  --border-radius: 28px;
+  --box-shadow: 0 32px 70px rgba(15, 31, 74, 0.28);
+  --backdrop-opacity: 0.45;
+}
+
+ion-modal.profile-form-modal::part(content) {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+}
+
+ion-modal.profile-form-modal ion-content {
+  --height: 100%;
+}
+
 
 /*
 __________________________________________________________

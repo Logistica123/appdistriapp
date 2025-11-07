@@ -6,7 +6,7 @@ describe('DriverService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: DriverService = TestBed.get(DriverService);
+    const service: DriverService = TestBed.inject(DriverService);
     expect(service).toBeTruthy();
   });
 });

@@ -26,6 +26,7 @@ import {toPromise} from '../../../utils/to-promise';
 import {Driver} from '../../../interfaces/Driver';
 import {DriverService} from '../../../services/v1/driver.service';
 import {Subscription} from 'rxjs';
+import {RouteClosureFormComponent} from '../../route-closures/route-closure-form/route-closure-form.component';
 
 @Component({
   selector: 'app-urban-distribution-list',
@@ -153,6 +154,21 @@ export class UrbanDistributionListPage implements OnInit, AfterViewInit, OnDestr
     }
   }
 
+  async openRouteClosureForm() {
+    const modal = await this.modalController.create({
+      component: RouteClosureFormComponent
+    });
+    await modal.present();
+    const {data} = await modal.onWillDismiss();
+    if (data?.success) {
+      this.toastComponent.presentToast(
+        'Hoja de ruta enviada. Sumaremos tus puntos en breve.',
+        'bottom',
+        3500
+      );
+    }
+  }
+
   onCsvSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     const file = input.files && input.files.length > 0 ? input.files[0] : null;
@@ -241,11 +257,11 @@ export class UrbanDistributionListPage implements OnInit, AfterViewInit, OnDestr
       const country = (row.country || row.pais || 'Argentina').toString().trim();
       const query = `${address}, ${city}`;
       try {
-        const coords = await this.geocodeService.mapQuestGeocode(query, country);
+        const coords = await this.geocodeService.GMGeocodeAddress(query, country, city);
         lat = coords.lat;
         lng = coords.lng;
       } catch (error) {
-        const coords = await this.geocodeService.GMGeocodeAddress(query, country);
+        const coords = await this.geocodeService.mapQuestGeocode(query, country, city);
         lat = coords.lat;
         lng = coords.lng;
       }

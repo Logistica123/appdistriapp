@@ -9,7 +9,16 @@
     <ion-menu contentId="main-content" type="overlay">
       <ion-header class="menu-header" translucent="false">
         <div class="menu-header__inner">
-          <img src="assets/logo-empresa.png" alt="Distribución Urbana" class="menu-header__logo" />
+          <ion-buttons slot="start" class="menu-header__close"
+                       *ngIf="isMobile">
+            <ion-button fill="clear" size="small" (click)="closeMenu()">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+          <img [src]="menuLogoSrc"
+               alt="Logo de la app"
+               class="menu-header__logo"
+               (error)="onMenuLogoError()">
         </div>
       </ion-header>
 

@@ -182,17 +182,27 @@ export class UrbanDistributionFormPage implements OnInit {
 
   geocodeAddress() {
     this.geocoding = true;
-    const address = this.form.value.location_name ? (this.form.value.address + ', ') : '' +
-      (this.form.value.address ? (this.form.value.address + ', ') : '') +
-      (this.form.value.b ? (`barrio ${this.form.value.b}, `) : '') +
-      (this.form.value.city ? this.form.value.city : '');
+    const addressParts = [];
+    if (this.form.value.location_name) {
+      addressParts.push(this.form.value.location_name);
+    }
+    if (this.form.value.address) {
+      addressParts.push(this.form.value.address);
+    }
+    if (this.form.value.b) {
+      addressParts.push(`barrio ${this.form.value.b}`);
+    }
+    if (this.form.value.city) {
+      addressParts.push(this.form.value.city);
+    }
+    const address = addressParts.join(', ');
     const country = 'Argentina';
     console.log(address);
-    this.geocodeService.mapQuestGeocode(address, country).then((result: any) => {
+    this.geocodeService.GMGeocodeAddress(address, country, this.form.value.city).then((result: any) => {
       this.geocoding = false;
       this.showLocationMap(result.lat, result.lng);
     }).catch(err => {
-      this.geocodeService.GMGeocodeAddress(address, country).then((result: any) => {
+      this.geocodeService.mapQuestGeocode(address, country, this.form.value.city).then((result: any) => {
         this.geocoding = false;
         this.showLocationMap(result.lat, result.lng);
       }).catch(error => {

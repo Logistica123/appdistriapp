@@ -1,13 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AlertController, ModalController} from '@ionic/angular';
-import {Router} from '@angular/router';
-import {DocumentService} from '../../../services/v1/document.service';
-import {UploadedDocument} from '../../../interfaces/UploadedDocument';
-import {DocumentFileImageDetailComponent} from '../../../components/modals/document-file-image-detail/document-file-image-detail.component';
-import {DocumentFile} from '../../../interfaces/DocumentFile';
-import {HttpUploadFileService} from '../../../services/utils/http-upload-file.service';
-import {AuthService} from '../../../services/v1/auth.service';
-import {ToastComponent} from '../../../components/toast/toast.component';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {DocumentService, PersonalLiquidacion, PersonalPersonaSummary} from '../../../services/v1/document.service';
+import {Subscription} from 'rxjs';
+import {Storage} from '@ionic/storage';
 
 @Component({
   selector: 'app-document-list',
@@ -15,31 +9,32 @@ import {ToastComponent} from '../../../components/toast/toast.component';
   styleUrls: ['./document-list.page.scss'],
 })
 export class DocumentListPage implements OnInit, OnDestroy {
-  uploadedDocuments: UploadedDocument[] = [];
-  loading = true;
-  authToken: string;
-  downloading = false;
-  submitting = false;
-  updatedDocumentsSubscription: any;
+  @ViewChild('fileInput') fileInputRef: ElementRef<HTMLInputElement>;
 
-  constructor(private router: Router,
-              private documentService: DocumentService,
-              private httpUploadFileService: HttpUploadFileService,
-              private authService: AuthService,
-              private alertController: AlertController,
-              private toastComponent: ToastComponent,
-              private modalController: ModalController) {
+  liquidaciones: PersonalLiquidacion[] = [];
+  loading = true;
+  uploading = false;
+  persona: PersonalPersonaSummary | null = null;
+  selectedFiles: File[] = [];
+  errorMessage: string | null = null;
+  updatedDocumentsSubscription: Subscription;
+
+  constructor(
+    private documentService: DocumentService,
+    private storage: Storage,
+  ) {
   }
 
   ngOnInit() {
-    this.authService.getAuthToken().then(authToken => {
-      this.authToken = authToken;
-    });
-
     this.updatedDocumentsSubscription = this.documentService.getUpdatedDocuments$()
-      .subscribe(updated => {
-        this.getDocuments();
+      .subscribe((updated) => {
+        if (updated) {
+          this.getDocuments();
+          this.documentService.setUpdatedDocuments$(false);
+        }
       });
+
+    this.loadPersona();
   }
 
   ngOnDestroy(): void {
@@ -48,98 +43,123 @@ export class DocumentListPage implements OnInit, OnDestroy {
     }
   }
 
-  async addDocument() {
-    this.router.navigateByUrl('document-form');
+  get hasPersonaLoaded(): boolean {
+    return Boolean(this.persona);
   }
 
-  getDocuments() {
+  private loadPersona() {
     this.loading = true;
-    this.documentService.getUploadedDocuments()
-      .subscribe((response: any) => {
-        this.uploadedDocuments = response.uploaded_documents;
-      }, error => {
-        this.loading = false;
-        //
-      }, () => {
-        this.loading = false;
-        //
-      });
-  }
-
-  downloadFile(documentFile: DocumentFile) {
-    this.downloading = true;
-    console.log(documentFile);
-    this.httpUploadFileService.downloadFile(
-      `document-files/${documentFile.id}/download`,
-      {}, this.authToken,
-      documentFile.filename,
-      documentFile.mime
-    )
-      .then(() => {
-        this.downloading = false;
-      }).catch(err => {
-      this.downloading = false;
-      this.toastComponent.presentToast(
-        `No se pudo descargar el archivo. Intente nuevamente`,
-        'middle',
-        3000,
-      );
-    });
-  }
-
-  async viewDetail(uploadedDocument: UploadedDocument) {
-    const modal = await this.modalController.create({
-      component: DocumentFileImageDetailComponent,
-      cssClass: 'modal-document-image-view',
-      componentProps: {
-        documentFiles: uploadedDocument.document_files
-      }
-    });
-    await modal.present();
-  }
-
-  async presentDeleteDocumentAlertConfirm(uploadedDocument: UploadedDocument) {
-    const alert = await this.alertController.create({
-      header: '¿Desea eliminar el registro?',
-      buttons: [
-        {
-          text: 'No',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
-            //
-          }
-        }, {
-          text: 'Sí',
-          handler: () => {
-            this.deleteUploadedDocument(uploadedDocument);
-          }
+    this.storage.get('senderId')
+      .then((email) => {
+        if (!email) {
+          this.errorMessage = 'No se pudo identificar al conductor. Inicia sesión nuevamente.';
+          this.loading = false;
+          return;
         }
-      ]
-    });
 
-    await alert.present();
-  }
-
-  deleteUploadedDocument(uploadedDocument: UploadedDocument) {
-    this.submitting = true;
-    this.documentService.deleteUploadedDocument(uploadedDocument)
-      .subscribe((response: any) => {
-        this.uploadedDocuments = this.uploadedDocuments.filter(item => item.id !== uploadedDocument.id);
-        this.submitting = false;
-      }, error => {
-        this.submitting = false;
+        this.documentService.ensurePersonaByEmail(String(email))
+          .subscribe({
+            next: (persona) => {
+              this.persona = persona;
+              this.errorMessage = null;
+              this.getDocuments();
+            },
+            error: (err) => {
+              this.errorMessage = err?.message ?? 'No se pudo recuperar la información del personal.';
+              this.loading = false;
+            },
+          });
+      })
+      .catch(() => {
+        this.errorMessage = 'No se pudo acceder a la información almacenada. Inicia sesión nuevamente.';
+        this.loading = false;
       });
   }
 
-  doRefresh(event) {
-    console.log('Begin async operation');
+  getDocuments(event?: CustomEvent) {
+    if (!this.hasPersonaLoaded) {
+      this.loading = false;
+      event?.detail?.complete?.();
+      return;
+    }
 
-    setTimeout(() => {
-      console.log('Async operation has ended');
-      this.getDocuments();
-      event.target.complete();
-    }, 2000);
+    this.loading = true;
+    this.documentService.getLiquidaciones()
+      .subscribe({
+        next: (liquidaciones) => {
+          this.liquidaciones = liquidaciones;
+          this.errorMessage = null;
+        },
+        error: (err) => {
+          this.errorMessage = err?.message ?? 'No se pudieron cargar las liquidaciones.';
+          this.loading = false;
+          event?.detail?.complete?.();
+        },
+        complete: () => {
+          this.loading = false;
+          event?.detail?.complete?.();
+        },
+      });
   }
 
+  triggerFileSelection() {
+    if (!this.fileInputRef) {
+      return;
+    }
+
+    this.fileInputRef.nativeElement.click();
+  }
+
+  onFilesSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files) {
+      return;
+    }
+    this.selectedFiles = Array.from(input.files);
+  }
+
+  clearSelectedFiles() {
+    this.selectedFiles = [];
+    if (this.fileInputRef) {
+      this.fileInputRef.nativeElement.value = '';
+    }
+  }
+
+  uploadSelectedFiles() {
+    if (!this.selectedFiles.length) {
+      return;
+    }
+
+    this.uploading = true;
+    this.documentService.uploadLiquidaciones(this.selectedFiles)
+      .subscribe({
+        next: () => {
+          // noop
+        },
+        error: (err) => {
+          this.errorMessage = err?.message ?? 'No se pudieron subir las liquidaciones.';
+          this.uploading = false;
+        },
+        complete: () => {
+          this.errorMessage = null;
+          this.documentService.setUpdatedDocuments$(true);
+          this.clearSelectedFiles();
+          this.uploading = false;
+        },
+      });
+  }
+
+  openLiquidacion(liquidacion: PersonalLiquidacion) {
+    const target = liquidacion.absoluteDownloadUrl || liquidacion.downloadUrl;
+    if (!target) {
+      this.errorMessage = 'No se encontró la URL de descarga para este archivo.';
+      return;
+    }
+
+    window.open(target, '_blank');
+  }
+
+  doRefresh(event: CustomEvent) {
+    this.getDocuments(event);
+  }
 }

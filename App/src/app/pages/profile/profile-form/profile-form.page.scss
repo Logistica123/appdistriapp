@@ -1,26 +1,199 @@
-ion-item { --background: transparent; }
-ion-content {
-  --background: var(--ion-background-color);
+.profile-modal {
+  --background: linear-gradient(180deg, rgba(239, 243, 251, 0.85) 0%, rgba(220, 229, 247, 0.85) 100%);
   font-family: var(--ion-font-family);
+  padding: 24px 12px 32px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 ion-toolbar {
-  --background: var(--app-gradient);
-  --color: #ffffff;
+  --background: var(--app-toolbar-gradient, var(--app-gradient));
+  --color: var(--toolbar-text-color, #ffffff);
+  border-radius: 18px 18px 0 0;
 }
 
-input {
-  font-size: 0.9em;
-  letter-spacing: 0;
+.profile-form {
+  width: min(720px, 100%);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
-h5 {
-  color: #828282;
-  font-weight: bold;
+.modal-card {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 22px;
+  box-shadow: 0 22px 48px rgba(15, 31, 74, 0.24);
+  padding: 32px 32px 28px;
+  display: grid;
+  gap: 16px;
+  overflow-y: auto;
+  flex: 1 1 auto;
+}
+
+.section-card {
+  background: rgba(248, 250, 255, 0.82);
+  border: 1px solid rgba(26, 38, 65, 0.08);
+  border-radius: 16px;
+  padding: 18px 20px;
+  display: grid;
+  gap: 14px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--app-text-color);
+
+  ion-icon {
+    font-size: 1.25rem;
+    color: #1d74f5;
+  }
+
+  h5 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.01em;
+  }
+}
+
+.field-row {
+  display: grid;
+  gap: 14px;
+
+  @media (min-width: 520px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.field-group {
+  display: grid;
+  gap: 6px;
+
+  label,
+  .toggle-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--app-text-color);
+    letter-spacing: 0.01em;
+  }
+
+  input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(29, 116, 245, 0.2);
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    color: var(--app-text-color);
+
+    &:focus {
+      border-color: rgba(29, 116, 245, 0.55);
+      box-shadow: 0 0 0 3px rgba(29, 116, 245, 0.12);
+      outline: none;
+    }
+  }
+}
+
+.toggle-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(29, 116, 245, 0.12);
+
+  .toggle-hint {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.75rem;
+    color: rgba(26, 38, 65, 0.65);
+  }
 }
 
 .hint {
   display: block;
-  margin-top: 4px;
+  margin-top: 2px;
   font-size: 0.75rem;
+}
+
+.form-error-message {
+  font-size: 0.72rem;
+  color: #e74c3c;
+}
+
+.actions {
+  margin-top: 32px;
+  padding: 0 8px 8px;
+
+  .custom-button {
+    --border-radius: 14px;
+    --background: linear-gradient(145deg, #1d74f5 0%, #1a49a0 100%);
+    --box-shadow: 0 14px 24px rgba(29, 116, 245, 0.25);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding-inline: 16px;
+  }
+}
+
+:host-context(body.theme-dark) {
+  .profile-modal {
+    --background: linear-gradient(180deg, rgba(6, 14, 26, 0.92) 0%, rgba(2, 8, 18, 0.92) 100%);
+  }
+
+  .modal-card {
+    background: linear-gradient(180deg, rgba(18, 32, 58, 0.96) 0%, rgba(10, 18, 36, 0.96) 100%);
+    border: 1px solid rgba(86, 142, 255, 0.14);
+    box-shadow: 0 28px 64px rgba(2, 8, 18, 0.65);
+  }
+
+  .section-card {
+    background: rgba(12, 26, 48, 0.94);
+    border-color: rgba(86, 142, 255, 0.18);
+  }
+
+  .field-group label,
+  .field-group .toggle-label,
+  .section-header {
+    color: #f0f4ff;
+  }
+
+  .section-header h5 {
+    color: inherit;
+    text-shadow: 0 2px 6px rgba(3, 9, 20, 0.55);
+  }
+
+  .section-header ion-icon {
+    color: rgba(123, 168, 255, 0.95);
+  }
+
+  .field-group input {
+    background: rgba(8, 20, 38, 0.9);
+    border-color: rgba(86, 142, 255, 0.24);
+    color: rgba(240, 246, 255, 0.94);
+
+    &:focus {
+      border-color: rgba(132, 180, 255, 0.8);
+      box-shadow: 0 0 0 3px rgba(132, 180, 255, 0.2);
+    }
+  }
+
+  .toggle-group {
+    background: rgba(8, 20, 38, 0.9);
+    border-color: rgba(86, 142, 255, 0.2);
+
+    .toggle-hint {
+      color: rgba(204, 218, 247, 0.72);
+    }
+  }
+
+  .hint {
+    color: rgba(204, 218, 247, 0.72);
+  }
 }

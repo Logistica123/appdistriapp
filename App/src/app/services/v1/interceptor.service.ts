@@ -24,13 +24,17 @@ export class InterceptorService {
       .pipe(
         switchMap(token => {
           if (token) {
-            request = request.clone({
-              setHeaders: {
-                Accept: `application/json`,
-                'Content-Type': `application/json`,
-                Authorization: `Bearer ${token}`
-              }
-            });
+            const isFormData = request.body instanceof FormData;
+            const headers: Record<string, string> = {
+              Accept: 'application/json',
+              Authorization: `Bearer ${token}`,
+            };
+
+            if (!isFormData) {
+              headers['Content-Type'] = 'application/json';
+            }
+
+            request = request.clone({ setHeaders: headers });
           }
           if (!environment.production) {
             console.log(request.url);

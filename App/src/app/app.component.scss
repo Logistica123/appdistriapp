@@ -30,6 +30,21 @@
   overflow: hidden;
   min-height: 74px;
   margin-top: -18px;
+  position: relative;
+}
+
+.menu-header__close {
+  position: absolute;
+  left: 0;
+  top: 16px;
+  z-index: 2;
+
+  ion-button {
+    --border-radius: 999px;
+    --padding-start: 8px;
+    --padding-end: 8px;
+    --background: rgba(0, 0, 0, 0.08);
+  }
 }
 
 .menu-header__logo {

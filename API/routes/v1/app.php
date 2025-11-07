@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\V1\App\OrderController;
+use App\Http\Controllers\V1\App\RewardController;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
@@ -113,6 +114,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('reminders', 'ReminderController@store');
     Route::put('reminders/{reminder}', 'ReminderController@update');
     Route::delete('reminders/{reminder}', 'ReminderController@delete');
+
+    // ROUTE CLOSURES (HOJA DE RUTA)
+    Route::post('route-closures', 'RouteClosureController@store');
+    Route::get('rewards/balance', 'RewardController@balance');
 
     //SUGGESTION CONTROLLER
     Route::post('suggestions', 'SuggestionController@store');

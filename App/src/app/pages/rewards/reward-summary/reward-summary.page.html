@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/benefits"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Canjear puntos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="loadBalance($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <section class="balance-card" *ngIf="balance">
+    <div>
+      <p class="balance-card__label">Puntos acumulados</p>
+      <h1>{{ balance.total_points | number:'1.0-0' }}</h1>
+      <p class="balance-card__hint" *ngIf="balance.last_closure">Último cierre: {{ balance.last_closure.date | date:'dd MMMM yyyy' }}</p>
+    </div>
+    <ion-chip color="light">
+      <ion-icon name="sparkles" color="primary"></ion-icon>
+      <ion-label>{{ balance.total_closures }} hojas cargadas</ion-label>
+    </ion-chip>
+  </section>
+
+  <section class="product-grid">
+    <h2>Elegí tu próximo premio</h2>
+    <ion-card *ngFor="let product of products">
+      <ion-card-header>
+        <div class="product-icon">
+          <ion-icon [name]="product.icon"></ion-icon>
+        </div>
+        <ion-card-title>{{ product.name }}</ion-card-title>
+        <ion-card-subtitle>{{ product.pointsRequired | number:'1.0-0' }} pts</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <p>{{ product.description }}</p>
+        <ion-progress-bar [value]="progressFor(product) / 100"></ion-progress-bar>
+        <small *ngIf="pointsMissing(product) > 0">Te faltan {{ pointsMissing(product) | number:'1.0-0' }} pts</small>
+        <ion-button expand="block" color="primary" fill="outline" [disabled]="pointsMissing(product) > 0">
+          {{ pointsMissing(product) > 0 ? 'Aún no disponible' : 'Canjear ahora' }}
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </section>
+</ion-content>

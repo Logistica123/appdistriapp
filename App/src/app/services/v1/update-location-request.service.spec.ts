@@ -6,7 +6,7 @@ describe('UpdateLocationRequestService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: UpdateLocationRequestService = TestBed.get(UpdateLocationRequestService);
+    const service: UpdateLocationRequestService = TestBed.inject(UpdateLocationRequestService);
     expect(service).toBeTruthy();
   });
 });

@@ -7,9 +7,115 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <div class="empty-state">
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="state state--loading" *ngIf="loading">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Cargando tus liquidaciones...</p>
+  </div>
+
+  <div class="state state--error" *ngIf="!loading && errorMessage">
+    <ion-icon name="warning-outline"></ion-icon>
+    <p>{{ errorMessage }}</p>
+    <ion-button fill="outline" (click)="loadPersona()">Reintentar</ion-button>
+  </div>
+
+  <input
+    #fileInput
+    type="file"
+    accept=".pdf,application/pdf,image/*"
+    multiple
+    hidden
+    (change)="onFilesSelected($event)" />
+  <input
+    #replaceInput
+    type="file"
+    accept=".pdf,application/pdf,image/*"
+    hidden
+    (change)="onReplaceSelected($event)" />
+
+  <ion-card class="filter-card" *ngIf="!loading && !errorMessage && hasPersonaLoaded">
+    <ion-card-content>
+      <div class="filter-row">
+        <ion-item lines="none" class="filter-item">
+          <ion-icon slot="start" name="calendar-outline"></ion-icon>
+          <ion-label position="stacked">Mes</ion-label>
+          <ion-select
+            interface="alert"
+            [(ngModel)]="selectedMonth"
+            (ngModelChange)="onMonthFilterChange($event)"
+          >
+            <ion-select-option *ngFor="let option of monthOptions" [value]="option.value">
+              {{ option.label }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item lines="none" class="filter-item">
+          <ion-icon slot="start" name="albums-outline"></ion-icon>
+          <ion-label position="stacked">Quincena</ion-label>
+          <ion-select
+            interface="alert"
+            [(ngModel)]="selectedFortnight"
+            (ngModelChange)="onFortnightFilterChange($event)"
+          >
+            <ion-select-option *ngFor="let option of fortnightOptions" [value]="option.value">
+              {{ option.label }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-list *ngIf="!loading && !errorMessage && cards.length > 0">
+    <ng-container *ngFor="let card of cards">
+      <ion-item lines="none">
+        <ion-icon slot="start" name="document-text-outline"></ion-icon>
+        <ion-label>
+        <h2>{{ card.main.nombre }}</h2>
+        <p *ngIf="getPeriodLabel(card.main) as period">Periodo: {{ period }}</p>
+        <p *ngIf="card.main.fechaCarga">Fecha de carga: {{ card.main.fechaCarga | date:'mediumDate' }}</p>
+        <p *ngIf="card.main.sizeLabel">Tamaño: {{ card.main.sizeLabel }}</p>
+        <p *ngIf="card.main.tipoNombre">Tipo: {{ card.main.tipoNombre }}</p>
+        </ion-label>
+        <ion-buttons slot="end">
+        <ion-button fill="clear" size="small" (click)="openLiquidacion(card.main)" [disabled]="deletingIds.has(card.main.id)">
+          <ion-icon name="download-outline"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear" size="small" (click)="triggerReplaceLiquidacion(card.main)" [disabled]="quickUploadingIds.has(card.main.id) || deletingIds.has(card.main.id)">
+          <ion-icon name="cloud-upload-outline"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear" color="danger" size="small" (click)="deleteLiquidacion(card.main, card.attachments)" [disabled]="deletingIds.has(card.main.id) || quickUploadingIds.has(card.main.id)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+        </ion-buttons>
+      </ion-item>
+      <ion-item lines="none" class="attachment-item" *ngFor="let attachment of card.attachments">
+        <ion-icon slot="start" name="document-attach-outline"></ion-icon>
+        <ion-label>
+          <h3>{{ attachment.nombre }}</h3>
+          <p *ngIf="getPeriodLabel(attachment) as attachmentPeriod">Periodo: {{ attachmentPeriod }}</p>
+          <p *ngIf="attachment.fechaCarga">Fecha de carga: {{ attachment.fechaCarga | date:'mediumDate' }}</p>
+          <p *ngIf="attachment.sizeLabel">Tamaño: {{ attachment.sizeLabel }}</p>
+        </ion-label>
+        <ion-buttons slot="end">
+          <ion-button fill="clear" size="small" (click)="openLiquidacion(attachment)" [disabled]="deletingIds.has(attachment.id)">
+            <ion-icon name="download-outline"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" color="danger" size="small" (click)="deleteLiquidacion(attachment)" [disabled]="deletingIds.has(attachment.id)">
+            <ion-icon name="trash-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-item>
+    </ng-container>
+  </ion-list>
+
+  <div class="state state--empty" *ngIf="!loading && !errorMessage && cards.length === 0">
     <ion-icon name="document-text-outline"></ion-icon>
-    <p>Próximamente podrás ver tus liquidaciones aquí.</p>
+    <p>No encontramos liquidaciones cargadas para tu usuario.</p>
+    <p class="state__hint">Cuando suban nuevas liquidaciones vas a verlas acá.</p>
   </div>
 </ion-content>

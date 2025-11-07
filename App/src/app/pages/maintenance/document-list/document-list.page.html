@@ -8,68 +8,77 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-progress-bar class="ion-margin-top"
-                    type="indeterminate"
-                    *ngIf="loading || submitting">
-  </ion-progress-bar>
-
-  <div class="ion-text-center ion-padding-bottom">
-    <ion-button class="custom-button" (click)="addDocument()">
-      AGREGAR
-    </ion-button>
-  </div>
-
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <p class="ion-padding ion-text-center" *ngIf="!loading && uploadedDocuments.length <= 0">
-    <b>No tienes ningún documento guardado</b>
-  </p>
+  <ion-progress-bar class="ion-margin-top"
+                    type="indeterminate"
+                    *ngIf="loading || uploading">
+  </ion-progress-bar>
 
-  <!--  <div *ngIf="!loading && uploadedDocuments.length > 0">-->
-  <!--    <ion-list>-->
-  <!--      <ion-item *ngFor="let uploadedDocument of uploadedDocuments" detail (click)="viewDetail(uploadedDocument)">-->
-  <!--        <ion-label text-wrap>-->
-  <!--          <p>{{uploadedDocument.document.name}} - ({{uploadedDocument.document.document_type.type}})</p>-->
-  <!--          <p>{{uploadedDocument.created_at | date: 'dd/M/yyyy'}}</p>-->
-  <!--        </ion-label>-->
-  <!--      </ion-item>-->
-  <!--    </ion-list>-->
-  <!--  </div>-->
+  <ion-note class="ion-text-center ion-padding" color="danger"
+            *ngIf="!loading && errorMessage && !hasPersonaLoaded">
+    {{ errorMessage }}
+  </ion-note>
 
-  <ion-item-sliding *ngFor="let uploadedDocument of uploadedDocuments; let i = index"
-                    class="ion-margin-bottom">
-    <ion-item lines="none">
-      <div class="uploaded-document">
-        <p class="ion-no-margin">
-          {{uploadedDocument.document.name}} - ({{uploadedDocument.document.document_type.type}})
-        </p>
-        <p class="ion-no-margin">
-          {{uploadedDocument.created_at | date: 'dd/M/yyyy'}}
-        </p>
-        <ion-grid>
-          <ion-row *ngFor="let documentFile of uploadedDocument.document_files">
-            <ion-col size="10">
-              {{documentFile.filename}}
-            </ion-col>
-            <ion-col size="2" class="ion-align-self-center ion-text-center">
-              <ion-icon color="primary" name="download" class="font-15em"
-                        (click)="downloadFile(documentFile)">
-              </ion-icon>
-              <ion-progress-bar *ngIf="downloading" type="indeterminate"></ion-progress-bar>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </div>
-    </ion-item>
-    <ion-item-options>
-      <ion-item-option color="light" (click)="presentDeleteDocumentAlertConfirm(uploadedDocument)">
-        <ion-icon slot="end" name="trash"></ion-icon>
-        Eliminar
-      </ion-item-option>
-    </ion-item-options>
-  </ion-item-sliding>
+  <div class="ion-text-center ion-padding-bottom">
+    <ion-button class="custom-button"
+                (click)="triggerFileSelection()"
+                [disabled]="uploading || !hasPersonaLoaded">
+      Seleccionar archivos
+    </ion-button>
+    <ion-button color="primary"
+                (click)="uploadSelectedFiles()"
+                [disabled]="uploading || selectedFiles.length === 0 || !hasPersonaLoaded">
+      Subir liquidaciones
+    </ion-button>
+    <ion-note class="ion-margin-top" *ngIf="selectedFiles.length > 0">
+      {{ selectedFiles.length }} archivo{{ selectedFiles.length === 1 ? '' : 's' }} seleccionado{{ selectedFiles.length === 1 ? '' : 's' }}.
+      <ion-button fill="clear" size="small" (click)="clearSelectedFiles()">Limpiar</ion-button>
+    </ion-note>
+  </div>
 
+  <input #fileInput
+         type="file"
+         hidden
+         multiple
+         (change)="onFilesSelected($event)"
+         accept=".pdf,.png,.jpg,.jpeg,.doc,.docx,.xls,.xlsx">
 
+  <ion-card *ngIf="persona">
+    <ion-card-header>
+      <ion-card-title>Liquidaciones de {{ persona?.nombre }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-note *ngIf="errorMessage && (!liquidaciones || liquidaciones.length === 0)">
+        {{ errorMessage }}
+      </ion-note>
+
+      <ion-list *ngIf="!loading && liquidaciones.length > 0">
+        <ion-item *ngFor="let liquidacion of liquidaciones">
+          <ion-label>
+            <h2>{{ liquidacion.nombre }}</h2>
+            <p *ngIf="liquidacion.tipoNombre">{{ liquidacion.tipoNombre }}</p>
+            <p>
+              {{ liquidacion.fechaCarga ? (liquidacion.fechaCarga | date:'dd/MM/yyyy') : 'Sin fecha' }}
+              <span *ngIf="liquidacion.sizeLabel"> · {{ liquidacion.sizeLabel }}</span>
+            </p>
+          </ion-label>
+          <ion-button fill="clear" slot="end" (click)="openLiquidacion(liquidacion)">
+            <ion-icon slot="icon-only" name="download"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </ion-list>
+
+      <ion-note *ngIf="!loading && liquidaciones.length === 0 && !errorMessage">
+        Aún no hay liquidaciones cargadas. Seleccioná archivos para subirlos.
+      </ion-note>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-note class="ion-text-center ion-padding" color="danger"
+            *ngIf="!loading && errorMessage && liquidaciones.length > 0">
+    {{ errorMessage }}
+  </ion-note>
 </ion-content>

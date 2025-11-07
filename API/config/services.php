@@ -49,6 +49,26 @@ return [
         'consumer_secret' => env("HERE_CONSUMER_SECRET")
     ],
 
+    'personal' => [
+        'sync' => [
+            'table' => env('PERSONAL_SYNC_TABLE'),
+            'unique_column' => env('PERSONAL_SYNC_UNIQUE_COLUMN', 'dni'),
+            'manage_timestamps' => env('PERSONAL_SYNC_MANAGE_TIMESTAMPS', true),
+            'columns' => [
+                'dni' => env('PERSONAL_SYNC_UNIQUE_COLUMN', 'dni'),
+                'name' => env('PERSONAL_SYNC_NAME_COLUMN', 'nombre'),
+                'last_name' => env('PERSONAL_SYNC_LAST_NAME_COLUMN', 'apellido'),
+                'phone' => env('PERSONAL_SYNC_PHONE_COLUMN', 'telefono'),
+                'license_plate' => env('PERSONAL_SYNC_LICENSE_COLUMN', 'patente'),
+                'email' => env('PERSONAL_SYNC_EMAIL_COLUMN', 'email'),
+            ],
+        ],
+        'api' => [
+            'url' => env('PERSONAL_SYNC_URL'),
+            'key' => env('SYNC_API_KEY'),
+        ],
+    ],
+
     'routes' => [
         'max_location_distance_km' => env('ROUTE_MAX_DISTANCE_KM', 100),
     ],

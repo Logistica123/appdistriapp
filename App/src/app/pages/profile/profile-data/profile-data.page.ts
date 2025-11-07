@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Driver} from '../../../interfaces/Driver';
 import {FormBuilder} from '@angular/forms';
 import {DriverService} from '../../../services/v1/driver.service';
@@ -8,11 +8,12 @@ import {HTTP} from '@ionic-native/http/ngx';
 import {ImagePickerService} from '../../../services/utils/image-picker.service';
 import {LoadingSpinnerComponent} from '../../../components/loading-spinner/loading-spinner.component';
 import {ToastComponent} from '../../../components/toast/toast.component';
-import {AlertController, ModalController} from '@ionic/angular';
+import {AlertController, ModalController, Platform} from '@ionic/angular';
 import {UpdatePasswordComponent} from '../../../components/modals/update-password/update-password.component';
 import {ImagePickerOptions} from '@ionic-native/image-picker';
 import {environment} from '../../../../environments/environment';
 import {ProfileFormPage} from '../profile-form/profile-form.page';
+import {take} from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile-data',
@@ -23,13 +24,15 @@ export class ProfileDataPage implements OnInit {
   driver: Driver;
   distance: string;
   duration: string;
-  files: any = [];
-  filesSrc: any = [];
+  files: any[] = [];
+  filesSrc: string[] = [];
   filenames: string[] = [];
   authToken: string;
   profileImg: any;
   loading = false;
   V1 = 'v1/app/';
+  @ViewChild('fileInput') fileInputRef: ElementRef<HTMLInputElement>;
+  private readonly isHybridPlatform: boolean;
 
   constructor(private driverService: DriverService,
               private storage: Storage,
@@ -40,8 +43,9 @@ export class ProfileDataPage implements OnInit {
               private imagePickerService: ImagePickerService,
               private loadingSpinnerComponent: LoadingSpinnerComponent,
               private toastComponent: ToastComponent,
-              private modalController: ModalController) {
-    //
+              private modalController: ModalController,
+              private platform: Platform) {
+    this.isHybridPlatform = this.platform.is('hybrid') || this.platform.is('cordova');
   }
 
   ngOnInit() {
@@ -80,7 +84,8 @@ export class ProfileDataPage implements OnInit {
   async updateProfile() {
     const modal = await this.modalController.create({
       component: ProfileFormPage,
-      componentProps: {driver: this.driver}
+      componentProps: {driver: this.driver},
+      cssClass: 'profile-form-modal'
     });
     await modal.present();
 
@@ -106,41 +111,150 @@ export class ProfileDataPage implements OnInit {
   }
 
   pickImage() {
-    const imagePickerOptions: ImagePickerOptions = {
-      maximumImagesCount: 1,
-      quality: 70
-    };
-    this.imagePickerService.pickImages(imagePickerOptions).then(result => {
-      this.files = result[0];
-      this.filesSrc = result[1];
-      this.filenames = result[2];
-    }).catch(err => {
+    if (this.isHybridPlatform) {
+      const imagePickerOptions: ImagePickerOptions = {
+        maximumImagesCount: 1,
+        quality: 70
+      };
+      this.imagePickerService.pickImages(imagePickerOptions).then(result => {
+        this.files = result[0];
+        this.filesSrc = result[1] as string[];
+        this.filenames = result[2];
+      }).catch(err => {
+        this.toastComponent.presentToast(
+          `No se pudo seleccionar la imagen, error: ${err}`, 'middle', 2500);
+      });
+      return;
+    }
+
+    const fileInput = this.fileInputRef?.nativeElement;
+    if (!fileInput) {
       this.toastComponent.presentToast(
-        `No se pudo seleccionar la imagen, error: ${err}`, 'middle', 2500);
-    });
+        'No se pudo abrir el selector de archivos.', 'middle', 2500);
+      return;
+    }
+    fileInput.value = '';
+    fileInput.click();
   }
 
-  uploadFile() {
-    this.loadingSpinnerComponent.presentLoadingSpinner('guardando imagen').then(() => {
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input?.files || input.files.length === 0) {
+      return;
+    }
+
+    const file = input.files[0];
+    if (!file.type.startsWith('image/')) {
+      this.toastComponent.presentToast(
+        'Seleccioná un archivo de imagen válido.', 'middle', 2500);
+      this.resetFileSelection();
+      return;
+    }
+
+    const reader = new FileReader();
+    this.files = [file];
+    this.filenames = [file.name];
+    reader.onload = () => {
+      this.filesSrc = [reader.result as string];
+    };
+    reader.onerror = () => {
+      this.toastComponent.presentToast(
+        'No se pudo leer la imagen seleccionada.', 'middle', 2500);
+      this.resetFileSelection();
+    };
+    reader.readAsDataURL(file);
+  }
+
+  async uploadFile() {
+    if (!this.files.length) {
+      return;
+    }
+
+    await this.loadingSpinnerComponent.presentLoadingSpinner('guardando imagen');
+
+    if (this.isHybridPlatform) {
       const API_URL = environment.API_URL;
       const uri = encodeURI(`${API_URL}${this.V1}drivers/profile/image`);
       const headers = {
         'Content-Type': 'multipart/form-data',
         Authorization: 'Bearer ' + this.authToken,
       };
-      this.http.uploadFile(uri, null, headers, this.files[0], 'file')
-        .then((data) => {
-          this.loadingSpinnerComponent.dismissLoadingSpinner();
-          this.filenames = [];
-          this.filesSrc = [];
-          this.files = [];
-          this.getProfile();
-        }).catch(err => {
-        this.loadingSpinnerComponent.dismissLoadingSpinner();
+      try {
+        await this.http.uploadFile(uri, null, headers, this.files[0], 'file');
+        this.resetFileSelection();
+        this.getProfile();
+      } catch (err) {
         this.toastComponent.presentToast(
           `No se pudo guardar la imagen, error: ${JSON.stringify(err)}`, 'middle', 2500);
-      });
+      } finally {
+        await this.loadingSpinnerComponent.dismissLoadingSpinner();
+      }
+      return;
+    }
+
+    const file = this.files[0] as File;
+    try {
+      await this.uploadProfileImageFromWeb(file);
+      this.resetFileSelection();
+      this.getProfile();
+    } catch (err) {
+      const errorMessage = this.formatUploadError(err);
+      this.toastComponent.presentToast(
+        `No se pudo guardar la imagen, error: ${errorMessage}`, 'middle', 2500);
+    } finally {
+      await this.loadingSpinnerComponent.dismissLoadingSpinner();
+    }
+  }
+
+  private resetFileSelection() {
+    this.filenames = [];
+    this.filesSrc = [];
+    this.files = [];
+    if (this.fileInputRef?.nativeElement) {
+      this.fileInputRef.nativeElement.value = '';
+    }
+  }
+
+  private uploadProfileImageFromWeb(file: File): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.driverService.uploadProfileImage(file)
+        .pipe(take(1))
+        .subscribe({
+          next: resolve,
+          error: reject
+        });
     });
+  }
+
+  private formatUploadError(error: any): string {
+    if (!error) {
+      return 'desconocido';
+    }
+
+    if (typeof error === 'string') {
+      return error;
+    }
+
+    const nestedMessage = error?.error?.message || error?.message;
+    if (nestedMessage) {
+      return nestedMessage;
+    }
+
+    if (error?.error && typeof error.error === 'object') {
+      const errorValue = Object.values(error.error)[0];
+      if (typeof errorValue === 'string') {
+        return errorValue;
+      }
+      if (Array.isArray(errorValue) && errorValue.length > 0) {
+        return String(errorValue[0]);
+      }
+    }
+
+    try {
+      return JSON.stringify(error);
+    } catch {
+      return 'desconocido';
+    }
   }
 
   onToggleChange(ev) {

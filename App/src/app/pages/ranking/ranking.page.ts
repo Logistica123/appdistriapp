@@ -52,6 +52,10 @@ export class RankingPage implements OnInit, AfterViewInit {
     }
 
     getPodium0DriverProfileImage(driver: Driver) {
+        if (!driver?.has_profile_img) {
+            this.podium0ProfileImage = null;
+            return;
+        }
         this.driverService.getDriverProfileImage(driver)
             .subscribe((blob: any) => {
                 const objectURL = URL.createObjectURL(blob);
@@ -60,6 +64,10 @@ export class RankingPage implements OnInit, AfterViewInit {
     }
 
     getPodium1DriverProfileImage(driver: Driver) {
+        if (!driver?.has_profile_img) {
+            this.podium1ProfileImage = null;
+            return;
+        }
         this.driverService.getDriverProfileImage(driver)
             .subscribe((blob: any) => {
                 const objectURL = URL.createObjectURL(blob);
@@ -68,6 +76,10 @@ export class RankingPage implements OnInit, AfterViewInit {
     }
 
     getPodium2DriverProfileImage(driver: Driver) {
+        if (!driver?.has_profile_img) {
+            this.podium2ProfileImage = null;
+            return;
+        }
         this.driverService.getDriverProfileImage(driver)
             .subscribe((blob: any) => {
                 const objectURL = URL.createObjectURL(blob);

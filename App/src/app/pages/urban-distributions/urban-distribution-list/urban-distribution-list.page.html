@@ -61,6 +61,22 @@
     </ion-button>
   </div>
 
+  <ion-card class="route-closure-card">
+    <ion-card-header>
+      <ion-card-title>Hoja de ruta del día</ion-card-title>
+      <ion-card-subtitle>Subí la foto del cierre para sumar tus puntos</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <p class="route-closure-card__text">
+        Una vez finalizada tu jornada cargá la hoja de ruta firmada para dejar constancia de tu trabajo y obtener tus puntos canjeables.
+      </p>
+      <ion-button expand="block" color="primary" (click)="openRouteClosureForm()">
+        <ion-icon name="document-text" slot="start"></ion-icon>
+        Enviar hoja de ruta
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
   <p *ngIf="!loading && orders.length <= 0" class="ion-padding ion-text-center">
     <b>No tienes paquetes pendientes por entregar</b>
   </p>
@@ -102,7 +118,7 @@
 <!--<ion-footer>-->
   <ion-toolbar>
     <ion-tabs>
-      <ion-tab-bar slot="bottom" color="light">
+      <ion-tab-bar slot="bottom" class="app-tab-bar">
         <ion-tab-button (click)="showMap()">
           <ion-icon name="navigate-circle"></ion-icon>
           <ion-label>Comenzar</ion-label>

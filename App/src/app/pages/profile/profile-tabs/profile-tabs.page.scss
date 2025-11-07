@@ -9,12 +9,10 @@ ion-toolbar {
 }
 
 ion-tab-bar {
-  --background: #0d1e38;
-}
-
-ion-tab-button {
-  --color: rgba(255, 255, 255, 0.65);
-  --color-selected: #ffffff;
+  --background: var(--tab-bar-background);
+  --color: var(--tab-bar-color);
+  --color-selected: var(--tab-bar-color-selected);
+  box-shadow: 0 -4px 12px var(--tab-bar-shadow);
 }
 
 ion-tab-button .selected-tab-button {

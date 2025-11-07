@@ -36,6 +36,7 @@ img {
   height: 175px;
   object-fit: contain;
   border-radius: 15px;
+  cursor: pointer;
 }
 
 .update-profile-image {
@@ -75,4 +76,50 @@ img {
 
 .metric-card--alt {
   background: linear-gradient(180deg, #0a1f3d 0%, #050f1d 100%);
+}
+
+:host-context(body.theme-light) {
+  .contractor-toggle {
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--app-text-color);
+    box-shadow: 0 8px 24px rgba(26, 38, 65, 0.12);
+    border: 1px solid rgba(26, 38, 65, 0.08);
+  }
+
+  .contractor-toggle ion-toggle {
+    --background: rgba(26, 38, 65, 0.08);
+    --background-checked: rgba(26, 73, 160, 0.25);
+    --handle-background: #ffffff;
+    --handle-background-checked: #1a49a0;
+  }
+
+  .profile-data {
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(26, 38, 65, 0.08);
+    box-shadow: 0 16px 32px rgba(26, 38, 65, 0.1);
+  }
+
+  .update-profile-image,
+  .update-password {
+    background-color: rgba(26, 73, 160, 0.12);
+    color: var(--app-text-color);
+  }
+
+  .metric-card {
+    background: linear-gradient(180deg, #e4efff 0%, #cfdcf7 100%);
+    color: var(--app-text-color);
+    box-shadow: 0 14px 32px rgba(26, 38, 65, 0.14);
+  }
+
+  .metric-card--alt {
+    background: linear-gradient(180deg, #fbe7d7 0%, #f3d3cd 100%);
+  }
+
+  .distance-value {
+    color: var(--app-text-color);
+  }
+
+  .distance-text {
+    color: rgba(26, 38, 65, 0.7);
+  }
 }

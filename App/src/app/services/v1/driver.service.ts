@@ -11,6 +11,7 @@ import {map, tap} from 'rxjs/operators';
 export class DriverService {
   API_URL = environment.API_URL;
   V1 = 'v1/app/';
+  V2 = 'v2/app/';
   private driver$ = new BehaviorSubject<Driver>(null);
 
   constructor(private http: HttpClient) {
@@ -30,8 +31,15 @@ export class DriverService {
     return this.http.get(`${this.API_URL}${this.V1}drivers/profile/image`, {responseType: 'blob'});
   }
 
+  uploadProfileImage(file: File) {
+    const formData = new FormData();
+    const filename = file?.name || 'profile-image';
+    formData.append('file', file, filename);
+    return this.http.post(`${this.API_URL}${this.V1}drivers/profile/image`, formData);
+  }
+
   getDriverProfileImage(driver: Driver) {
-    return this.http.get(`${this.API_URL}${this.V1}drivers/${driver.id}/profile-image`, {responseType: 'blob'});
+    return this.http.get(`${this.API_URL}${this.V2}drivers/${driver.id}/profile-image`, {responseType: 'blob'});
   }
 
   updateProfile(body) {
@@ -59,7 +67,7 @@ export class DriverService {
   }
 
   getRanking() {
-    return this.http.get(`${this.API_URL}${this.V1}drivers/ranking`);
+    return this.http.get(`${this.API_URL}${this.V2}drivers/ranking`);
   }
 
   /***********************************************************

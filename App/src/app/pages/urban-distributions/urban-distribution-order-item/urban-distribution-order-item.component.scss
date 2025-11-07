@@ -9,6 +9,9 @@ ion-item {
 
 ion-badge {
   font-size: 0.65em !important;
+  --color: #1c1c1c;
+  color: #1c1c1c;
+  font-weight: 600;
 }
 
 .p-small {
@@ -35,9 +38,9 @@ ion-badge {
   }
 
   ion-badge {
-    --background: rgba(255, 200, 80, 0.18);
-    --color: #ffda7a;
-    color: #ffda7a;
+    --background: rgba(255, 200, 80, 0.95);
+    --color: #1c1c1c;
+    color: #1c1c1c;
   }
 
   .index {

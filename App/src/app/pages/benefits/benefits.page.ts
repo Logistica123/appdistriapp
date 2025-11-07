@@ -2,6 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Benefit, BenefitResponse } from '../../interfaces/Benefit';
 import { BenefitService } from '../../services/v1/benefit.service';
+import {RewardBalance, RewardService} from '../../services/v1/reward.service';
+import {Router} from '@angular/router';
 
 interface CategorizedBenefits {
   hero: Benefit[];
@@ -22,6 +24,8 @@ export class BenefitsPage implements OnInit, OnDestroy {
   featureBenefits: Benefit[] = [];
   cardBenefits: Benefit[] = [];
   subscription: Subscription;
+  rewardBalance: RewardBalance | null = null;
+  rewardLoading = true;
 
   readonly heroSlideOptions = {
     autoplay: {
@@ -91,10 +95,13 @@ export class BenefitsPage implements OnInit, OnDestroy {
     },
   ];
 
-  constructor(private benefitService: BenefitService) {}
+  constructor(private benefitService: BenefitService,
+              private rewardService: RewardService,
+              private router: Router) {}
 
   ngOnInit() {
     this.loadBenefits();
+    this.loadRewardBalance();
   }
 
   ngOnDestroy() {
@@ -105,6 +112,26 @@ export class BenefitsPage implements OnInit, OnDestroy {
 
   doRefresh(event) {
     this.loadBenefits(() => event.target.complete());
+    this.loadRewardBalance();
+  }
+
+  loadRewardBalance(onComplete?: () => void) {
+    this.rewardLoading = true;
+    this.rewardService.getBalance().subscribe({
+      next: (balance) => {
+        this.rewardBalance = balance;
+        this.rewardLoading = false;
+        onComplete?.();
+      },
+      error: () => {
+        this.rewardLoading = false;
+        onComplete?.();
+      }
+    });
+  }
+
+  goToRewardSummary() {
+    this.router.navigate(['/reward-summary']);
   }
 
   loadBenefits(onComplete?: () => void) {

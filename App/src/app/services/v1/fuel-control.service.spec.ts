@@ -6,7 +6,7 @@ describe('FuelControlService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: FuelControlService = TestBed.get(FuelControlService);
+    const service: FuelControlService = TestBed.inject(FuelControlService);
     expect(service).toBeTruthy();
   });
 });

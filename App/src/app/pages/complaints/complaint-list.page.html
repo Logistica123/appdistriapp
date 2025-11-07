@@ -21,12 +21,16 @@
   <ion-list *ngIf="complaints.length > 0; else emptyState">
     <ion-item *ngFor="let complaint of complaints">
       <ion-label>
-        <div class="type-pill" *ngIf="complaint.type">
+        <div class="type-pill" *ngIf="complaint.source === 'personal'">
+          Personal
+        </div>
+        <div class="type-pill" *ngIf="complaint.source !== 'personal' && complaint.type">
           {{ getTypeLabel(complaint.type) }}
         </div>
-        <h2>{{ getTypeLabel(complaint.type) }}</h2>
+        <div class="code" *ngIf="complaint.codigo">{{ complaint.codigo }}</div>
+        <h2>{{ complaint.subject || getTypeLabel(complaint.type) }}</h2>
         <p>{{ complaint.message }}</p>
-        <p class="status" [ngClass]="complaint.status">{{ getStatusLabel(complaint.status) }}</p>
+        <p class="status" [ngClass]="complaint.status">{{ getStatusLabel(complaint) }}</p>
         <p class="date">{{ complaint.created_at | date:'short' }}</p>
       </ion-label>
     </ion-item>

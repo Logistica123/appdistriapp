@@ -8,16 +8,32 @@ ion-toolbar {
   --color: #ffffff;
 }
 
-ion-item-sliding {
-  border-radius: 15px;
-  box-shadow: 0 0 7px 2px lightgrey;
-  --background: #f4f5f8;
-}
-
-ion-item-options {
-  background: #f4f5f8;
+ion-card {
+  border-radius: 12px;
+  box-shadow: 0 0 7px 2px rgba(0, 0, 0, 0.05);
 }
 
 ion-item {
-  --background: #f4f5f8;
+  --background: #f8f9fc;
+  margin-bottom: 8px;
+  border-radius: 8px;
+}
+
+ion-button.custom-button {
+  --border-radius: 6px;
+}
+
+:host-context(.theme-dark) {
+  ion-card {
+    background: var(--surface-color);
+    border: 1px solid rgba(230, 236, 249, 0.08);
+  }
+
+  ion-item {
+    --background: rgba(12, 22, 37, 0.82);
+  }
+
+  ion-button[fill='clear'] {
+    --color: rgba(230, 236, 249, 0.92);
+  }
 }

@@ -9,59 +9,57 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <form [formGroup]="form">
-    <ion-grid>
-      <ion-row>
-        <ion-col size="12" class="ion-text-center">
+<ion-content class="profile-modal">
+  <form [formGroup]="form" class="profile-form">
+    <div class="modal-card">
+      <section class="section-card">
+        <div class="section-header">
+          <ion-icon name="person-circle-outline"></ion-icon>
           <h5>Datos de conductor</h5>
-        </ion-col>
-      </ion-row>
+        </div>
 
-      <ion-row>
-        <ion-col size="6">
-          <ion-label>Ciudad</ion-label>
-          <input type="text" formControlName="city">
-          <p class="ion-no-margin form-error-message" *ngIf="form.controls.city.invalid && showInputErrorMessage">
-            Este campo es requerido
-          </p>
-        </ion-col>
+        <div class="field-row">
+          <div class="field-group">
+            <label for="city">Ciudad</label>
+            <input id="city" type="text" formControlName="city">
+            <p class="ion-no-margin form-error-message"
+               *ngIf="form.controls.city.invalid && showInputErrorMessage">
+              Este campo es requerido
+            </p>
+          </div>
+          <div class="field-group">
+            <label for="phone_number">Teléfono</label>
+            <input id="phone_number" type="text" formControlName="phone_number">
+            <p class="ion-no-margin form-error-message"
+               *ngIf="form.controls.phone_number.invalid && showInputErrorMessage">
+              Este campo es requerido
+            </p>
+          </div>
+        </div>
+      </section>
 
-        <ion-col size="6">
-          <ion-label>Teléfono</ion-label>
-          <input type="text" formControlName="phone_number">
-          <p class="ion-no-margin form-error-message" *ngIf="form.controls.phone_number.invalid && showInputErrorMessage">
-            Este campo es requerido
-          </p>
-        </ion-col>
-      </ion-row>
-
-      <ion-row>
-        <ion-col size="12" class="ion-text-center">
+      <section class="section-card">
+        <div class="section-header">
+          <ion-icon name="card-outline"></ion-icon>
           <h5>Datos bancarios</h5>
-        </ion-col>
-      </ion-row>
+        </div>
 
-      <ion-row>
-        <ion-col size="12">
-          <ion-item lines="none">
-            <ion-label>¿El CBU pertenece al conductor?</ion-label>
-            <ion-toggle formControlName="bank_owner_is_driver" (ionChange)="onBankOwnerToggle($event)"></ion-toggle>
-          </ion-item>
-        </ion-col>
-      </ion-row>
+        <div class="field-group toggle-group">
+          <div>
+            <span class="toggle-label">¿El CBU pertenece al conductor?</span>
+            <small class="toggle-hint">Si el CBU es de otra persona, completá los datos del titular.</small>
+          </div>
+          <ion-toggle formControlName="bank_owner_is_driver" (ionChange)="onBankOwnerToggle($event)"></ion-toggle>
+        </div>
 
-      <ion-row *ngIf="!form.value.bank_owner_is_driver">
-        <ion-col size="12">
-          <ion-label>Nombre del titular</ion-label>
-          <input type="text" formControlName="bank_holder_name">
-        </ion-col>
-      </ion-row>
+        <div class="field-group" *ngIf="!form.value.bank_owner_is_driver">
+          <label for="bank_holder_name">Nombre del titular</label>
+          <input id="bank_holder_name" type="text" formControlName="bank_holder_name">
+        </div>
 
-      <ion-row>
-        <ion-col size="12">
-          <ion-label>CBU (22 dígitos)</ion-label>
-          <input type="text" formControlName="bank_cbu" inputmode="numeric">
+        <div class="field-group">
+          <label for="bank_cbu">CBU (22 dígitos)</label>
+          <input id="bank_cbu" type="text" formControlName="bank_cbu" inputmode="numeric" maxlength="22">
           <ion-note color="medium" class="hint">
             Ingresá los 22 dígitos sin espacios, guiones ni caracteres especiales.
           </ion-note>
@@ -69,32 +67,36 @@
              *ngIf="form.controls.bank_cbu.invalid && form.controls.bank_cbu.value && showInputErrorMessage">
             Debe contener 22 dígitos
           </p>
-        </ion-col>
-      </ion-row>
+        </div>
+      </section>
 
-      <ion-row>
-        <ion-col size="12">
-          <ion-label>Empresa</ion-label>
-          <input type="text" formControlName="company">
-        </ion-col>
-      </ion-row>
+      <section class="section-card">
+        <div class="section-header">
+          <ion-icon name="business-outline"></ion-icon>
+          <h5>Información laboral</h5>
+        </div>
 
-      <ion-row>
-        <ion-col size="12">
-          <ion-label>Matrícula</ion-label>
-          <input type="text" formControlName="license_plate">
-          <p class="ion-no-margin form-error-message"
-             *ngIf="form.controls.license_plate.invalid && showInputErrorMessage">
-            Este campo es requerido
-          </p>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+        <div class="field-row">
+          <div class="field-group">
+            <label for="company">Empresa</label>
+            <input id="company" type="text" formControlName="company">
+          </div>
+          <div class="field-group">
+            <label for="license_plate">Matrícula</label>
+            <input id="license_plate" type="text" formControlName="license_plate">
+            <p class="ion-no-margin form-error-message"
+               *ngIf="form.controls.license_plate.invalid && showInputErrorMessage">
+              Este campo es requerido
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="actions">
+      <ion-button class="custom-button" expand="block" (click)="submit()">
+        Guardar cambios
+      </ion-button>
+    </div>
   </form>
-
-  <div class="ion-text-center ion-padding">
-    <ion-button class="custom-button" (click)="submit()">
-      Aceptar
-    </ion-button>
-  </div>
 </ion-content>

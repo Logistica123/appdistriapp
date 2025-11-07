@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   API_URL: 'http://127.0.0.1:8000/api/',
+  PERSONAL_API_URL: 'http://127.0.0.1:8001/api/', // backend de personal
   firebaseConfig : {
     apiKey: 'AIzaSyDw54VQaZ91JdVUw7_p98c_lTxa8Pt5Icw',
     authDomain: 'distriapp-2021.firebaseapp.com',

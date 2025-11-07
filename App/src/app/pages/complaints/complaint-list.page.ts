@@ -58,8 +58,12 @@ export class ComplaintListPage implements OnInit {
     }
   }
 
-  getStatusLabel(status: Complaint['status']): string {
-    switch (status) {
+  getStatusLabel(complaint: Complaint): string {
+    if (complaint.status_label) {
+      return complaint.status_label;
+    }
+
+    switch (complaint.status) {
       case 'resolved':
         return 'Resuelto';
       case 'in_progress':

@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 
-import {Animation, AnimationController, Platform, PopoverController} from '@ionic/angular';
+import {Animation, AnimationController, PopoverController, MenuController, Platform} from '@ionic/angular';
 import {SplashScreen} from '@ionic-native/splash-screen/ngx';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {Router} from '@angular/router';
@@ -17,7 +17,7 @@ import {FCM} from 'cordova-plugin-fcm-with-dependecy-updated/ionic';
 import {ToastComponent} from './components/toast/toast.component';
 import {AppRate} from '@ionic-native/app-rate/ngx';
 import {Subscription} from 'rxjs';
-import {ThemeService} from './services/theme.service';
+import {ThemeName, ThemeService} from './services/theme.service';
 
 interface MenuPage {
     title: string;
@@ -26,8 +26,6 @@ interface MenuPage {
     subtitle?: string;
     badge?: string;
 }
-
-type ThemeKey = 'theme-light' | 'theme-dark';
 
 @Component({
     selector: 'app-root',
@@ -44,15 +42,22 @@ export class AppComponent implements OnInit, OnDestroy {
     anim: Animation;
     activeService = false;
     driverSubscription: Subscription;
-    currentTheme: ThemeKey = 'theme-light';
-    readonly themeToggleLabels: Record<ThemeKey, string> = {
+    currentTheme: ThemeName = 'theme-light';
+    readonly defaultThemeLogo = 'assets/logo-empresa.png';
+    themeLogoMap: Partial<Record<ThemeName, string>> = {
+        'theme-light': 'assets/logo-empresa.png',
+        'theme-dark': 'assets/logo-empresa.png'
+    };
+    menuLogoSrc = this.defaultThemeLogo;
+    readonly themeToggleLabels: Record<ThemeName, string> = {
         'theme-light': 'Modo oscuro',
         'theme-dark': 'Modo claro'
     };
-    readonly themeToggleIcons: Record<ThemeKey, string> = {
+    readonly themeToggleIcons: Record<ThemeName, string> = {
         'theme-light': 'moon-outline',
         'theme-dark': 'sunny-outline'
     };
+    isMobile = false;
 
     // appPages = [];
 
@@ -141,6 +146,12 @@ export class AppComponent implements OnInit, OnDestroy {
             url: '/help',
             icon: 'help-buoy-outline',
             subtitle: 'Ayuda y soporte'
+        },
+        {
+            title: 'Juegos',
+            url: '/games',
+            icon: 'game-controller-outline',
+            subtitle: 'Mini juegos'
         }
     ];
 
@@ -159,14 +170,21 @@ export class AppComponent implements OnInit, OnDestroy {
         private domSanitizer: DomSanitizer,
         private router: Router,
         private appRate: AppRate,
-        private themeService: ThemeService
+        private themeService: ThemeService,
+        private menuController: MenuController
     ) {
         this.currentTheme = this.themeService.initializeTheme();
+        this.syncThemeAssets(this.currentTheme);
         this.initializeApp();
+    }
+
+    private updateLayoutFlags() {
+        this.isMobile = !this.platform.is('tablet') && (this.platform.is('mobile') || this.platform.width() < 768);
     }
 
     initializeApp() {
         this.platform.ready().then(() => {
+            this.updateLayoutFlags();
             this.statusBar.styleLightContent();
             this.splashScreen.hide();
             // this.listenForPusherEvents();
@@ -197,7 +215,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         // this.pushAllPages();
-
+        this.updateLayoutFlags();
+        this.platform.resize.subscribe(() => this.updateLayoutFlags());
     }
 
     ngOnDestroy() {
@@ -208,6 +227,24 @@ export class AppComponent implements OnInit, OnDestroy {
 
     toggleTheme(): void {
         this.currentTheme = this.themeService.toggleTheme(this.currentTheme);
+        this.syncThemeAssets(this.currentTheme);
+    }
+
+    closeMenu(): void {
+        if (this.menuController) {
+            this.menuController.close();
+        }
+    }
+
+    private syncThemeAssets(theme: ThemeName): void {
+        const logo = this.themeLogoMap[theme] ?? this.defaultThemeLogo;
+        this.menuLogoSrc = logo;
+    }
+
+    onMenuLogoError(): void {
+        if (this.menuLogoSrc !== this.defaultThemeLogo) {
+            this.menuLogoSrc = this.defaultThemeLogo;
+        }
     }
 
     pushAllPages() {

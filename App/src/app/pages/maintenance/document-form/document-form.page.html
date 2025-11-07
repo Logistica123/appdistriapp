@@ -1,38 +1,12 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button (click)="navigateBack()">
-        <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
-      </ion-button>
+      <ion-back-button defaultHref="document-list"></ion-back-button>
     </ion-buttons>
-    <ion-title>AGREGAR DOCUMENTO</ion-title>
+    <ion-title>Documentos</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-progress-bar class="ion-margin-top"
-                    type="indeterminate"
-                    *ngIf="loading">
-  </ion-progress-bar>
-
-  <ion-list>
-    <ion-radio-group [formControl]="documentTypeFC">
-      <ion-list-header>
-        Tipo de documento
-      </ion-list-header>
-
-      <ion-item lines="none" *ngFor="let documentType of documentTypes">
-        <ion-label>{{documentType.type}}</ion-label>
-        <ion-radio [value]="documentType.id"></ion-radio>
-      </ion-item>
-    </ion-radio-group>
-  </ion-list>
-
-  <div class="ion-text-center ion-padding">
-    <ion-button class="custom-button"
-                [disabled]="!this.documentTypeFC.value"
-                (click)="addDocument()">
-      AGREGAR
-    </ion-button>
-  </div>
+<ion-content class="ion-padding ion-text-center">
+  <p>Redirigiendo al listado de liquidaciones…</p>
 </ion-content>

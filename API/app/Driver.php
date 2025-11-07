@@ -149,6 +149,11 @@ class Driver extends Authenticatable
         return $this->belongsTo(Company::class, 'company_id');
     }
 
+    public function routeClosures()
+    {
+        return $this->hasMany(RouteClosure::class);
+    }
+
     /************************************************************
      * | ACCESSORS
      *************************************************************/

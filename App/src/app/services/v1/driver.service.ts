@@ -38,6 +38,10 @@ export class DriverService {
     return this.http.post(`${this.API_URL}${this.V1}drivers/profile/image`, formData);
   }
 
+  deleteProfileImage() {
+    return this.http.delete(`${this.API_URL}${this.V1}drivers/profile/image`);
+  }
+
   getDriverProfileImage(driver: Driver) {
     return this.http.get(`${this.API_URL}${this.V2}drivers/${driver.id}/profile-image`, {responseType: 'blob'});
   }

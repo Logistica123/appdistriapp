@@ -200,6 +200,33 @@ class DriverController extends Controller
         ])->setStatusCode(400);
     }
 
+    public function deleteProfileImage(Request $request)
+    {
+        $driver = $request->user();
+
+        if ($driver->has_profile_img && $driver->profile_img_path) {
+            $filePath = storage_path() . '/app/' . $driver->profile_img_path;
+            if (is_file($filePath)) {
+                try {
+                    unlink($filePath);
+                } catch (\Exception $e) {
+                    // ignore unlink errors, we'll just clear the flags
+                }
+            }
+        }
+
+        $driver->profile_img_path = null;
+        $driver->has_profile_img = 0;
+        $driver->save();
+
+        return response()->json([
+            'success' => true,
+            'deleted' => true,
+            'message' => 'resource deleted',
+            'custom_message' => 'Imagen de perfil eliminada'
+        ]);
+    }
+
     public function getRanking(Request $request)
     {
         $drivers = Driver::CompanyDrivers($request->user()->company_id)->active()->scores()->get();

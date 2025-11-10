@@ -22,6 +22,17 @@
            *ngIf="filesSrc.length <= 0 && driver?.has_profile_img && profileImg" (click)="pickImage()">
     </div>
 
+    <div class="photo-actions ion-margin">
+      <div class="action-pill change-photo-action" (click)="pickImage()">
+        {{ driver?.has_profile_img || filesSrc.length > 0 ? 'Cambiar foto' : 'Agregar foto' }}
+      </div>
+      <div class="action-pill delete-photo-action"
+           [class.disabled]="!canDeletePhoto()"
+           (click)="handleDeletePhoto()">
+        Eliminar foto
+      </div>
+    </div>
+
     <div class="ion-text-center ion-margin" *ngIf="filesSrc.length > 0">
       <div class="update-profile-image small" (click)="uploadFile()">
         Guardar nueva imagen de perfil

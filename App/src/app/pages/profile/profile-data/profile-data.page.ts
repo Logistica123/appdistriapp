@@ -137,6 +137,45 @@ export class ProfileDataPage implements OnInit {
     fileInput.click();
   }
 
+  canDeletePhoto(): boolean {
+    return this.filesSrc.length > 0 || !!this.driver?.has_profile_img;
+  }
+
+  async handleDeletePhoto() {
+    if (this.filesSrc.length > 0 && !this.driver?.has_profile_img) {
+      this.resetFileSelection();
+      return;
+    }
+
+    if (this.filesSrc.length > 0) {
+      this.resetFileSelection();
+    }
+
+    if (!this.driver?.has_profile_img) {
+      return;
+    }
+
+    const alert = await this.alertController.create({
+      header: 'Eliminar foto',
+      message: '¿Querés eliminar tu foto de perfil?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Eliminar',
+          cssClass: 'danger',
+          handler: () => {
+            this.deleteProfilePhoto();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (!input?.files || input.files.length === 0) {
@@ -204,6 +243,30 @@ export class ProfileDataPage implements OnInit {
     } finally {
       await this.loadingSpinnerComponent.dismissLoadingSpinner();
     }
+  }
+
+  private async deleteProfilePhoto() {
+    await this.loadingSpinnerComponent.presentLoadingSpinner('eliminando imagen');
+    this.driverService.deleteProfileImage()
+      .pipe(take(1))
+      .subscribe({
+        next: async () => {
+          this.profileImg = null;
+          if (this.driver) {
+            this.driver.has_profile_img = false;
+          }
+          this.resetFileSelection();
+          this.getProfile();
+          await this.loadingSpinnerComponent.dismissLoadingSpinner();
+          this.toastComponent.presentToast('Imagen de perfil eliminada.', 'middle', 2000);
+        },
+        error: async (err) => {
+          await this.loadingSpinnerComponent.dismissLoadingSpinner();
+          const errorMessage = this.formatUploadError(err);
+          this.toastComponent.presentToast(
+            `No se pudo eliminar la imagen, error: ${errorMessage}`, 'middle', 2500);
+        }
+      });
   }
 
   private resetFileSelection() {

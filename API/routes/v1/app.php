@@ -36,6 +36,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('drivers/{driver}/profile-image', 'DriverController@getDriverProfileImage');
     Route::get('drivers/ranking', 'DriverController@getRanking');
     Route::post('drivers/profile/image', 'DriverController@storeProfileImage');
+    Route::delete('drivers/profile/image', 'DriverController@deleteProfileImage');
     Route::put('drivers/phone-number', 'DriverController@updatePhoneNumber');
     Route::put('drivers/password', 'DriverController@updatePassword');
     Route::put('drivers/fcm-token', 'DriverController@updateFCMToken');

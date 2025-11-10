@@ -22,9 +22,12 @@
           <ion-icon name="mail-outline"></ion-icon>
           <input type="text" placeholder="Correo electrónico" formControlName="email" inputmode="email">
         </div>
-        <div class="input-field">
+        <div class="input-field password-field">
           <ion-icon name="lock-closed-outline"></ion-icon>
-          <input type="password" placeholder="Contraseña" formControlName="password">
+          <input [type]="showPassword ? 'text' : 'password'" placeholder="Contraseña" formControlName="password">
+          <button type="button" class="password-toggle" (click)="togglePasswordVisibility()">
+            <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+          </button>
         </div>
 
         <ion-item lines="none" class="remember-toggle">

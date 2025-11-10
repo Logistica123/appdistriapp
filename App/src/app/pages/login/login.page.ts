@@ -22,6 +22,7 @@ export class LoginPage implements OnInit {
   signInForm: FormGroup;
   loading = false;
   checkingCredentials = true;
+  showPassword = false;
 
   constructor(private storage: Storage,
               private formBuilder: FormBuilder,
@@ -41,6 +42,10 @@ export class LoginPage implements OnInit {
       password: ['', Validators.required],
       checkbox: [false]
     });
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 
   ngOnInit() {

@@ -23,9 +23,11 @@ ion-card {
 }
 
 .route-closure-card {
-  margin: 0 16px 24px;
+  width: min(640px, calc(100% - 48px));
+  margin: 0 auto 24px;
   border-radius: 20px;
   box-shadow: 0 18px 32px rgba(13, 24, 46, 0.15);
+  background: linear-gradient(135deg, rgba(247, 249, 255, 0.96), rgba(232, 238, 252, 0.9));
 
   ion-card-title {
     font-size: 1rem;
@@ -41,6 +43,23 @@ ion-card {
     margin-bottom: 16px;
     color: rgba(13, 24, 46, 0.85);
     font-size: 0.9rem;
+  }
+
+  ion-card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  ion-button {
+    --border-radius: 14px;
+    --padding-start: 12px;
+    --padding-end: 12px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    box-shadow: 0 12px 24px rgba(10, 32, 76, 0.22);
+    width: 100%;
+    justify-content: center;
   }
 }
 
@@ -71,6 +90,38 @@ ion-item-sliding {
 
     &__text {
       color: rgba(225, 234, 255, 0.82);
+    }
+
+    ion-button {
+      box-shadow: 0 16px 28px rgba(4, 16, 42, 0.5);
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 520px) {
+  .route-closure-card {
+    width: calc(100% - 24px);
+    margin: 12px auto 24px;
+    border-radius: 18px;
+    align-self: stretch;
+    ion-card-title {
+      font-size: 0.95rem;
+    }
+
+    ion-card-subtitle {
+      font-size: 0.8rem;
+    }
+
+    ion-card-content {
+      padding: 18px 16px 20px !important;
+      gap: 12px;
+    }
+
+    ion-button {
+      font-size: 0.9rem;
+      height: 44px;
+      max-width: 100%;
     }
   }
 }

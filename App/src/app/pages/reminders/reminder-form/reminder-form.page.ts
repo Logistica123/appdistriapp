@@ -70,7 +70,7 @@ export class ReminderFormPage implements OnInit {
 
   setReminder() {
     this.form.controls.description.setValue(this.reminder.description);
-    this.form.controls.date.setValue(this.reminder.date);
+    this.form.controls.date.setValue(this.normalizeInputDate(this.reminder.date));
     this.form.controls.type.setValue(this.reminder.type);
   }
 
@@ -81,9 +81,27 @@ export class ReminderFormPage implements OnInit {
   setBody() {
     return {
       description: this.form.value.description,
-      date: this.form.value.date,
+      date: this.normalizeInputDate(this.form.value.date),
       type: this.form.value.type,
     };
+  }
+
+  private normalizeInputDate(value: string): string {
+    if (!value) {
+      return '';
+    }
+
+    if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+      return value;
+    }
+
+    const parsed = new Date(value);
+    if (!isNaN(parsed.getTime())) {
+      const offsetDate = new Date(parsed.getTime() - parsed.getTimezoneOffset() * 60000);
+      return offsetDate.toISOString().slice(0, 10);
+    }
+
+    return value;
   }
 
 

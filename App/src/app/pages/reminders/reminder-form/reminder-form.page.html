@@ -18,19 +18,38 @@
       </p>
     </div>
 
-    <div class="form-group">
+    <div class="form-group date-group">
       <ion-label>Fecha</ion-label>
-      <ion-item lines="none" class="custom-item">
-        <ion-datetime displayFormat="DD MMMM YYYY"
-                      formControlName="date"
-                      doneText="ok"
-                      cancelText="cancelar"
-                      monthNames="enero, febrero, marzo, abril, mayo, junio, julio, agosto, septiembre, octubre, noviembre, diciembre"
-                      monthShortNames="ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic"
-                      dayNames="domingo, lunes, martes, miércoles, jueves, viernes, sábado, domingo"
-                      dayShortNames="dom, lun, mar, mié, jue, vie, sáb, dom">
-        </ion-datetime>
-      </ion-item>
+      <div class="date-picker" aria-live="polite">
+        <div class="date-picker__icon">
+          <ion-icon name="calendar-outline"></ion-icon>
+        </div>
+
+        <div class="date-picker__text" *ngIf="form.controls.date.value; else datePlaceholder">
+          <span class="date-picker__primary">
+            {{ form.controls.date.value | date:'EEEE d':'':'es-AR' }}
+          </span>
+          <span class="date-picker__secondary">
+            {{ form.controls.date.value | date:'MMMM y':'':'es-AR' }}
+          </span>
+        </div>
+
+        <ng-template #datePlaceholder>
+          <div class="date-picker__text">
+            <span class="date-picker__primary">Elegí una fecha</span>
+            <span class="date-picker__secondary">Tocá para abrir el calendario</span>
+          </div>
+        </ng-template>
+
+        <ion-icon class="date-picker__chevron" name="chevron-down-outline"></ion-icon>
+
+        <input
+          class="date-picker__input"
+          type="date"
+          formControlName="date"
+          aria-label="Seleccionar fecha" />
+      </div>
+
       <p class="ion-no-margin form-error-message" *ngIf="form.controls.date.invalid && showInputErrorMessage">
         Este campo es requerido
       </p>

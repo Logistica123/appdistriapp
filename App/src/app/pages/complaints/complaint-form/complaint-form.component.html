@@ -12,7 +12,7 @@
 <ion-content>
   <form [formGroup]="form">
     <ion-list lines="none">
-      <ion-item>
+      <ion-item class="form-field">
         <ion-label position="stacked">Tipo de reclamo</ion-label>
         <ion-select
           formControlName="type"
@@ -28,7 +28,7 @@
       <ion-note color="danger" *ngIf="form.controls.type.invalid && form.controls.type.touched">
         Seleccioná un tipo de reclamo.
       </ion-note>
-      <ion-item>
+      <ion-item class="form-field">
         <ion-label position="stacked">Mensaje</ion-label>
         <ion-textarea formControlName="message" autoGrow="true"></ion-textarea>
       </ion-item>

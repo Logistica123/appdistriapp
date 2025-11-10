@@ -114,7 +114,7 @@ ion-content {
   font-weight: 600;
   color: #15325b;
   letter-spacing: 0;
-  padding: 0;
+  padding: 6px 4px;
   text-align: left;
 }
 
@@ -192,15 +192,6 @@ button:disabled {
 .secondary:hover {
   background: rgba(229, 57, 53, 0.08);
   box-shadow: 0 10px 20px rgba(229, 57, 53, 0.16);
-}
-
-.footer {
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 24px;
-  color: rgba(21, 50, 91, 0.75);
-  position: fixed;
-  font-weight: 600;
 }
 
 .remember-toggle ion-checkbox {

@@ -81,5 +81,14 @@ export class ProfileFormPage implements OnInit {
     }
   }
 
-}
+  get showBankCbuErrorMessage(): boolean {
+    const control = this.form.controls.bank_cbu;
+    const hasValue = !!control?.value;
+    if (!control || !hasValue) {
+      return false;
+    }
 
+    return control.invalid && (this.showInputErrorMessage || control.touched || control.dirty);
+  }
+
+}

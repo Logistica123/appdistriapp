@@ -64,7 +64,7 @@
             Ingresá los 22 dígitos sin espacios, guiones ni caracteres especiales.
           </ion-note>
           <p class="ion-no-margin form-error-message"
-             *ngIf="form.controls.bank_cbu.invalid && form.controls.bank_cbu.value && showInputErrorMessage">
+             *ngIf="showBankCbuErrorMessage">
             Debe contener 22 dígitos
           </p>
         </div>

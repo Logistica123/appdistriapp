@@ -455,4 +455,3 @@ SegmentButton.style = {
 /***/ })
 
 }]);
-//# sourceMappingURL=31-es2015.js.map

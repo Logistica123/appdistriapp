@@ -385,4 +385,3 @@ Searchbar.style = {
 /***/ })
 
 }]);
-//# sourceMappingURL=30-es2015.js.map

@@ -1,40 +1,29 @@
-@font-face {
-  font-family: "NunitoSans";
-  font-style: normal;
-  font-weight: normal;
-  src: url('NunitoSans-Regular.ttf');
-}
-@font-face {
-  font-family: "ITC";
-  font-style: normal;
-  font-weight: normal;
-  src: url('ITCAvantGardeStd-Bk.ttf');
-}
+@import url(https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap);
 /** Ionic CSS Variables **/
 :root {
   --ion-menu-background-color: #1a49a0;
-  --ion-font-family: "NunitoSans", sans-serif;
+  --ion-font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
   /** primary **/
-  --ion-color-primary: #005BD1;
-  --ion-color-primary-rgb: 0,91,209;
+  --ion-color-primary: #0d2b4f;
+  --ion-color-primary-rgb: 13, 43, 79;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255,255,255;
-  --ion-color-primary-shade: #0050b8;
-  --ion-color-primary-tint: #1a6bd6;
+  --ion-color-primary-shade: #0b2545;
+  --ion-color-primary-tint: #264061;
   /** secondary **/
-  --ion-color-secondary: #0cd1e8;
-  --ion-color-secondary-rgb: 12, 209, 232;
+  --ion-color-secondary: #1a49a0;
+  --ion-color-secondary-rgb: 26, 73, 160;
   --ion-color-secondary-contrast: #ffffff;
   --ion-color-secondary-contrast-rgb: 255, 255, 255;
-  --ion-color-secondary-shade: #0bb8cc;
-  --ion-color-secondary-tint: #24d6ea;
+  --ion-color-secondary-shade: #163f8d;
+  --ion-color-secondary-tint: #315ba9;
   /** tertiary **/
-  --ion-color-tertiary: #1a49a0;
-  --ion-color-tertiary-rgb: 26,73,160;
+  --ion-color-tertiary: #0a1f3d;
+  --ion-color-tertiary-rgb: 10, 31, 61;
   --ion-color-tertiary-contrast: #ffffff;
   --ion-color-tertiary-contrast-rgb: 255,255,255;
-  --ion-color-tertiary-shade: #17408d;
-  --ion-color-tertiary-tint: #315baa;
+  --ion-color-tertiary-shade: #091b36;
+  --ion-color-tertiary-tint: #233551;
   /** success **/
   --ion-color-success: #10dc60;
   --ion-color-success-rgb: 16, 220, 96;
@@ -64,20 +53,32 @@
   --ion-color-dark-shade: #1e2023;
   --ion-color-dark-tint: #383a3e;
   /** medium **/
-  --ion-color-medium: #989aa2;
-  --ion-color-medium-rgb: 152, 154, 162;
+  --ion-color-medium: #5b6b86;
+  --ion-color-medium-rgb: 91, 107, 134;
   --ion-color-medium-contrast: #ffffff;
   --ion-color-medium-contrast-rgb: 255, 255, 255;
-  --ion-color-medium-shade: #86888f;
-  --ion-color-medium-tint: #a2a4ab;
+  --ion-color-medium-shade: #505e77;
+  --ion-color-medium-tint: #708099;
   /** light **/
-  --ion-color-light: #f4f5f8;
-  --ion-color-light-rgb: 244, 244, 244;
-  --ion-color-light-contrast: #000000;
-  --ion-color-light-contrast-rgb: 0, 0, 0;
-  --ion-color-light-shade: #d7d8da;
-  --ion-color-light-tint: #f5f6f9;
+  --ion-color-light: #f4f7fb;
+  --ion-color-light-rgb: 244, 247, 251;
+  --ion-color-light-contrast: #1c2a3f;
+  --ion-color-light-contrast-rgb: 28, 42, 63;
+  --ion-color-light-shade: #d7dae0;
+  --ion-color-light-tint: #f6f8fc;
+  --ion-background-color: #edf1f8;
+  --ion-text-color: #1c2a3f;
+  --app-gradient: linear-gradient(180deg, #eff3fb 0%, #dce5f7 100%);
 }
+html.theme-dark,
+body.theme-dark {
+  --app-gradient: linear-gradient(180deg, #10325d 0%, #081d36 100%);
+}
+html.theme-light,
+body.theme-light {
+  --app-gradient: linear-gradient(180deg, #eff3fb 0%, #dce5f7 100%);
+}
+@charset "UTF-8";
 /*
  * App Global CSS
  * ----------------------------------------------------------------------------
@@ -1116,6 +1117,223 @@ sub {
 .ion-align-items-baseline {
   align-items: baseline !important;
 }
+/*!
+ * animate.css - https://animate.style/
+ * Version - 4.1.1
+ * Licensed under the MIT license - http://opensource.org/licenses/MIT
+ *
+ * Copyright (c) 2020 Animate.css
+ */
+:root{--animate-duration:1s;--animate-delay:1s;--animate-repeat:1}
+.animate__animated{animation-duration:1s;animation-duration:var(--animate-duration);animation-fill-mode:both}
+.animate__animated.animate__infinite{animation-iteration-count:infinite}
+.animate__animated.animate__repeat-1{animation-iteration-count:1;animation-iteration-count:var(--animate-repeat)}
+.animate__animated.animate__repeat-2{animation-iteration-count:2;animation-iteration-count:calc(var(--animate-repeat)*2)}
+.animate__animated.animate__repeat-3{animation-iteration-count:3;animation-iteration-count:calc(var(--animate-repeat)*3)}
+.animate__animated.animate__delay-1s{animation-delay:1s;animation-delay:var(--animate-delay)}
+.animate__animated.animate__delay-2s{animation-delay:2s;animation-delay:calc(var(--animate-delay)*2)}
+.animate__animated.animate__delay-3s{animation-delay:3s;animation-delay:calc(var(--animate-delay)*3)}
+.animate__animated.animate__delay-4s{animation-delay:4s;animation-delay:calc(var(--animate-delay)*4)}
+.animate__animated.animate__delay-5s{animation-delay:5s;animation-delay:calc(var(--animate-delay)*5)}
+.animate__animated.animate__faster{animation-duration:.5s;animation-duration:calc(var(--animate-duration)/2)}
+.animate__animated.animate__fast{animation-duration:.8s;animation-duration:calc(var(--animate-duration)*0.8)}
+.animate__animated.animate__slow{animation-duration:2s;animation-duration:calc(var(--animate-duration)*2)}
+.animate__animated.animate__slower{animation-duration:3s;animation-duration:calc(var(--animate-duration)*3)}
+@media (prefers-reduced-motion:reduce), print{.animate__animated{animation-duration:1ms!important;transition-duration:1ms!important;animation-iteration-count:1!important}.animate__animated[class*=Out]{opacity:0}}
+@keyframes bounce{0%,20%,53%,to{animation-timing-function:cubic-bezier(.215,.61,.355,1);transform:translateZ(0)}40%,43%{animation-timing-function:cubic-bezier(.755,.05,.855,.06);transform:translate3d(0,-30px,0) scaleY(1.1)}70%{animation-timing-function:cubic-bezier(.755,.05,.855,.06);transform:translate3d(0,-15px,0) scaleY(1.05)}80%{transition-timing-function:cubic-bezier(.215,.61,.355,1);transform:translateZ(0) scaleY(.95)}90%{transform:translate3d(0,-4px,0) scaleY(1.02)}}
+.animate__bounce{animation-name:bounce;transform-origin:center bottom}
+@keyframes flash{0%,50%,to{opacity:1}25%,75%{opacity:0}}
+.animate__flash{animation-name:flash}
+@keyframes pulse{0%{transform:scaleX(1)}50%{transform:scale3d(1.05,1.05,1.05)}to{transform:scaleX(1)}}
+.animate__pulse{animation-name:pulse;animation-timing-function:ease-in-out}
+@keyframes rubberBand{0%{transform:scaleX(1)}30%{transform:scale3d(1.25,.75,1)}40%{transform:scale3d(.75,1.25,1)}50%{transform:scale3d(1.15,.85,1)}65%{transform:scale3d(.95,1.05,1)}75%{transform:scale3d(1.05,.95,1)}to{transform:scaleX(1)}}
+.animate__rubberBand{animation-name:rubberBand}
+@keyframes shakeX{0%,to{transform:translateZ(0)}10%,30%,50%,70%,90%{transform:translate3d(-10px,0,0)}20%,40%,60%,80%{transform:translate3d(10px,0,0)}}
+.animate__shakeX{animation-name:shakeX}
+@keyframes shakeY{0%,to{transform:translateZ(0)}10%,30%,50%,70%,90%{transform:translate3d(0,-10px,0)}20%,40%,60%,80%{transform:translate3d(0,10px,0)}}
+.animate__shakeY{animation-name:shakeY}
+@keyframes headShake{0%{transform:translateX(0)}6.5%{transform:translateX(-6px) rotateY(-9deg)}18.5%{transform:translateX(5px) rotateY(7deg)}31.5%{transform:translateX(-3px) rotateY(-5deg)}43.5%{transform:translateX(2px) rotateY(3deg)}50%{transform:translateX(0)}}
+.animate__headShake{animation-timing-function:ease-in-out;animation-name:headShake}
+@keyframes swing{20%{transform:rotate(15deg)}40%{transform:rotate(-10deg)}60%{transform:rotate(5deg)}80%{transform:rotate(-5deg)}to{transform:rotate(0deg)}}
+.animate__swing{transform-origin:top center;animation-name:swing}
+@keyframes tada{0%{transform:scaleX(1)}10%,20%{transform:scale3d(.9,.9,.9) rotate(-3deg)}30%,50%,70%,90%{transform:scale3d(1.1,1.1,1.1) rotate(3deg)}40%,60%,80%{transform:scale3d(1.1,1.1,1.1) rotate(-3deg)}to{transform:scaleX(1)}}
+.animate__tada{animation-name:tada}
+@keyframes wobble{0%{transform:translateZ(0)}15%{transform:translate3d(-25%,0,0) rotate(-5deg)}30%{transform:translate3d(20%,0,0) rotate(3deg)}45%{transform:translate3d(-15%,0,0) rotate(-3deg)}60%{transform:translate3d(10%,0,0) rotate(2deg)}75%{transform:translate3d(-5%,0,0) rotate(-1deg)}to{transform:translateZ(0)}}
+.animate__wobble{animation-name:wobble}
+@keyframes jello{0%,11.1%,to{transform:translateZ(0)}22.2%{transform:skewX(-12.5deg) skewY(-12.5deg)}33.3%{transform:skewX(6.25deg) skewY(6.25deg)}44.4%{transform:skewX(-3.125deg) skewY(-3.125deg)}55.5%{transform:skewX(1.5625deg) skewY(1.5625deg)}66.6%{transform:skewX(-.78125deg) skewY(-.78125deg)}77.7%{transform:skewX(.390625deg) skewY(.390625deg)}88.8%{transform:skewX(-.1953125deg) skewY(-.1953125deg)}}
+.animate__jello{animation-name:jello;transform-origin:center}
+@keyframes heartBeat{0%{transform:scale(1)}14%{transform:scale(1.3)}28%{transform:scale(1)}42%{transform:scale(1.3)}70%{transform:scale(1)}}
+.animate__heartBeat{animation-name:heartBeat;animation-duration:1.3s;animation-duration:calc(var(--animate-duration)*1.3);animation-timing-function:ease-in-out}
+@keyframes backInDown{0%{transform:translateY(-1200px) scale(.7);opacity:.7}80%{transform:translateY(0) scale(.7);opacity:.7}to{transform:scale(1);opacity:1}}
+.animate__backInDown{animation-name:backInDown}
+@keyframes backInLeft{0%{transform:translateX(-2000px) scale(.7);opacity:.7}80%{transform:translateX(0) scale(.7);opacity:.7}to{transform:scale(1);opacity:1}}
+.animate__backInLeft{animation-name:backInLeft}
+@keyframes backInRight{0%{transform:translateX(2000px) scale(.7);opacity:.7}80%{transform:translateX(0) scale(.7);opacity:.7}to{transform:scale(1);opacity:1}}
+.animate__backInRight{animation-name:backInRight}
+@keyframes backInUp{0%{transform:translateY(1200px) scale(.7);opacity:.7}80%{transform:translateY(0) scale(.7);opacity:.7}to{transform:scale(1);opacity:1}}
+.animate__backInUp{animation-name:backInUp}
+@keyframes backOutDown{0%{transform:scale(1);opacity:1}20%{transform:translateY(0) scale(.7);opacity:.7}to{transform:translateY(700px) scale(.7);opacity:.7}}
+.animate__backOutDown{animation-name:backOutDown}
+@keyframes backOutLeft{0%{transform:scale(1);opacity:1}20%{transform:translateX(0) scale(.7);opacity:.7}to{transform:translateX(-2000px) scale(.7);opacity:.7}}
+.animate__backOutLeft{animation-name:backOutLeft}
+@keyframes backOutRight{0%{transform:scale(1);opacity:1}20%{transform:translateX(0) scale(.7);opacity:.7}to{transform:translateX(2000px) scale(.7);opacity:.7}}
+.animate__backOutRight{animation-name:backOutRight}
+@keyframes backOutUp{0%{transform:scale(1);opacity:1}20%{transform:translateY(0) scale(.7);opacity:.7}to{transform:translateY(-700px) scale(.7);opacity:.7}}
+.animate__backOutUp{animation-name:backOutUp}
+@keyframes bounceIn{0%,20%,40%,60%,80%,to{animation-timing-function:cubic-bezier(.215,.61,.355,1)}0%{opacity:0;transform:scale3d(.3,.3,.3)}20%{transform:scale3d(1.1,1.1,1.1)}40%{transform:scale3d(.9,.9,.9)}60%{opacity:1;transform:scale3d(1.03,1.03,1.03)}80%{transform:scale3d(.97,.97,.97)}to{opacity:1;transform:scaleX(1)}}
+.animate__bounceIn{animation-duration:.75s;animation-duration:calc(var(--animate-duration)*0.75);animation-name:bounceIn}
+@keyframes bounceInDown{0%,60%,75%,90%,to{animation-timing-function:cubic-bezier(.215,.61,.355,1)}0%{opacity:0;transform:translate3d(0,-3000px,0) scaleY(3)}60%{opacity:1;transform:translate3d(0,25px,0) scaleY(.9)}75%{transform:translate3d(0,-10px,0) scaleY(.95)}90%{transform:translate3d(0,5px,0) scaleY(.985)}to{transform:translateZ(0)}}
+.animate__bounceInDown{animation-name:bounceInDown}
+@keyframes bounceInLeft{0%,60%,75%,90%,to{animation-timing-function:cubic-bezier(.215,.61,.355,1)}0%{opacity:0;transform:translate3d(-3000px,0,0) scaleX(3)}60%{opacity:1;transform:translate3d(25px,0,0) scaleX(1)}75%{transform:translate3d(-10px,0,0) scaleX(.98)}90%{transform:translate3d(5px,0,0) scaleX(.995)}to{transform:translateZ(0)}}
+.animate__bounceInLeft{animation-name:bounceInLeft}
+@keyframes bounceInRight{0%,60%,75%,90%,to{animation-timing-function:cubic-bezier(.215,.61,.355,1)}0%{opacity:0;transform:translate3d(3000px,0,0) scaleX(3)}60%{opacity:1;transform:translate3d(-25px,0,0) scaleX(1)}75%{transform:translate3d(10px,0,0) scaleX(.98)}90%{transform:translate3d(-5px,0,0) scaleX(.995)}to{transform:translateZ(0)}}
+.animate__bounceInRight{animation-name:bounceInRight}
+@keyframes bounceInUp{0%,60%,75%,90%,to{animation-timing-function:cubic-bezier(.215,.61,.355,1)}0%{opacity:0;transform:translate3d(0,3000px,0) scaleY(5)}60%{opacity:1;transform:translate3d(0,-20px,0) scaleY(.9)}75%{transform:translate3d(0,10px,0) scaleY(.95)}90%{transform:translate3d(0,-5px,0) scaleY(.985)}to{transform:translateZ(0)}}
+.animate__bounceInUp{animation-name:bounceInUp}
+@keyframes bounceOut{20%{transform:scale3d(.9,.9,.9)}50%,55%{opacity:1;transform:scale3d(1.1,1.1,1.1)}to{opacity:0;transform:scale3d(.3,.3,.3)}}
+.animate__bounceOut{animation-duration:.75s;animation-duration:calc(var(--animate-duration)*0.75);animation-name:bounceOut}
+@keyframes bounceOutDown{20%{transform:translate3d(0,10px,0) scaleY(.985)}40%,45%{opacity:1;transform:translate3d(0,-20px,0) scaleY(.9)}to{opacity:0;transform:translate3d(0,2000px,0) scaleY(3)}}
+.animate__bounceOutDown{animation-name:bounceOutDown}
+@keyframes bounceOutLeft{20%{opacity:1;transform:translate3d(20px,0,0) scaleX(.9)}to{opacity:0;transform:translate3d(-2000px,0,0) scaleX(2)}}
+.animate__bounceOutLeft{animation-name:bounceOutLeft}
+@keyframes bounceOutRight{20%{opacity:1;transform:translate3d(-20px,0,0) scaleX(.9)}to{opacity:0;transform:translate3d(2000px,0,0) scaleX(2)}}
+.animate__bounceOutRight{animation-name:bounceOutRight}
+@keyframes bounceOutUp{20%{transform:translate3d(0,-10px,0) scaleY(.985)}40%,45%{opacity:1;transform:translate3d(0,20px,0) scaleY(.9)}to{opacity:0;transform:translate3d(0,-2000px,0) scaleY(3)}}
+.animate__bounceOutUp{animation-name:bounceOutUp}
+@keyframes fadeIn{0%{opacity:0}to{opacity:1}}
+.animate__fadeIn{animation-name:fadeIn}
+@keyframes fadeInDown{0%{opacity:0;transform:translate3d(0,-100%,0)}to{opacity:1;transform:translateZ(0)}}
+.animate__fadeInDown{animation-name:fadeInDown}
+@keyframes fadeInDownBig{0%{opacity:0;transform:translate3d(0,-2000px,0)}to{opacity:1;transform:translateZ(0)}}
+.animate__fadeInDownBig{animation-name:fadeInDownBig}
+@keyframes fadeInLeft{0%{opacity:0;transform:translate3d(-100%,0,0)}to{opacity:1;transform:translateZ(0)}}
+.animate__fadeInLeft{animation-name:fadeInLeft}
+@keyframes fadeInLeftBig{0%{opacity:0;transform:translate3d(-2000px,0,0)}to{opacity:1;transform:translateZ(0)}}
+.animate__fadeInLeftBig{animation-name:fadeInLeftBig}
+@keyframes fadeInRight{0%{opacity:0;transform:translate3d(100%,0,0)}to{opacity:1;transform:translateZ(0)}}
+.animate__fadeInRight{animation-name:fadeInRight}
+@keyframes fadeInRightBig{0%{opacity:0;transform:translate3d(2000px,0,0)}to{opacity:1;transform:translateZ(0)}}
+.animate__fadeInRightBig{animation-name:fadeInRightBig}
+@keyframes fadeInUp{0%{opacity:0;transform:translate3d(0,100%,0)}to{opacity:1;transform:translateZ(0)}}
+.animate__fadeInUp{animation-name:fadeInUp}
+@keyframes fadeInUpBig{0%{opacity:0;transform:translate3d(0,2000px,0)}to{opacity:1;transform:translateZ(0)}}
+.animate__fadeInUpBig{animation-name:fadeInUpBig}
+@keyframes fadeInTopLeft{0%{opacity:0;transform:translate3d(-100%,-100%,0)}to{opacity:1;transform:translateZ(0)}}
+.animate__fadeInTopLeft{animation-name:fadeInTopLeft}
+@keyframes fadeInTopRight{0%{opacity:0;transform:translate3d(100%,-100%,0)}to{opacity:1;transform:translateZ(0)}}
+.animate__fadeInTopRight{animation-name:fadeInTopRight}
+@keyframes fadeInBottomLeft{0%{opacity:0;transform:translate3d(-100%,100%,0)}to{opacity:1;transform:translateZ(0)}}
+.animate__fadeInBottomLeft{animation-name:fadeInBottomLeft}
+@keyframes fadeInBottomRight{0%{opacity:0;transform:translate3d(100%,100%,0)}to{opacity:1;transform:translateZ(0)}}
+.animate__fadeInBottomRight{animation-name:fadeInBottomRight}
+@keyframes fadeOut{0%{opacity:1}to{opacity:0}}
+.animate__fadeOut{animation-name:fadeOut}
+@keyframes fadeOutDown{0%{opacity:1}to{opacity:0;transform:translate3d(0,100%,0)}}
+.animate__fadeOutDown{animation-name:fadeOutDown}
+@keyframes fadeOutDownBig{0%{opacity:1}to{opacity:0;transform:translate3d(0,2000px,0)}}
+.animate__fadeOutDownBig{animation-name:fadeOutDownBig}
+@keyframes fadeOutLeft{0%{opacity:1}to{opacity:0;transform:translate3d(-100%,0,0)}}
+.animate__fadeOutLeft{animation-name:fadeOutLeft}
+@keyframes fadeOutLeftBig{0%{opacity:1}to{opacity:0;transform:translate3d(-2000px,0,0)}}
+.animate__fadeOutLeftBig{animation-name:fadeOutLeftBig}
+@keyframes fadeOutRight{0%{opacity:1}to{opacity:0;transform:translate3d(100%,0,0)}}
+.animate__fadeOutRight{animation-name:fadeOutRight}
+@keyframes fadeOutRightBig{0%{opacity:1}to{opacity:0;transform:translate3d(2000px,0,0)}}
+.animate__fadeOutRightBig{animation-name:fadeOutRightBig}
+@keyframes fadeOutUp{0%{opacity:1}to{opacity:0;transform:translate3d(0,-100%,0)}}
+.animate__fadeOutUp{animation-name:fadeOutUp}
+@keyframes fadeOutUpBig{0%{opacity:1}to{opacity:0;transform:translate3d(0,-2000px,0)}}
+.animate__fadeOutUpBig{animation-name:fadeOutUpBig}
+@keyframes fadeOutTopLeft{0%{opacity:1;transform:translateZ(0)}to{opacity:0;transform:translate3d(-100%,-100%,0)}}
+.animate__fadeOutTopLeft{animation-name:fadeOutTopLeft}
+@keyframes fadeOutTopRight{0%{opacity:1;transform:translateZ(0)}to{opacity:0;transform:translate3d(100%,-100%,0)}}
+.animate__fadeOutTopRight{animation-name:fadeOutTopRight}
+@keyframes fadeOutBottomRight{0%{opacity:1;transform:translateZ(0)}to{opacity:0;transform:translate3d(100%,100%,0)}}
+.animate__fadeOutBottomRight{animation-name:fadeOutBottomRight}
+@keyframes fadeOutBottomLeft{0%{opacity:1;transform:translateZ(0)}to{opacity:0;transform:translate3d(-100%,100%,0)}}
+.animate__fadeOutBottomLeft{animation-name:fadeOutBottomLeft}
+@keyframes flip{0%{transform:perspective(400px) scaleX(1) translateZ(0) rotateY(-1turn);animation-timing-function:ease-out}40%{transform:perspective(400px) scaleX(1) translateZ(150px) rotateY(-190deg);animation-timing-function:ease-out}50%{transform:perspective(400px) scaleX(1) translateZ(150px) rotateY(-170deg);animation-timing-function:ease-in}80%{transform:perspective(400px) scale3d(.95,.95,.95) translateZ(0) rotateY(0deg);animation-timing-function:ease-in}to{transform:perspective(400px) scaleX(1) translateZ(0) rotateY(0deg);animation-timing-function:ease-in}}
+.animate__animated.animate__flip{backface-visibility:visible;animation-name:flip}
+@keyframes flipInX{0%{transform:perspective(400px) rotateX(90deg);animation-timing-function:ease-in;opacity:0}40%{transform:perspective(400px) rotateX(-20deg);animation-timing-function:ease-in}60%{transform:perspective(400px) rotateX(10deg);opacity:1}80%{transform:perspective(400px) rotateX(-5deg)}to{transform:perspective(400px)}}
+.animate__flipInX{backface-visibility:visible!important;animation-name:flipInX}
+@keyframes flipInY{0%{transform:perspective(400px) rotateY(90deg);animation-timing-function:ease-in;opacity:0}40%{transform:perspective(400px) rotateY(-20deg);animation-timing-function:ease-in}60%{transform:perspective(400px) rotateY(10deg);opacity:1}80%{transform:perspective(400px) rotateY(-5deg)}to{transform:perspective(400px)}}
+.animate__flipInY{backface-visibility:visible!important;animation-name:flipInY}
+@keyframes flipOutX{0%{transform:perspective(400px)}30%{transform:perspective(400px) rotateX(-20deg);opacity:1}to{transform:perspective(400px) rotateX(90deg);opacity:0}}
+.animate__flipOutX{animation-duration:.75s;animation-duration:calc(var(--animate-duration)*0.75);animation-name:flipOutX;backface-visibility:visible!important}
+@keyframes flipOutY{0%{transform:perspective(400px)}30%{transform:perspective(400px) rotateY(-15deg);opacity:1}to{transform:perspective(400px) rotateY(90deg);opacity:0}}
+.animate__flipOutY{animation-duration:.75s;animation-duration:calc(var(--animate-duration)*0.75);backface-visibility:visible!important;animation-name:flipOutY}
+@keyframes lightSpeedInRight{0%{transform:translate3d(100%,0,0) skewX(-30deg);opacity:0}60%{transform:skewX(20deg);opacity:1}80%{transform:skewX(-5deg)}to{transform:translateZ(0)}}
+.animate__lightSpeedInRight{animation-name:lightSpeedInRight;animation-timing-function:ease-out}
+@keyframes lightSpeedInLeft{0%{transform:translate3d(-100%,0,0) skewX(30deg);opacity:0}60%{transform:skewX(-20deg);opacity:1}80%{transform:skewX(5deg)}to{transform:translateZ(0)}}
+.animate__lightSpeedInLeft{animation-name:lightSpeedInLeft;animation-timing-function:ease-out}
+@keyframes lightSpeedOutRight{0%{opacity:1}to{transform:translate3d(100%,0,0) skewX(30deg);opacity:0}}
+.animate__lightSpeedOutRight{animation-name:lightSpeedOutRight;animation-timing-function:ease-in}
+@keyframes lightSpeedOutLeft{0%{opacity:1}to{transform:translate3d(-100%,0,0) skewX(-30deg);opacity:0}}
+.animate__lightSpeedOutLeft{animation-name:lightSpeedOutLeft;animation-timing-function:ease-in}
+@keyframes rotateIn{0%{transform:rotate(-200deg);opacity:0}to{transform:translateZ(0);opacity:1}}
+.animate__rotateIn{animation-name:rotateIn;transform-origin:center}
+@keyframes rotateInDownLeft{0%{transform:rotate(-45deg);opacity:0}to{transform:translateZ(0);opacity:1}}
+.animate__rotateInDownLeft{animation-name:rotateInDownLeft;transform-origin:left bottom}
+@keyframes rotateInDownRight{0%{transform:rotate(45deg);opacity:0}to{transform:translateZ(0);opacity:1}}
+.animate__rotateInDownRight{animation-name:rotateInDownRight;transform-origin:right bottom}
+@keyframes rotateInUpLeft{0%{transform:rotate(45deg);opacity:0}to{transform:translateZ(0);opacity:1}}
+.animate__rotateInUpLeft{animation-name:rotateInUpLeft;transform-origin:left bottom}
+@keyframes rotateInUpRight{0%{transform:rotate(-90deg);opacity:0}to{transform:translateZ(0);opacity:1}}
+.animate__rotateInUpRight{animation-name:rotateInUpRight;transform-origin:right bottom}
+@keyframes rotateOut{0%{opacity:1}to{transform:rotate(200deg);opacity:0}}
+.animate__rotateOut{animation-name:rotateOut;transform-origin:center}
+@keyframes rotateOutDownLeft{0%{opacity:1}to{transform:rotate(45deg);opacity:0}}
+.animate__rotateOutDownLeft{animation-name:rotateOutDownLeft;transform-origin:left bottom}
+@keyframes rotateOutDownRight{0%{opacity:1}to{transform:rotate(-45deg);opacity:0}}
+.animate__rotateOutDownRight{animation-name:rotateOutDownRight;transform-origin:right bottom}
+@keyframes rotateOutUpLeft{0%{opacity:1}to{transform:rotate(-45deg);opacity:0}}
+.animate__rotateOutUpLeft{animation-name:rotateOutUpLeft;transform-origin:left bottom}
+@keyframes rotateOutUpRight{0%{opacity:1}to{transform:rotate(90deg);opacity:0}}
+.animate__rotateOutUpRight{animation-name:rotateOutUpRight;transform-origin:right bottom}
+@keyframes hinge{0%{animation-timing-function:ease-in-out}20%,60%{transform:rotate(80deg);animation-timing-function:ease-in-out}40%,80%{transform:rotate(60deg);animation-timing-function:ease-in-out;opacity:1}to{transform:translate3d(0,700px,0);opacity:0}}
+.animate__hinge{animation-duration:2s;animation-duration:calc(var(--animate-duration)*2);animation-name:hinge;transform-origin:top left}
+@keyframes jackInTheBox{0%{opacity:0;transform:scale(.1) rotate(30deg);transform-origin:center bottom}50%{transform:rotate(-10deg)}70%{transform:rotate(3deg)}to{opacity:1;transform:scale(1)}}
+.animate__jackInTheBox{animation-name:jackInTheBox}
+@keyframes rollIn{0%{opacity:0;transform:translate3d(-100%,0,0) rotate(-120deg)}to{opacity:1;transform:translateZ(0)}}
+.animate__rollIn{animation-name:rollIn}
+@keyframes rollOut{0%{opacity:1}to{opacity:0;transform:translate3d(100%,0,0) rotate(120deg)}}
+.animate__rollOut{animation-name:rollOut}
+@keyframes zoomIn{0%{opacity:0;transform:scale3d(.3,.3,.3)}50%{opacity:1}}
+.animate__zoomIn{animation-name:zoomIn}
+@keyframes zoomInDown{0%{opacity:0;transform:scale3d(.1,.1,.1) translate3d(0,-1000px,0);animation-timing-function:cubic-bezier(.55,.055,.675,.19)}60%{opacity:1;transform:scale3d(.475,.475,.475) translate3d(0,60px,0);animation-timing-function:cubic-bezier(.175,.885,.32,1)}}
+.animate__zoomInDown{animation-name:zoomInDown}
+@keyframes zoomInLeft{0%{opacity:0;transform:scale3d(.1,.1,.1) translate3d(-1000px,0,0);animation-timing-function:cubic-bezier(.55,.055,.675,.19)}60%{opacity:1;transform:scale3d(.475,.475,.475) translate3d(10px,0,0);animation-timing-function:cubic-bezier(.175,.885,.32,1)}}
+.animate__zoomInLeft{animation-name:zoomInLeft}
+@keyframes zoomInRight{0%{opacity:0;transform:scale3d(.1,.1,.1) translate3d(1000px,0,0);animation-timing-function:cubic-bezier(.55,.055,.675,.19)}60%{opacity:1;transform:scale3d(.475,.475,.475) translate3d(-10px,0,0);animation-timing-function:cubic-bezier(.175,.885,.32,1)}}
+.animate__zoomInRight{animation-name:zoomInRight}
+@keyframes zoomInUp{0%{opacity:0;transform:scale3d(.1,.1,.1) translate3d(0,1000px,0);animation-timing-function:cubic-bezier(.55,.055,.675,.19)}60%{opacity:1;transform:scale3d(.475,.475,.475) translate3d(0,-60px,0);animation-timing-function:cubic-bezier(.175,.885,.32,1)}}
+.animate__zoomInUp{animation-name:zoomInUp}
+@keyframes zoomOut{0%{opacity:1}50%{opacity:0;transform:scale3d(.3,.3,.3)}to{opacity:0}}
+.animate__zoomOut{animation-name:zoomOut}
+@keyframes zoomOutDown{40%{opacity:1;transform:scale3d(.475,.475,.475) translate3d(0,-60px,0);animation-timing-function:cubic-bezier(.55,.055,.675,.19)}to{opacity:0;transform:scale3d(.1,.1,.1) translate3d(0,2000px,0);animation-timing-function:cubic-bezier(.175,.885,.32,1)}}
+.animate__zoomOutDown{animation-name:zoomOutDown;transform-origin:center bottom}
+@keyframes zoomOutLeft{40%{opacity:1;transform:scale3d(.475,.475,.475) translate3d(42px,0,0)}to{opacity:0;transform:scale(.1) translate3d(-2000px,0,0)}}
+.animate__zoomOutLeft{animation-name:zoomOutLeft;transform-origin:left center}
+@keyframes zoomOutRight{40%{opacity:1;transform:scale3d(.475,.475,.475) translate3d(-42px,0,0)}to{opacity:0;transform:scale(.1) translate3d(2000px,0,0)}}
+.animate__zoomOutRight{animation-name:zoomOutRight;transform-origin:right center}
+@keyframes zoomOutUp{40%{opacity:1;transform:scale3d(.475,.475,.475) translate3d(0,60px,0);animation-timing-function:cubic-bezier(.55,.055,.675,.19)}to{opacity:0;transform:scale3d(.1,.1,.1) translate3d(0,-2000px,0);animation-timing-function:cubic-bezier(.175,.885,.32,1)}}
+.animate__zoomOutUp{animation-name:zoomOutUp;transform-origin:center bottom}
+@keyframes slideInDown{0%{transform:translate3d(0,-100%,0);visibility:visible}to{transform:translateZ(0)}}
+.animate__slideInDown{animation-name:slideInDown}
+@keyframes slideInLeft{0%{transform:translate3d(-100%,0,0);visibility:visible}to{transform:translateZ(0)}}
+.animate__slideInLeft{animation-name:slideInLeft}
+@keyframes slideInRight{0%{transform:translate3d(100%,0,0);visibility:visible}to{transform:translateZ(0)}}
+.animate__slideInRight{animation-name:slideInRight}
+@keyframes slideInUp{0%{transform:translate3d(0,100%,0);visibility:visible}to{transform:translateZ(0)}}
+.animate__slideInUp{animation-name:slideInUp}
+@keyframes slideOutDown{0%{transform:translateZ(0)}to{visibility:hidden;transform:translate3d(0,100%,0)}}
+.animate__slideOutDown{animation-name:slideOutDown}
+@keyframes slideOutLeft{0%{transform:translateZ(0)}to{visibility:hidden;transform:translate3d(-100%,0,0)}}
+.animate__slideOutLeft{animation-name:slideOutLeft}
+@keyframes slideOutRight{0%{transform:translateZ(0)}to{visibility:hidden;transform:translate3d(100%,0,0)}}
+.animate__slideOutRight{animation-name:slideOutRight}
+@keyframes slideOutUp{0%{transform:translateZ(0)}to{visibility:hidden;transform:translate3d(0,-100%,0)}}
+.animate__slideOutUp{animation-name:slideOutUp}
 .form-group {
   margin: 20px;
 }
@@ -1165,12 +1383,12 @@ textarea {
   --background: transparent;
 }
 ion-menu {
-  --ion-background-color: var(--ion-menu-background-color);
-  --ion-text-color: var(--ion-color-primary-contrast);
+  --ion-background-color: var(--menu-background);
+  --ion-text-color: var(--menu-title-color);
   padding: 0;
 }
 ion-menu ion-toolbar {
-  --background: var(--ion-menu-background-color);
+  --background: var(--menu-background);
 }
 ion-menu ion-list {
   /* optional, but it needs when you use gradient as a background color.*/
@@ -1179,21 +1397,267 @@ ion-menu ion-list {
 ion-menu ion-label {
   font-weight: bolder;
   text-transform: uppercase;
-  color: white;
+  color: var(--menu-title-color);
   font-family: "ITC", "Times New Roman", sans-serif !important;
 }
 ion-menu ion-icon {
   margin-right: 15px !important;
 }
 ion-menu ion-item.selected {
-  --color: var(--ion-color-light) !important;
+  --color: var(--menu-title-color) !important;
 }
 ion-menu .menu-header {
   height: 80px;
   border-radius: 0 0 70% 70%/0 0 45% 45%;
   border-bottom: 0;
   width: 100%;
-  background: white;
+  background: var(--profile-card-gradient);
+}
+:root {
+  --app-background: linear-gradient(180deg, #f4f0ea 0%, #ebf0ff 100%);
+  --app-text-color: #1a2641;
+  --app-muted-text: rgba(26, 38, 65, 0.58);
+  --surface-color: rgba(255, 255, 255, 0.95);
+  --menu-background: linear-gradient(185deg, #e9d5ba 0%, #d4e2ff 100%);
+  --menu-surface: rgba(255, 255, 255, 0.85);
+  --menu-surface-border: rgba(26, 38, 65, 0.1);
+  --menu-title-color: #1a2641;
+  --menu-subtitle-color: rgba(26, 38, 65, 0.62);
+  --profile-card-gradient: linear-gradient(150deg, rgba(244, 195, 139, 0.45) 0%, rgba(150, 180, 255, 0.7) 100%);
+  --profile-card-shadow: 0 16px 34px rgba(22, 34, 58, 0.18);
+  --app-toolbar-gradient: linear-gradient(180deg, #f4e6d6 0%, #cbd6f6 100%);
+  --menu-icon-gradient: linear-gradient(150deg, rgba(66, 105, 245, 0.65), rgba(244, 180, 139, 0.48));
+  --menu-item-hover-bg: rgba(66, 105, 245, 0.18);
+  --menu-item-active-bg: rgba(66, 105, 245, 0.26);
+  --menu-item-active-title-color: #1a2641;
+  --menu-item-active-subtitle-color: rgba(26, 38, 65, 0.72);
+  --menu-badge-background: rgba(66, 105, 245, 0.24);
+  --menu-badge-color: #1a2641;
+  --menu-badge-active-background: rgba(244, 180, 139, 0.34);
+  --menu-icon-border-color: rgba(26, 38, 65, 0.14);
+  --menu-icon-highlight-color: rgba(255, 255, 255, 0.82);
+  --menu-icon-shadow-color: rgba(26, 38, 65, 0.2);
+  --menu-icon-color: #1a2641;
+  --menu-icon-overlay-color: rgba(255, 255, 255, 0.5);
+  --menu-icon-active-gradient: linear-gradient(150deg, rgba(66, 105, 245, 0.76), rgba(244, 180, 139, 0.64));
+  --menu-divider-background: rgba(26, 38, 65, 0.14);
+  --menu-divider-color: rgba(26, 38, 65, 0.56);
+  --profile-card-avatar-background: rgba(255, 255, 255, 0.88);
+  --profile-card-placeholder-color: rgba(26, 38, 65, 0.46);
+  --complaint-type-pill-background: rgba(66, 105, 245, 0.18);
+  --complaint-type-pill-color: #1a2641;
+  --theme-toggle-border-color: rgba(66, 105, 245, 0.4);
+  --theme-toggle-text-color: #1a2641;
+  --theme-toggle-background: linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(235, 228, 255, 0.95));
+  --theme-toggle-hover-background: rgba(247, 236, 222, 0.98);
+  --theme-toggle-active-background: rgba(224, 218, 255, 0.94);
+  --theme-toggle-shadow: 0 12px 26px rgba(54, 90, 210, 0.24);
+  --toolbar-text-color: #1a2641;
+  --toolbar-icon-color: #1a2641;
+  --menu-bottom-offset: 68px;
+  --tab-bar-background: linear-gradient(180deg, #dde4fb 0%, #cdd6f7 100%);
+  --tab-bar-color: rgba(26, 38, 65, 0.62);
+  --tab-bar-color-selected: #1a2641;
+  --tab-bar-shadow: rgba(26, 38, 65, 0.16);
+}
+html.theme-light,
+body.theme-light {
+  --app-background: linear-gradient(180deg, #f4f0ea 0%, #ebf0ff 100%);
+  --app-text-color: #1a2641;
+  --app-muted-text: rgba(26, 38, 65, 0.58);
+  --surface-color: rgba(255, 255, 255, 0.95);
+  --menu-background: linear-gradient(185deg, #e9d5ba 0%, #d4e2ff 100%);
+  --menu-surface: rgba(255, 255, 255, 0.85);
+  --menu-surface-border: rgba(26, 38, 65, 0.1);
+  --menu-title-color: #1a2641;
+  --menu-subtitle-color: rgba(26, 38, 65, 0.62);
+  --profile-card-gradient: linear-gradient(150deg, rgba(244, 195, 139, 0.45) 0%, rgba(150, 180, 255, 0.7) 100%);
+  --profile-card-shadow: 0 16px 34px rgba(22, 34, 58, 0.18);
+  --app-toolbar-gradient: linear-gradient(180deg, #f4e6d6 0%, #cbd6f6 100%);
+  --menu-icon-gradient: linear-gradient(150deg, rgba(66, 105, 245, 0.65), rgba(244, 180, 139, 0.48));
+  --menu-item-hover-bg: rgba(66, 105, 245, 0.18);
+  --menu-item-active-bg: rgba(66, 105, 245, 0.26);
+  --menu-item-active-title-color: #1a2641;
+  --menu-item-active-subtitle-color: rgba(26, 38, 65, 0.72);
+  --menu-badge-background: rgba(66, 105, 245, 0.24);
+  --menu-badge-color: #1a2641;
+  --menu-badge-active-background: rgba(244, 180, 139, 0.34);
+  --menu-icon-border-color: rgba(26, 38, 65, 0.14);
+  --menu-icon-highlight-color: rgba(255, 255, 255, 0.82);
+  --menu-icon-shadow-color: rgba(26, 38, 65, 0.2);
+  --menu-icon-color: #1a2641;
+  --menu-icon-overlay-color: rgba(255, 255, 255, 0.5);
+  --menu-icon-active-gradient: linear-gradient(150deg, rgba(66, 105, 245, 0.76), rgba(244, 180, 139, 0.64));
+  --menu-divider-background: rgba(26, 38, 65, 0.14);
+  --menu-divider-color: rgba(26, 38, 65, 0.56);
+  --profile-card-avatar-background: rgba(255, 255, 255, 0.88);
+  --profile-card-placeholder-color: rgba(26, 38, 65, 0.46);
+  --complaint-type-pill-background: rgba(66, 105, 245, 0.18);
+  --complaint-type-pill-color: #1a2641;
+  --theme-toggle-border-color: rgba(66, 105, 245, 0.4);
+  --theme-toggle-text-color: #1a2641;
+  --theme-toggle-background: linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(235, 228, 255, 0.95));
+  --theme-toggle-hover-background: rgba(247, 236, 222, 0.98);
+  --theme-toggle-active-background: rgba(224, 218, 255, 0.94);
+  --theme-toggle-shadow: 0 12px 26px rgba(54, 90, 210, 0.24);
+  --toolbar-text-color: #1a2641;
+  --toolbar-icon-color: #1a2641;
+  --menu-bottom-offset: 68px;
+  --tab-bar-background: linear-gradient(180deg, #f4f7ff 0%, #e4ebff 100%);
+  --tab-bar-color: rgba(26, 38, 65, 0.62);
+  --tab-bar-color-selected: #1a2641;
+  --tab-bar-shadow: rgba(26, 38, 65, 0.12);
+}
+html.theme-dark,
+body.theme-dark {
+  --app-background: linear-gradient(180deg, #0a1424 0%, #02060d 100%);
+  --app-text-color: #e6ecf9;
+  --app-muted-text: rgba(230, 236, 249, 0.6);
+  --surface-color: rgba(12, 22, 37, 0.82);
+  --menu-background: linear-gradient(185deg, #081a33 0%, #030814 100%);
+  --menu-surface: rgba(8, 16, 30, 0.7);
+  --menu-surface-border: rgba(255, 255, 255, 0.04);
+  --menu-title-color: #dbe5f9;
+  --menu-subtitle-color: rgba(219, 229, 249, 0.65);
+  --profile-card-gradient: linear-gradient(140deg, rgba(20, 40, 69, 0.78) 0%, rgba(6, 14, 26, 0.95) 100%);
+  --profile-card-shadow: 0 10px 22px rgba(2, 8, 18, 0.46);
+  --app-toolbar-gradient: linear-gradient(185deg, #081a33 0%, #030814 100%);
+  --menu-icon-gradient: linear-gradient(140deg, rgba(90, 122, 214, 0.46), rgba(23, 32, 54, 0.7));
+  --menu-item-hover-bg: rgba(230, 236, 249, 0.08);
+  --menu-item-active-bg: rgba(230, 236, 249, 0.18);
+  --menu-item-active-title-color: #e6ecf9;
+  --menu-item-active-subtitle-color: rgba(230, 236, 249, 0.72);
+  --menu-badge-background: rgba(230, 236, 249, 0.16);
+  --menu-badge-color: #e6ecf9;
+  --menu-badge-active-background: rgba(230, 236, 249, 0.26);
+  --menu-icon-border-color: rgba(230, 236, 249, 0.12);
+  --menu-icon-highlight-color: rgba(230, 236, 249, 0.18);
+  --menu-icon-shadow-color: rgba(2, 8, 18, 0.46);
+  --menu-icon-color: rgba(230, 236, 249, 0.94);
+  --menu-icon-overlay-color: rgba(230, 236, 249, 0.22);
+  --menu-icon-active-gradient: linear-gradient(140deg, rgba(90, 122, 214, 0.58), rgba(30, 46, 78, 0.85));
+  --menu-divider-background: rgba(230, 236, 249, 0.08);
+  --menu-divider-color: rgba(230, 236, 249, 0.62);
+  --profile-card-avatar-background: rgba(230, 236, 249, 0.14);
+  --profile-card-placeholder-color: rgba(230, 236, 249, 0.82);
+  --complaint-type-pill-background: rgba(230, 236, 249, 0.18);
+  --complaint-type-pill-color: #e6ecf9;
+  --theme-toggle-border-color: rgba(230, 236, 249, 0.35);
+  --theme-toggle-text-color: var(--menu-title-color);
+  --theme-toggle-background: rgba(12, 22, 37, 0.82);
+  --theme-toggle-hover-background: rgba(16, 32, 52, 0.9);
+  --theme-toggle-active-background: rgba(20, 40, 69, 0.95);
+  --theme-toggle-shadow: 0 10px 18px rgba(2, 8, 18, 0.46);
+  --toolbar-text-color: #ffffff;
+  --toolbar-icon-color: #ffffff;
+  --menu-bottom-offset: 54px;
+  --tab-bar-background: linear-gradient(180deg, #040b16 0%, #02060d 100%);
+  --tab-bar-color: rgba(230, 236, 249, 0.65);
+  --tab-bar-color-selected: #ffffff;
+  --tab-bar-shadow: rgba(0, 0, 0, 0.45);
+}
+body,
+ion-app {
+  background: var(--app-background);
+  color: var(--app-text-color);
+  font-family: var(--ion-font-family);
+}
+body.theme-light {
+  --ion-background-color: var(--app-background);
+  --ion-text-color: var(--app-text-color);
+}
+body.theme-dark {
+  --ion-background-color: var(--app-background);
+  --ion-text-color: var(--app-text-color);
+}
+ion-toolbar {
+  --background: var(--app-toolbar-gradient);
+  --color: var(--toolbar-text-color);
+  --border-width: 0;
+  background: var(--app-toolbar-gradient);
+  color: var(--toolbar-text-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+ion-header {
+  --background: transparent;
+  background: transparent;
+}
+ion-content {
+  --background: var(--app-background);
+  color: var(--app-text-color);
+}
+ion-card {
+  background: var(--surface-color);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(10, 31, 61, 0.1);
+  border: 1px solid rgba(13, 43, 79, 0.06);
+  color: var(--app-text-color);
+}
+ion-chip,
+ion-badge {
+  --background: rgba(16, 50, 93, 0.12);
+  --color: var(--app-text-color);
+}
+body.theme-dark ion-chip,
+body.theme-dark ion-badge {
+  --background: rgba(230, 236, 249, 0.18);
+  --color: #e6ecf9;
+}
+ion-segment {
+  background: rgba(13, 43, 79, 0.08);
+  border-radius: 20px;
+  padding: 4px;
+}
+ion-segment-button {
+  --color: rgba(16, 50, 93, 0.6);
+  --color-checked: #ffffff;
+  --indicator-color: transparent;
+  --background: transparent;
+  --background-checked: linear-gradient(180deg, rgba(16, 50, 93, 0.95) 0%, rgba(8, 29, 54, 0.95) 100%);
+  border-radius: 16px;
+  min-height: 40px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+ion-button {
+  --border-radius: 24px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+ion-button[color=primary] {
+  background: linear-gradient(180deg, #1a49a0 0%, #0d2b4f 100%);
+  --background: linear-gradient(180deg, #1a49a0 0%, #0d2b4f 100%);
+  --background-focused: linear-gradient(180deg, #163f8d 0%, #0b2545 100%);
+  --background-activated: linear-gradient(180deg, #163f8d 0%, #0b2545 100%);
+  box-shadow: 0 10px 20px rgba(10, 31, 61, 0.2);
+}
+ion-tab-bar {
+  --background: var(--tab-bar-background);
+  --color: var(--tab-bar-color);
+  --color-selected: var(--tab-bar-color-selected);
+  box-shadow: 0 -4px 12px var(--tab-bar-shadow);
+}
+ion-input,
+ion-textarea,
+ion-select,
+ion-datetime {
+  --background: #ffffff;
+  --padding-start: 12px;
+  --padding-end: 12px;
+  --padding-top: 14px;
+  --padding-bottom: 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(13, 43, 79, 0.12);
+}
+ion-item {
+  --background: var(--surface-color);
+  --border-color: rgba(13, 43, 79, 0.08);
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+ion-item ion-label {
+  color: var(--ion-text-color);
 }
 ion-progress-bar {
   height: 1px;
@@ -1203,8 +1667,9 @@ ion-title {
   text-overflow: unset !important;
   white-space: unset !important;
 }
-ion-back-button, ion-menu-button {
-  color: white !important;
+ion-back-button,
+ion-menu-button {
+  color: var(--toolbar-icon-color) !important;
 }
 .searchbar-input.sc-ion-searchbar-md {
   box-shadow: none;
@@ -1213,6 +1678,30 @@ ion-back-button, ion-menu-button {
 }
 .alert-radio-label.sc-ion-alert-md, .alert-radio-label.sc-ion-alert-ios {
   white-space: normal !important;
+}
+html.theme-light ion-alert {
+  --background: rgba(255, 255, 255, 0.96);
+  --color: #1a2641;
+  --header-color: #1a2641;
+  --subheader-color: rgba(26, 38, 65, 0.7);
+  --button-color: rgba(66, 105, 245, 0.9);
+  --backdrop-opacity: 0.28;
+}
+html.theme-dark ion-alert {
+  --background: rgba(10, 16, 28, 0.96);
+  --color: #e6ecf9;
+  --header-color: #e6ecf9;
+  --subheader-color: rgba(230, 236, 249, 0.65);
+  --button-color: rgba(138, 167, 255, 0.95);
+  --border-color: rgba(230, 236, 249, 0.08);
+  --backdrop-opacity: 0.38;
+}
+html.theme-dark .alert-radio-label,
+html.theme-dark .alert-button {
+  color: rgba(230, 236, 249, 0.92);
+}
+html.theme-dark .alert-button-role-cancel {
+  color: rgba(230, 236, 249, 0.65);
 }
 .form-error-message {
   margin: 0;
@@ -1348,6 +1837,29 @@ ___________________________________________________________
 }
 ion-button {
   --border-radius: 10px !important;
+}
+ion-tab-bar.app-tab-bar {
+  --background: var(--tab-bar-background);
+  --color: var(--tab-bar-color);
+  --color-selected: var(--tab-bar-color-selected);
+  box-shadow: 0 -4px 12px var(--tab-bar-shadow);
+}
+ion-modal.profile-form-modal {
+  --width: min(780px, 95vw);
+  --height: 80vh;
+  --max-height: 90vh;
+  --border-radius: 28px;
+  --box-shadow: 0 32px 70px rgba(15, 31, 74, 0.28);
+  --backdrop-opacity: 0.45;
+}
+ion-modal.profile-form-modal::part(content) {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+}
+ion-modal.profile-form-modal ion-content {
+  --height: 100%;
 }
 /*
 __________________________________________________________

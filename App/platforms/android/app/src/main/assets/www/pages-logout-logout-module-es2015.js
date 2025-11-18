@@ -129,4 +129,3 @@ LogoutPageRoutingModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵ
 /***/ })
 
 }]);
-//# sourceMappingURL=pages-logout-logout-module-es2015.js.map

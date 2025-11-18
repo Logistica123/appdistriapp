@@ -21,11 +21,7 @@ apply plugin: 'com.android.application'
 
 if (cordovaConfig.IS_GRADLE_PLUGIN_KOTLIN_ENABLED) {
     apply plugin: 'kotlin-android'
-
-    if(!cdvHelpers.isVersionGreaterThanEqual(cordovaConfig.KOTLIN_VERSION, '1.8.0')) {
-        println "Kotlin version < 1.8.0 detected. Applying kotlin-android-extensions plugin."
-        apply plugin: 'kotlin-android-extensions'
-    }
+    apply plugin: 'kotlin-android-extensions'
 }
 
 buildscript {
@@ -113,9 +109,11 @@ ext {
 }
 
 // PLUGIN GRADLE EXTENSIONS START
+apply from: "../cordova-plugin-telerik-imagepicker/distriapp-ignorelinterrors.gradle"
+apply from: "../cordova-plugin-telerik-imagepicker/distriapp-androidtarget.gradle"
+apply from: "../cordova-plugin-fcm-with-dependecy-updated/distriapp-FCMPlugin.gradle"
 apply from: "../cordova-plugin-googlemaps/distriapp-tbxml-android.gradle"
 apply from: "../cordova-plugin-googlemaps/distriapp-pgm-custom.gradle"
-apply from: "../cordova-plugin-firebasex/distriapp-build.gradle"
 // PLUGIN GRADLE EXTENSIONS END
 
 def hasBuildExtras1 = file('build-extras.gradle').exists()
@@ -186,15 +184,9 @@ task cdvPrintProps {
 }
 
 android {
-    namespace cordovaConfig.PACKAGE_NAMESPACE
-
-    buildFeatures {
-        buildConfig true
-    }
-
     defaultConfig {
         versionCode cdvVersionCode ?: new BigInteger("" + privateHelpers.extractIntFromManifest("versionCode"))
-        applicationId cordovaConfig.PACKAGE_NAMESPACE
+        applicationId privateHelpers.extractStringFromManifest("package")
 
         minSdkVersion cordovaConfig.MIN_SDK_VERSION
         if (cordovaConfig.MAX_SDK_VERSION != null) {
@@ -259,19 +251,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaLanguageVersion.of(cordovaConfig.JAVA_SOURCE_COMPATIBILITY)
-        targetCompatibility JavaLanguageVersion.of(cordovaConfig.JAVA_TARGET_COMPATIBILITY)
-    }
-
-    if (cordovaConfig.IS_GRADLE_PLUGIN_KOTLIN_ENABLED) {
-        // If KOTLIN_JVM_TARGET is null, fallback to JAVA_TARGET_COMPATIBILITY,
-        // as they generally should be equal
-        cordovaConfig.KOTLIN_JVM_TARGET = cordovaConfig.KOTLIN_JVM_TARGET ?:
-                cordovaConfig.JAVA_TARGET_COMPATIBILITY
-
-        kotlinOptions {
-            jvmTarget = JavaLanguageVersion.of(cordovaConfig.KOTLIN_JVM_TARGET)
-        }
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     if (cdvReleaseSigningPropertiesFile) {
@@ -314,41 +295,16 @@ dependencies {
     implementation "androidx.core:core-splashscreen:${cordovaConfig.ANDROIDX_CORE_SPLASHSCREEN_VERSION}"
 
     if (cordovaConfig.IS_GRADLE_PLUGIN_KOTLIN_ENABLED) {
-        implementation "org.jetbrains.kotlin:kotlin-stdlib:${cordovaConfig.KOTLIN_VERSION}"
-    }
-
-    constraints {
-        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${cordovaConfig.KOTLIN_VERSION}") {
-            because("kotlin-stdlib-jdk7 is now a part of kotlin-stdlib")
-        }
-        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${cordovaConfig.KOTLIN_VERSION}") {
-            because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib")
-        }
+        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${cordovaConfig.KOTLIN_VERSION}"
     }
 
     // SUB-PROJECT DEPENDENCIES START
     implementation(project(path: ":CordovaLib"))
     implementation "androidx.annotation:annotation:1.1.0"
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
+    implementation "androidx.appcompat:appcompat:1.2.0"
     implementation "com.google.android.gms:play-services-location:16.+"
     implementation "com.google.android.play:review:2.+"
-    implementation "com.google.android.gms:play-services-tagmanager:18.1.1"
-    implementation "com.google.android.gms:play-services-auth:21.3.0"
-    implementation "com.google.firebase:firebase-analytics:22.2.0"
-    implementation "com.google.firebase:firebase-messaging:24.1.0"
-    implementation "com.google.firebase:firebase-config:22.1.0"
-    implementation "com.google.firebase:firebase-perf:21.0.4"
-    implementation "com.google.firebase:firebase-auth:23.2.0"
-    implementation "com.google.firebase:firebase-inappmessaging:21.0.1"
-    implementation "com.google.firebase:firebase-inappmessaging-display:21.0.1"
-    implementation "com.google.firebase:firebase-firestore:25.1.2"
-    implementation "com.google.firebase:firebase-functions:21.1.0"
-    implementation "com.google.firebase:firebase-iid:21.1.0"
-    implementation "com.google.firebase:firebase-installations:18.0.0"
-    implementation "com.google.firebase:firebase-crashlytics:19.4.0"
-    implementation "com.google.firebase:firebase-crashlytics-ndk:19.4.0"
-    implementation "com.google.code.gson:gson:2.11.0"
-    implementation "io.grpc:grpc-okhttp:1.68.0"
     // SUB-PROJECT DEPENDENCIES END
 }
 

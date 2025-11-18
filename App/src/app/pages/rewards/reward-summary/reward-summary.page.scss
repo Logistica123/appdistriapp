@@ -66,6 +66,24 @@ ion-content {
       color: #0d2350;
     }
   }
+
+  ion-button.redeem-button {
+    --border-radius: 12px;
+    letter-spacing: 0.04em;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  ion-button.redeem-button.button-disabled {
+    opacity: 1;
+    --color: rgba(8, 22, 44, 0.95);
+    --border-color: rgba(8, 22, 44, 0.55);
+    --background: rgba(8, 22, 44, 0.15);
+  }
+
+  ion-button.redeem-button.button-disabled::part(native) {
+    color: rgba(8, 22, 44, 0.95);
+  }
 }
 
 :host-context(body.theme-dark) {

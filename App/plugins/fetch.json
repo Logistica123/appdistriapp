@@ -69,13 +69,15 @@
       "ANDROIDBLACKLISTSECURESOCKETPROTOCOLS": "SSLv3,TLSv1"
     }
   },
-  "call-number": {
+  "cordova-plugin-telerik-imagepicker": {
     "source": {
       "type": "registry",
-      "id": "https://github.com/Rohfosho/CordovaCallNumberPlugin.git"
+      "id": "cordova-plugin-telerik-imagepicker@^2.3.3"
     },
     "is_top_level": true,
-    "variables": {}
+    "variables": {
+      "ANDROID_SUPPORT_V7_VERSION": "27.+"
+    }
   },
   "cordova-plugin-request-location-accuracy": {
     "source": {
@@ -85,6 +87,20 @@
     "is_top_level": true,
     "variables": {
       "PLAY_SERVICES_LOCATION_VERSION": "16.+"
+    }
+  },
+  "cordova-plugin-fcm-with-dependecy-updated": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-fcm-with-dependecy-updated@^7.0.10"
+    },
+    "is_top_level": true,
+    "variables": {
+      "ANDROID_FCM_VERSION": "19.0.0",
+      "ANDROID_GRADLE_TOOLS_VERSION": "3.5.3",
+      "ANDROID_GOOGLE_SERVICES_VERSION": "4.3.3",
+      "ANDROID_DEFAULT_NOTIFICATION_ICON": "@mipmap/ic_launcher",
+      "ANDROID_FIREBASE_BOM_VERSION": "26.0.0"
     }
   },
   "cordova-plugin-network-information": {
@@ -148,10 +164,10 @@
     "is_top_level": false,
     "variables": {}
   },
-  "cordova-plugin-androidx-adapter": {
+  "cordova-plugin-androidx": {
     "source": {
       "type": "registry",
-      "id": "cordova-plugin-androidx-adapter@^1.1.3"
+      "id": "cordova-plugin-androidx@^3.0.0"
     },
     "is_top_level": true,
     "variables": {}
@@ -159,7 +175,15 @@
   "cordova-plugin-googlemaps": {
     "source": {
       "type": "registry",
-      "id": "git+https://github.com/ebhsgit/cordova-plugin-googlemaps.git#pr-fix_2871-AGP_4_1_x_blank_screen"
+      "id": "file:../../cordova-plugin-googlemaps"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-call-number": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-call-number@^1.0.1"
     },
     "is_top_level": true,
     "variables": {}
@@ -174,10 +198,10 @@
       "GPS_REQUIRED": "true"
     }
   },
-  "cordova-plugin-firebasex": {
+  "cordova-plugin-androidx-adapter": {
     "source": {
       "type": "registry",
-      "id": "cordova-plugin-firebasex"
+      "id": "cordova-plugin-androidx-adapter@^1.1.3"
     },
     "is_top_level": true,
     "variables": {}

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
-import {NavController} from '@ionic/angular';
+import {NavController, Platform} from '@ionic/angular';
 import {Router} from '@angular/router';
 import {Device} from '@ionic-native/device/ngx';
 import {FCM} from 'cordova-plugin-fcm-with-dependecy-updated/ionic';
@@ -16,10 +16,15 @@ export class DeviceService {
   constructor(private device: Device,
               private router: Router,
               private navController: NavController,
-              private http: HttpClient) {
+              private http: HttpClient,
+              private platform: Platform) {
   }
 
   storeDevice() {
+    if (!this.isNativePlatform()) {
+      return;
+    }
+
     const body = {
       uuid: this.device.uuid,
       model: this.device.model,
@@ -41,6 +46,10 @@ export class DeviceService {
   }
 
   getFCMToken() {
+    if (!this.isNativePlatform() || !FCM || typeof FCM.getToken !== 'function') {
+      return;
+    }
+
     FCM.getToken().then(token => {
       this.storeFCMToken(token)
         .subscribe((response: any) => {
@@ -51,5 +60,9 @@ export class DeviceService {
     }).catch(err => {
       //
     });
+  }
+
+  private isNativePlatform(): boolean {
+    return this.platform.is('cordova') || this.platform.is('hybrid');
   }
 }

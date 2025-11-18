@@ -58,12 +58,7 @@ export class LoginPage implements OnInit {
       const authToken = values[1];
       console.log(this.platform.is('mobileweb'));
       if (remember && authToken) {
-        if (this.platform.is('mobileweb')) {
-          this.watchPosition();
-          this.navigate();
-        } else {
-          this.requestLocationAccuracy();
-        }
+        this.handleLocationFlow();
       } else {
         this.checkingCredentials = false;
       }
@@ -90,8 +85,7 @@ export class LoginPage implements OnInit {
         ]).then(() => {
 
           this.deviceService.storeDevice();
-          this.watchPosition();
-          this.navigate();
+          this.handleLocationFlow();
         });
       }, error => {
         this.loading = false;
@@ -107,7 +101,7 @@ export class LoginPage implements OnInit {
       this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY)
         .then(() => {
             this.watchPosition();
-            this.router.navigateByUrl('urban-distribution-list');
+            this.navigate();
           },
           error => {
             console.log(error);
@@ -130,6 +124,15 @@ export class LoginPage implements OnInit {
   navigate() {
     // this.router.navigateByUrl('urban-distribution-list');
     this.router.navigateByUrl('profile/profile-data');
+  }
+
+  private handleLocationFlow() {
+    if (this.platform.is('mobileweb')) {
+      this.watchPosition();
+      this.navigate();
+    } else {
+      this.requestLocationAccuracy();
+    }
   }
 
   async presentAlert() {

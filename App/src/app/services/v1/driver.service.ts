@@ -100,4 +100,8 @@ export class DriverService {
     console.log('setting new driver...');
     this.driver$.next(driver);
   }
+
+  getDriverSnapshot(): Driver {
+    return this.driver$.getValue();
+  }
 }

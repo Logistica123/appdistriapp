@@ -82,4 +82,3 @@ UrbanDistributionDetailPageModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE
 /***/ })
 
 }]);
-//# sourceMappingURL=pages-urban-distributions-urban-distribution-detail-urban-distribution-detail-module-es2015.js.map

@@ -56,19 +56,40 @@ class Benefit extends Model
 
     public function getImageUrlAttribute(): ?string
     {
+        $url = null;
+
         if ($this->image_path) {
-            return Storage::disk('public')->url($this->image_path);
+            $url = Storage::disk('public')->url($this->image_path);
+        } elseif ($this->external_image_url) {
+            $url = $this->external_image_url;
+        } elseif (is_array($this->meta)) {
+            $url = Arr::get($this->meta, 'image_url');
         }
 
-        if ($this->external_image_url) {
-            return $this->external_image_url;
+        return $this->ensureAbsoluteUrl($url);
+    }
+
+    protected function ensureAbsoluteUrl(?string $url): ?string
+    {
+        if (!$url) {
+            return null;
         }
 
-        if (is_array($this->meta)) {
-            return Arr::get($this->meta, 'image_url');
+        if (Str::startsWith($url, ['http://', 'https://'])) {
+            return $url;
         }
 
-        return null;
+        $request = request();
+        if ($request && $request->getSchemeAndHttpHost()) {
+            return rtrim($request->getSchemeAndHttpHost(), '/') . '/' . ltrim($url, '/');
+        }
+
+        $baseUrl = config('app.asset_url') ?: config('app.url');
+        if ($baseUrl) {
+            return rtrim($baseUrl, '/') . '/' . ltrim($url, '/');
+        }
+
+        return url($url);
     }
 
     public function setMetaAttribute($value): void

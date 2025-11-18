@@ -28,6 +28,16 @@
 
 <ion-content fullscreen>
   <div class="map-container">
+    <div class="start-source-toggle" *ngIf="savedStartPosition">
+      <ion-segment [value]="useSavedStartLocation ? 'saved' : 'gps'" (ionChange)="handleStartSourceChange($event.detail.value)">
+        <ion-segment-button value="saved">
+          Punto guardado
+        </ion-segment-button>
+        <ion-segment-button value="gps">
+          GPS actual
+        </ion-segment-button>
+      </ion-segment>
+    </div>
     <app-map [currentOrder]="currentOrder"
              [nearbyOrders]="nearbyOrders"
              [markersOrders]="markersOrders"

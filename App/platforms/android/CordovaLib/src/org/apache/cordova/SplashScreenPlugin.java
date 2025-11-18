@@ -45,25 +45,25 @@ public class SplashScreenPlugin extends CordovaPlugin {
 
     // Config preference values
     /**
-     * Boolean flag to auto hide splash screen (default=true)
+     * @param boolean autoHide to auto splash screen (default=true)
      */
     private boolean autoHide;
     /**
-     * Integer value of how long to delay in milliseconds (default=-1)
+     * @param int delayTime in milliseconds (default=-1)
      */
     private int delayTime;
     /**
-     * Boolean flag if to fade to fade out splash screen (default=true)
+     * @param int fade to fade out splash screen (default=true)
      */
     private boolean isFadeEnabled;
     /**
-     * Integer value of the fade duration in milliseconds (default=500)
+     * @param int fadeDuration fade out duration in milliseconds (default=500)
      */
     private int fadeDuration;
 
     // Internal variables
     /**
-     * Boolean flag to determine if the splash screen remains visible.
+     * @param boolean keepOnScreen flag to determine if the splash screen remains visible.
      */
     private boolean keepOnScreen = true;
 
@@ -127,7 +127,7 @@ public class SplashScreenPlugin extends CordovaPlugin {
 
         // auto hide splash screen when custom delay is defined.
         if (autoHide && delayTime != DEFAULT_DELAY_TIME) {
-            Handler splashScreenDelayHandler = new Handler(cordova.getContext().getMainLooper());
+            Handler splashScreenDelayHandler = new Handler();
             splashScreenDelayHandler.postDelayed(() -> keepOnScreen = false, delayTime);
         }
 
@@ -137,29 +137,27 @@ public class SplashScreenPlugin extends CordovaPlugin {
         // If auto hide is disabled (false), the hiding of the splash screen must be determined &
         // triggered by the front-end code with the `navigator.splashscreen.hide()` method.
 
-        if (isFadeEnabled) {
-            // Setup the fade
-            splashScreen.setOnExitAnimationListener(new SplashScreen.OnExitAnimationListener() {
-                @Override
-                public void onSplashScreenExit(@NonNull SplashScreenViewProvider splashScreenViewProvider) {
-                    View splashScreenView = splashScreenViewProvider.getView();
+        // Setup the fade
+        splashScreen.setOnExitAnimationListener(new SplashScreen.OnExitAnimationListener() {
+            @Override
+            public void onSplashScreenExit(@NonNull SplashScreenViewProvider splashScreenViewProvider) {
+                View splashScreenView = splashScreenViewProvider.getView();
 
-                    splashScreenView
-                            .animate()
-                            .alpha(0.0f)
-                            .setDuration(fadeDuration)
-                            .setStartDelay(0)
-                            .setInterpolator(new AccelerateInterpolator())
-                            .setListener(new AnimatorListenerAdapter() {
-                                @Override
-                                public void onAnimationEnd(Animator animation) {
-                                    super.onAnimationEnd(animation);
-                                    splashScreenViewProvider.remove();
-                                }
-                            }).start();
-                }
-            });
-        }
+                splashScreenView
+                    .animate()
+                    .alpha(0.0f)
+                    .setDuration(isFadeEnabled ? fadeDuration : 0)
+                    .setStartDelay(isFadeEnabled ? 0 : fadeDuration)
+                    .setInterpolator(new AccelerateInterpolator())
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            splashScreenViewProvider.remove();
+                        }
+                    }).start();
+            }
+        });
     }
 
     private void attemptCloseOnPageFinished() {

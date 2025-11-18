@@ -78,4 +78,3 @@ JourneyDetailPageModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵ
 /***/ })
 
 }]);
-//# sourceMappingURL=pages-journeys-journey-detail-journey-detail-module-es2015.js.map

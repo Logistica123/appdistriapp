@@ -38,7 +38,7 @@
         <p>{{ product.description }}</p>
         <ion-progress-bar [value]="progressFor(product) / 100"></ion-progress-bar>
         <small *ngIf="pointsMissing(product) > 0">Te faltan {{ pointsMissing(product) | number:'1.0-0' }} pts</small>
-        <ion-button expand="block" color="primary" fill="outline" [disabled]="pointsMissing(product) > 0">
+        <ion-button expand="block" color="primary" fill="outline" class="redeem-button" [disabled]="pointsMissing(product) > 0">
           {{ pointsMissing(product) > 0 ? 'Aún no disponible' : 'Canjear ahora' }}
         </ion-button>
       </ion-card-content>

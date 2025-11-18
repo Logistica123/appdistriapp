@@ -22,7 +22,7 @@
         </p>
       </div>
       <div class="points-summary__actions">
-        <ion-button color="light" fill="outline" (click)="loadRewardBalance()" [disabled]="rewardLoading">
+        <ion-button color="light" fill="outline" (click)="refreshContent()" [disabled]="rewardLoading || loading">
           <ion-spinner name="dots" *ngIf="rewardLoading"></ion-spinner>
           <span *ngIf="!rewardLoading">Actualizar</span>
         </ion-button>

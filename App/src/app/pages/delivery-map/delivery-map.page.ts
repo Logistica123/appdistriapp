@@ -10,6 +10,9 @@ import {NotDeliveredComponent} from '../../components/modals/not-delivered/not-d
 import {Geoposition} from '@ionic-native/geolocation';
 import {Circle, Environment, GoogleMap, GoogleMapOptions, GoogleMaps, ILatLng, Marker} from '@ionic-native/google-maps';
 import {DeliveryPrioritySelectComponent} from '../../components/popovers/delivery-priority-select/delivery-priority-select.component';
+import {Driver} from '../../interfaces/Driver';
+import {DriverService} from '../../services/v1/driver.service';
+import {Subscription} from 'rxjs';
 
 declare var google;
 
@@ -26,6 +29,8 @@ export class DeliveryMapPage implements OnInit, AfterViewInit, OnDestroy {
   selectedOrder: Order;
   currentOrderIndex = 0;
   driverGeolocationSubscription: any;
+  driverProfileSubscription: any;
+  driverProfileRequestSubscription: Subscription;
   currentOrdersSubscription: any;
   notDeliveringOrder = false;
   deliveringOrder = false;
@@ -43,6 +48,12 @@ export class DeliveryMapPage implements OnInit, AfterViewInit, OnDestroy {
   soundEnabled = true;
   confettiPieces = Array.from({length: 50}, (_, index) => index);
   celebrationSummary = {completed: 0, total: 0, saved: 0, duration: ''};
+  private driverProfile: Driver | null = null;
+  private requestedDriverProfile = false;
+  savedStartPosition: Geoposition | null = null;
+  latestGpsPosition: Geoposition | null = null;
+  useSavedStartLocation = false;
+  private startSourceManuallySelected = false;
 
   // @ViewChild('deliveryMap', {static: true}) mapElement: ElementRef;
   // map: GoogleMap;
@@ -56,7 +67,8 @@ export class DeliveryMapPage implements OnInit, AfterViewInit, OnDestroy {
               private callNumberService: CallNumberService,
               private modalController: ModalController,
               private popoverController: PopoverController,
-              private geolocationService: GeolocationService) {
+              private geolocationService: GeolocationService,
+              private driverService: DriverService) {
     this.type = this.activatedRoute.snapshot.paramMap.get('type');
   }
 
@@ -95,13 +107,35 @@ export class DeliveryMapPage implements OnInit, AfterViewInit, OnDestroy {
     this.checkWatchLocationsSubscription();
 
     this.driverPosition = this.geolocationService.getDriverPosition();
+    if (this.driverPosition) {
+      this.latestGpsPosition = this.driverPosition;
+    }
+    this.applyDriverStartLocationFallback();
     this.driverGeolocationSubscription = this.geolocationService.driverPosition$
       .subscribe(driverPosition => {
         if (driverPosition) {
-          this.driverPosition = driverPosition;
-          this.tryOptimizeOrders();
+          this.latestGpsPosition = driverPosition;
+          if (!this.useSavedStartLocation) {
+            this.driverPosition = driverPosition;
+            this.tryOptimizeOrders();
+          }
         }
       });
+
+    this.driverProfileSubscription = this.driverService.getDriver$()
+      .subscribe(driver => {
+        if (driver) {
+          this.applyDriverStartLocationFallback(driver);
+        }
+      });
+
+    this.driverProfile = this.driverService.getDriverSnapshot();
+    if (this.driverProfile) {
+      this.applyDriverStartLocationFallback(this.driverProfile);
+    } else if (!this.requestedDriverProfile) {
+      this.requestedDriverProfile = true;
+      this.driverProfileRequestSubscription = this.driverService.getProfile().subscribe();
+    }
   }
 
   ngOnDestroy(): void {
@@ -111,6 +145,14 @@ export class DeliveryMapPage implements OnInit, AfterViewInit, OnDestroy {
 
     if (this.currentOrdersSubscription) {
       this.currentOrdersSubscription.unsubscribe();
+    }
+
+    if (this.driverProfileSubscription) {
+      this.driverProfileSubscription.unsubscribe();
+    }
+
+    if (this.driverProfileRequestSubscription) {
+      this.driverProfileRequestSubscription.unsubscribe();
     }
   }
 
@@ -199,6 +241,7 @@ export class DeliveryMapPage implements OnInit, AfterViewInit, OnDestroy {
     }
 
     if (!this.driverPosition || !this.driverPosition.coords) {
+      this.applyDriverStartLocationFallback();
       return;
     }
 
@@ -316,6 +359,28 @@ export class DeliveryMapPage implements OnInit, AfterViewInit, OnDestroy {
     this.soundEnabled = !this.soundEnabled;
   }
 
+  handleStartSourceChange(source: string) {
+    const target = source === 'saved' ? 'saved' : 'gps';
+    this.startSourceManuallySelected = true;
+    if (target === 'saved') {
+      if (!this.savedStartPosition) {
+        return;
+      }
+      this.useSavedStartLocation = true;
+      this.driverPosition = this.savedStartPosition;
+      this.geolocationService.setDriverPosition$(this.savedStartPosition);
+      this.tryOptimizeOrders();
+      return;
+    }
+
+    this.useSavedStartLocation = false;
+    if (this.latestGpsPosition) {
+      this.driverPosition = this.latestGpsPosition;
+      this.geolocationService.setDriverPosition$(this.latestGpsPosition);
+      this.tryOptimizeOrders();
+    }
+  }
+
   async shareCompletion() {
     const message = `¡Ruta completada! ${this.completedOrdersCount}/${this.initialOrdersCount} entregas finalizadas en ${this.celebrationSummary.duration}.`;
     try {
@@ -348,7 +413,11 @@ export class DeliveryMapPage implements OnInit, AfterViewInit, OnDestroy {
   private getOptimizedOrderSequence(): Order[] {
     const remaining = [...this.orders];
     const optimized: Order[] = [];
-    let currentPoint = new google.maps.LatLng(this.driverPosition.coords.latitude, this.driverPosition.coords.longitude);
+    const currentCoords = this.driverPosition?.coords;
+    if (!currentCoords) {
+      return remaining;
+    }
+    let currentPoint = new google.maps.LatLng(currentCoords.latitude, currentCoords.longitude);
 
     while (remaining.length > 0) {
       let nearestIdx = 0;
@@ -372,6 +441,61 @@ export class DeliveryMapPage implements OnInit, AfterViewInit, OnDestroy {
     }
 
     return optimized;
+  }
+
+  private applyDriverStartLocationFallback(driver?: Driver) {
+    if (driver) {
+      this.driverProfile = driver;
+    } else if (!this.driverProfile) {
+      this.driverProfile = this.driverService.getDriverSnapshot() || null;
+    }
+
+    const targetDriver = driver || this.driverProfile;
+    if (!targetDriver) {
+      return;
+    }
+
+    const lat = this.toNumber(targetDriver.start_lat);
+    const lng = this.toNumber(targetDriver.start_lng);
+    if (lat === null || lng === null) {
+      this.savedStartPosition = null;
+      return;
+    }
+
+    this.savedStartPosition = this.createGeoposition(lat, lng);
+
+    if (!this.startSourceManuallySelected) {
+      this.useSavedStartLocation = true;
+    }
+
+    if (this.useSavedStartLocation || !this.driverPosition) {
+      this.driverPosition = this.savedStartPosition;
+      this.geolocationService.setDriverPosition$(this.savedStartPosition);
+      this.tryOptimizeOrders();
+    }
+  }
+
+  private createGeoposition(lat: number, lng: number): Geoposition {
+    return {
+      coords: {
+        latitude: lat,
+        longitude: lng,
+        accuracy: 100,
+        altitude: null,
+        altitudeAccuracy: null,
+        heading: null,
+        speed: null
+      } as Geoposition['coords'],
+      timestamp: Date.now()
+    };
+  }
+
+  private toNumber(value: any): number | null {
+    if (value === null || value === undefined || value === '') {
+      return null;
+    }
+    const parsed = Number(value);
+    return isNaN(parsed) ? null : parsed;
   }
 
   findNearbyMarkers() {

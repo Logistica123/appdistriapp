@@ -1,40 +1,6 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
   module.exports = [
     {
-      "id": "cordova-plugin-dialogs.notification",
-      "file": "plugins/cordova-plugin-dialogs/www/notification.js",
-      "pluginId": "cordova-plugin-dialogs",
-      "merges": [
-        "navigator.notification"
-      ]
-    },
-    {
-      "id": "cordova-plugin-dialogs.notification_android",
-      "file": "plugins/cordova-plugin-dialogs/www/android/notification.js",
-      "pluginId": "cordova-plugin-dialogs",
-      "merges": [
-        "navigator.notification"
-      ]
-    },
-    {
-      "id": "cordova-plugin-nativestorage.mainHandle",
-      "file": "plugins/cordova-plugin-nativestorage/www/mainHandle.js",
-      "pluginId": "cordova-plugin-nativestorage",
-      "clobbers": [
-        "NativeStorage"
-      ]
-    },
-    {
-      "id": "cordova-plugin-nativestorage.LocalStorageHandle",
-      "file": "plugins/cordova-plugin-nativestorage/www/LocalStorageHandle.js",
-      "pluginId": "cordova-plugin-nativestorage"
-    },
-    {
-      "id": "cordova-plugin-nativestorage.NativeStorageError",
-      "file": "plugins/cordova-plugin-nativestorage/www/NativeStorageError.js",
-      "pluginId": "cordova-plugin-nativestorage"
-    },
-    {
       "id": "cordova-plugin-statusbar.statusbar",
       "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
       "pluginId": "cordova-plugin-statusbar",
@@ -353,25 +319,19 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
-      "id": "cordova-plugin-geolocation.geolocation",
-      "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
-      "pluginId": "cordova-plugin-geolocation",
-      "clobbers": [
-        "navigator.geolocation"
-      ]
-    },
-    {
-      "id": "cordova-plugin-geolocation.PositionError",
-      "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
-      "pluginId": "cordova-plugin-geolocation",
-      "runs": true
-    },
-    {
       "id": "cordova-plugin-request-location-accuracy.RequestLocationAccuracy",
       "file": "plugins/cordova-plugin-request-location-accuracy/www/android/RequestLocationAccuracy.js",
       "pluginId": "cordova-plugin-request-location-accuracy",
       "clobbers": [
         "cordova.plugins.locationAccuracy"
+      ]
+    },
+    {
+      "id": "cordova-plugin-fcm-with-dependecy-updated.FCMPlugin",
+      "file": "plugins/cordova-plugin-fcm-with-dependecy-updated/www/FCMPlugin.js",
+      "pluginId": "cordova-plugin-fcm-with-dependecy-updated",
+      "clobbers": [
+        "FCM"
       ]
     },
     {
@@ -408,20 +368,46 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
-      "id": "call-number.CallNumber",
-      "file": "plugins/call-number/www/CallNumber.js",
-      "pluginId": "call-number",
-      "clobbers": [
-        "call"
-      ]
-    },
-    {
       "id": "cordova-plugin-file-opener2.FileOpener2",
       "file": "plugins/cordova-plugin-file-opener2/www/plugins.FileOpener2.js",
       "pluginId": "cordova-plugin-file-opener2",
       "clobbers": [
         "cordova.plugins.fileOpener2"
       ]
+    },
+    {
+      "id": "cordova-plugin-dialogs.notification",
+      "file": "plugins/cordova-plugin-dialogs/www/notification.js",
+      "pluginId": "cordova-plugin-dialogs",
+      "merges": [
+        "navigator.notification"
+      ]
+    },
+    {
+      "id": "cordova-plugin-dialogs.notification_android",
+      "file": "plugins/cordova-plugin-dialogs/www/android/notification.js",
+      "pluginId": "cordova-plugin-dialogs",
+      "merges": [
+        "navigator.notification"
+      ]
+    },
+    {
+      "id": "cordova-plugin-nativestorage.mainHandle",
+      "file": "plugins/cordova-plugin-nativestorage/www/mainHandle.js",
+      "pluginId": "cordova-plugin-nativestorage",
+      "clobbers": [
+        "NativeStorage"
+      ]
+    },
+    {
+      "id": "cordova-plugin-nativestorage.LocalStorageHandle",
+      "file": "plugins/cordova-plugin-nativestorage/www/LocalStorageHandle.js",
+      "pluginId": "cordova-plugin-nativestorage"
+    },
+    {
+      "id": "cordova-plugin-nativestorage.NativeStorageError",
+      "file": "plugins/cordova-plugin-nativestorage/www/NativeStorageError.js",
+      "pluginId": "cordova-plugin-nativestorage"
     },
     {
       "id": "cordova-plugin-apprate.AppRate",
@@ -674,17 +660,29 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "runs": true
     },
     {
-      "id": "cordova-plugin-firebasex.FirebasePlugin",
-      "file": "plugins/cordova-plugin-firebasex/www/firebase.js",
-      "pluginId": "cordova-plugin-firebasex",
+      "id": "cordova-plugin-call-number.CallNumber",
+      "file": "plugins/cordova-plugin-call-number/www/CallNumber.js",
+      "pluginId": "cordova-plugin-call-number",
       "clobbers": [
-        "FirebasePlugin"
+        "call"
       ]
+    },
+    {
+      "id": "cordova-plugin-geolocation.geolocation",
+      "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
+      "pluginId": "cordova-plugin-geolocation",
+      "clobbers": [
+        "navigator.geolocation"
+      ]
+    },
+    {
+      "id": "cordova-plugin-geolocation.PositionError",
+      "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
+      "pluginId": "cordova-plugin-geolocation",
+      "runs": true
     }
   ];
   module.exports.metadata = {
-    "cordova-plugin-dialogs": "2.0.2",
-    "cordova-plugin-nativestorage": "2.3.2",
     "cordova-plugin-statusbar": "2.4.3",
     "cordova-plugin-device": "2.1.0",
     "cordova-plugin-splashscreen": "5.0.4",
@@ -693,16 +691,18 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-camera": "4.1.0",
     "cordova-plugin-file": "6.0.2",
     "cordova-plugin-advanced-http": "3.3.1",
-    "cordova-plugin-geolocation": "4.1.0",
     "cordova-plugin-request-location-accuracy": "2.3.0",
+    "cordova-plugin-fcm-with-dependecy-updated": "7.8.0",
     "cordova-plugin-network-information": "2.0.2",
     "cordova-plugin-filechooser": "1.2.0",
     "cordova-plugin-filepath": "1.6.0",
-    "call-number": "1.0.4",
     "cordova-plugin-file-opener2": "3.0.5",
+    "cordova-plugin-dialogs": "2.0.2",
+    "cordova-plugin-nativestorage": "2.3.2",
     "cordova-plugin-apprate": "1.8.0",
-    "cordova-plugin-androidx-adapter": "1.1.3",
     "cordova-plugin-googlemaps": "2.7.1",
-    "cordova-plugin-firebasex": "18.0.7"
+    "cordova-plugin-call-number": "1.0.1",
+    "cordova-plugin-geolocation": "4.1.0",
+    "cordova-plugin-androidx-adapter": "1.1.3"
   };
 });

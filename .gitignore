@@ -17,3 +17,17 @@
 /Admin/.env
 
 /api.zip
+
+# Gradle (Android)
+.gradle/
+App/.gradle/
+App/.cxx/
+
+# Builds Android
+build/
+App/build/
+
+# IDEs (Android Studio / IntelliJ)
+.idea/
+App/.idea/
+*.iml

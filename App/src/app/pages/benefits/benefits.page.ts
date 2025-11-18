@@ -2,8 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Benefit, BenefitResponse } from '../../interfaces/Benefit';
 import { BenefitService } from '../../services/v1/benefit.service';
-import {RewardBalance, RewardService} from '../../services/v1/reward.service';
-import {Router} from '@angular/router';
+import { RewardBalance, RewardService } from '../../services/v1/reward.service';
+import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 interface CategorizedBenefits {
   hero: Benefit[];
@@ -26,6 +27,7 @@ export class BenefitsPage implements OnInit, OnDestroy {
   subscription: Subscription;
   rewardBalance: RewardBalance | null = null;
   rewardLoading = true;
+  private readonly apiBaseUrl = this.buildApiBaseUrl(environment.API_URL);
 
   readonly heroSlideOptions = {
     autoplay: {
@@ -99,9 +101,10 @@ export class BenefitsPage implements OnInit, OnDestroy {
               private rewardService: RewardService,
               private router: Router) {}
 
-  ngOnInit() {
-    this.loadBenefits();
-    this.loadRewardBalance();
+  ngOnInit() {}
+
+  ionViewWillEnter() {
+    this.refreshContent();
   }
 
   ngOnDestroy() {
@@ -111,8 +114,20 @@ export class BenefitsPage implements OnInit, OnDestroy {
   }
 
   doRefresh(event) {
-    this.loadBenefits(() => event.target.complete());
-    this.loadRewardBalance();
+    this.refreshContent(() => event.target.complete());
+  }
+
+  refreshContent(onComplete?: () => void) {
+    let pending = 2;
+    const finish = () => {
+      pending--;
+      if (pending === 0) {
+        onComplete?.();
+      }
+    };
+
+    this.loadBenefits(finish);
+    this.loadRewardBalance(finish);
   }
 
   loadRewardBalance(onComplete?: () => void) {
@@ -222,8 +237,9 @@ export class BenefitsPage implements OnInit, OnDestroy {
 
   getBackgroundStyle(benefit: Benefit): Record<string, string> {
     const style: Record<string, string> = {};
-    if (benefit.image_url) {
-      style['backgroundImage'] = `url(${benefit.image_url})`;
+    const imageUrl = this.resolveImageUrl(benefit);
+    if (imageUrl) {
+      style['backgroundImage'] = `url(${imageUrl})`;
     } else if (benefit.meta?.backgroundColor) {
       if (benefit.meta.backgroundColor.includes('gradient')) {
         style['background'] = benefit.meta.backgroundColor;
@@ -232,6 +248,32 @@ export class BenefitsPage implements OnInit, OnDestroy {
       }
     }
     return style;
+  }
+
+  private resolveImageUrl(benefit: Benefit): string | null {
+    const candidate = benefit.image_url || benefit.external_image_url || benefit.meta?.image_url;
+    if (!candidate) {
+      return null;
+    }
+
+    if (/^https?:\/\//i.test(candidate)) {
+      return candidate;
+    }
+
+    if (!this.apiBaseUrl) {
+      return candidate;
+    }
+
+    return `${this.apiBaseUrl}/${candidate.replace(/^\//, '')}`;
+  }
+
+  private buildApiBaseUrl(apiUrl: string): string {
+    if (!apiUrl) {
+      return '';
+    }
+
+    const withoutApiSegment = apiUrl.replace(/\/api\/?$/i, '/');
+    return withoutApiSegment.replace(/\/$/, '');
   }
 
   getAccentStyle(benefit: Benefit): Record<string, string> {

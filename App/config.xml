@@ -5,6 +5,7 @@
     <author email="hi@ionicframework.com" href="http://ionicframework.com/">Elio Acosta</author>
     <content src="index.html" />
     <access origin="*" />
+    <hook src="hooks/before_prepare/ensure-colors.js" type="before_prepare" />
     <access launch-external="yes" origin="whatsapp//*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -87,4 +88,7 @@
 
     <!-- Navegación local -->
     <allow-navigation href="http://localhost:8100" sessionid="c0817e49" />
+        <!-- Google Maps plugin local -->
+    <plugin name="cordova-plugin-googlemaps" spec="/home/pancho/cordova-plugin-googlemaps" />
+
 </widget>

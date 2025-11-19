@@ -65,18 +65,23 @@ class DriverService {
             return;
         }
 
-        if (! $driver->cuil) {
+        $normalizedCuil = self::normalizeIdentifier($driver->cuil);
+        if (! $normalizedCuil) {
             return;
         }
 
-        if (! $driver->bank_cbu) {
+        $alias = self::normalizeCbu($driver->bank_cbu);
+        if (! $alias) {
             return;
         }
 
         try {
-            $query = DB::connection('personal')
-                ->table('personas')
-                ->where('cuil', $driver->cuil);
+            $connection = DB::connection('personal');
+            $query = $connection->table('personas')
+                ->whereRaw(
+                    "REPLACE(REPLACE(REPLACE(IFNULL(cuil, ''), '-', ''), '.', ''), ' ', '') = ?",
+                    [$normalizedCuil]
+                );
 
             $person = $query->first();
 
@@ -84,21 +89,37 @@ class DriverService {
                 return;
             }
 
-            $update = [];
-            $alias = $driver->bank_cbu;
-
-            if ($alias !== ($person->cbu_alias ?? null)) {
-                $update['cbu_alias'] = $alias;
+            $currentAlias = self::normalizeCbu($person->cbu_alias);
+            if ($alias === $currentAlias) {
+                return;
             }
 
-            if (! empty($update)) {
-                $query->update($update);
-            }
+            $query->update(['cbu_alias' => $alias]);
         } catch (\Throwable $exception) {
             Log::error('Error syncing driver bank information with Personal', [
                 'driver_id' => $driver->id,
                 'error' => $exception->getMessage(),
             ]);
         }
+    }
+
+    private static function normalizeIdentifier(?string $value): string
+    {
+        if (! $value) {
+            return '';
+        }
+
+        return preg_replace('/\\D/', '', $value);
+    }
+
+    private static function normalizeCbu(?string $value): ?string
+    {
+        if (! $value) {
+            return null;
+        }
+
+        $sanitized = preg_replace('/\\D/', '', $value);
+
+        return $sanitized === '' ? null : $sanitized;
     }
 }

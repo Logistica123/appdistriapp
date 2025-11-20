@@ -127,7 +127,8 @@ export class LoginPage implements OnInit {
   }
 
   private handleLocationFlow() {
-    if (this.platform.is('mobileweb')) {
+    // On web/desktop just continue to app after starting watchPosition
+    if (!this.platform.is('cordova')) {
       this.watchPosition();
       this.navigate();
     } else {

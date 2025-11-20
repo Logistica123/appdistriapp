@@ -71,18 +71,22 @@
               </ion-menu-toggle>
             </ion-list>
           </div>
-        </div>
 
-        <ion-item-divider></ion-item-divider>
-
-        <ion-menu-toggle>
-          <ion-item lines="none" [routerDirection]="'root'" routerLink="/logout">
-            <ion-icon color="light" slot="start" src="assets/icons/menu/cerrar-sesion.svg"></ion-icon>
-            <ion-label>
-              Cerrar sesión
-            </ion-label>
+        <ion-menu-toggle auto-hide="false">
+          <ion-item lines="none"
+                    detail="false"
+                    [routerDirection]="'root'"
+                    [routerLink]="['/logout']"
+                    class="menu-item logout-item">
+            <div class="menu-item__content">
+              <ion-icon class="menu-item__icon" slot="start" name="log-out-outline"></ion-icon>
+              <div class="menu-item__text">
+                <span class="menu-item__title">Cerrar sesión</span>
+              </div>
+            </div>
           </ion-item>
         </ion-menu-toggle>
+      </div>
       </ion-content>
     </ion-menu>
 

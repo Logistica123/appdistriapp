@@ -81,6 +81,9 @@
         <p *ngIf="card.main.sizeLabel">Tamaño: {{ card.main.sizeLabel }}</p>
         <p *ngIf="card.main.tipoNombre">Tipo: {{ card.main.tipoNombre }}</p>
         </ion-label>
+        <div class="preview" *ngIf="isImage(card.main)" (click)="openPreview(card.main)">
+          <img [src]="card.main.absoluteDownloadUrl || card.main.downloadUrl" alt="Vista previa" loading="lazy">
+        </div>
         <ion-buttons slot="end">
         <ion-button fill="clear" size="small" (click)="openLiquidacion(card.main)" [disabled]="deletingIds.has(card.main.id)">
           <ion-icon name="download-outline"></ion-icon>
@@ -101,6 +104,9 @@
           <p *ngIf="attachment.fechaCarga">Fecha de carga: {{ attachment.fechaCarga | date:'mediumDate' }}</p>
           <p *ngIf="attachment.sizeLabel">Tamaño: {{ attachment.sizeLabel }}</p>
         </ion-label>
+        <div class="preview" *ngIf="isImage(attachment)" (click)="openPreview(attachment)">
+          <img [src]="attachment.absoluteDownloadUrl || attachment.downloadUrl" alt="Vista previa" loading="lazy">
+        </div>
         <ion-buttons slot="end">
           <ion-button fill="clear" size="small" (click)="openLiquidacion(attachment)" [disabled]="deletingIds.has(attachment.id)">
             <ion-icon name="download-outline"></ion-icon>
@@ -117,5 +123,24 @@
     <ion-icon name="document-text-outline"></ion-icon>
     <p>No encontramos liquidaciones cargadas para tu usuario.</p>
     <p class="state__hint">Cuando suban nuevas liquidaciones vas a verlas acá.</p>
+  </div>
+
+  <div class="preview-overlay" *ngIf="isPreviewOpen">
+    <div class="preview-overlay__backdrop" (click)="closePreview()"></div>
+    <div class="preview-modal__content" *ngIf="previewDoc">
+      <div class="preview-modal__header">
+        <h3>{{ previewDoc.nombre }}</h3>
+        <ion-button fill="clear" size="small" (click)="closePreview()">
+          <ion-icon name="close-outline"></ion-icon>
+        </ion-button>
+      </div>
+      <div class="preview-modal__body">
+        <img [src]="previewDoc.absoluteDownloadUrl || previewDoc.downloadUrl" [alt]="previewDoc.nombre">
+      </div>
+      <div class="preview-modal__actions">
+        <ion-button fill="solid" size="small" (click)="openLiquidacion(previewDoc)">Abrir en nueva pestaña</ion-button>
+        <ion-button fill="clear" size="small" (click)="closePreview()">Cerrar</ion-button>
+      </div>
+    </div>
   </div>
 </ion-content>

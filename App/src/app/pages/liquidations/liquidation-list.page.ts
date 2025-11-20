@@ -35,6 +35,8 @@ export class LiquidationListPage implements OnInit {
   quickUploadTarget: PersonalLiquidacion | null = null;
   quickUploadingIds = new Set<number>();
   deletingIds = new Set<number>();
+  previewDoc: PersonalLiquidacion | null = null;
+  isPreviewOpen = false;
   private hiddenLiquidacionIds = new Set<number>();
   private readonly HIDDEN_STORAGE_KEY_PREFIX = 'liquidaciones-hidden:';
   private readonly monthFormatter = new Intl.DateTimeFormat('es-AR', { month: 'long', year: 'numeric' });
@@ -179,6 +181,32 @@ export class LiquidationListPage implements OnInit {
     }
 
     return false;
+  }
+
+  isImage(doc: PersonalLiquidacion | null | undefined): boolean {
+    if (!doc) {
+      return false;
+    }
+    const mime = (doc.mime || '').toLowerCase();
+    if (mime.startsWith('image/')) {
+      return true;
+    }
+    const name = (doc.nombre || '').toLowerCase();
+    return name.endsWith('.png') || name.endsWith('.jpg') || name.endsWith('.jpeg') || name.endsWith('.webp') || name.endsWith('.gif');
+  }
+
+  openPreview(doc: PersonalLiquidacion): void {
+    if (!this.isImage(doc)) {
+      this.openLiquidacion(doc);
+      return;
+    }
+    this.previewDoc = doc;
+    this.isPreviewOpen = true;
+  }
+
+  closePreview(): void {
+    this.isPreviewOpen = false;
+    this.previewDoc = null;
   }
 
   clearSelectedFiles(preserveFeedback = false): void {

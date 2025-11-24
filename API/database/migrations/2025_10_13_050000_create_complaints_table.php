@@ -8,6 +8,11 @@ class CreateComplaintsTable extends Migration
 {
     public function up()
     {
+        if (Schema::hasTable('complaints')) {
+            // Tabla ya existe; evitamos recrearla.
+            return;
+        }
+
         Schema::create('complaints', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('driver_id');

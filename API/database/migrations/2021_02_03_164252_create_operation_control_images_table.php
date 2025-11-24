@@ -13,6 +13,11 @@ class CreateOperationControlImagesTable extends Migration
      */
     public function up()
     {
+        if (Schema::hasTable('operation_control_images')) {
+            // Ya existe (creada manualmente o por otra migración previa). Evitamos fallo.
+            return;
+        }
+
         Schema::create('operation_control_images', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('img_path');
@@ -21,7 +26,8 @@ class CreateOperationControlImagesTable extends Migration
 
             $table->foreign('operation_control_id')
                 ->references('id')
-                ->on('operation_controls');
+                ->on('operation_controls')
+                ->onDelete('cascade');
         });
     }
 

@@ -13,6 +13,11 @@ class CreateBranchesTable extends Migration
      */
     public function up()
     {
+        if (Schema::hasTable('branches')) {
+            // Tabla ya existe; evitamos recrearla.
+            return;
+        }
+
         Schema::create('branches', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
@@ -25,7 +30,8 @@ class CreateBranchesTable extends Migration
 
             $table->foreign('company_id')
                 ->references('id')
-                ->on('companies');
+                ->on('companies')
+                ->onDelete('cascade');
         });
     }
 

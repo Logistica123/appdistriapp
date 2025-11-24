@@ -13,6 +13,11 @@ class CreateMaterialsTable extends Migration
      */
     public function up()
     {
+        if (Schema::hasTable('materials')) {
+            // Tabla ya existe; evitamos recrearla.
+            return;
+        }
+
         Schema::create('materials', function (Blueprint $table) {
             $table->id();
             $table->string('name');

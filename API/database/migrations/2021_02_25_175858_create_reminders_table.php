@@ -13,6 +13,11 @@ class CreateRemindersTable extends Migration
      */
     public function up()
     {
+        if (Schema::hasTable('reminders')) {
+            // Tabla existente; evitamos recrearla para no fallar la migración.
+            return;
+        }
+
         Schema::create('reminders', function (Blueprint $table) {
             $table->id();
             $table->longText('description');
@@ -23,7 +28,8 @@ class CreateRemindersTable extends Migration
 
             $table->foreign('driver_id')
                 ->references('id')
-                ->on('drivers');
+                ->on('drivers')
+                ->onDelete('cascade');
         });
     }
 

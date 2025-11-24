@@ -15,6 +15,8 @@ export class DriverFormComponent implements OnInit {
   driver: Driver;
   buttonText = 'Aceptar';
   edit = false;
+  bankStatusLabel = '';
+  bankStatusColor = 'primary';
 
   constructor(private formBuilder: FormBuilder,
               private driverService: DriverService,
@@ -29,6 +31,10 @@ export class DriverFormComponent implements OnInit {
       bankCbu: [''],
       bankOwnerIsDriver: [true],
       bankHolderName: [''],
+      bankHolderDocument: [''],
+      bankHolderPhone: [''],
+      bankHolderEmail: [''],
+      confirmBankChange: [false],
       carMake: ['', Validators.required],
       carModel: ['', Validators.required],
       carYear: ['', Validators.required],
@@ -47,6 +53,7 @@ export class DriverFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.setBankStatusInfo();
   }
 
   submit() {
@@ -110,6 +117,29 @@ export class DriverFormComponent implements OnInit {
     this.driverForm.controls.bankCbu.setValue(data.bank_cbu);
     this.driverForm.controls.bankOwnerIsDriver.setValue(data.bank_owner_is_driver !== undefined ? data.bank_owner_is_driver : true);
     this.driverForm.controls.bankHolderName.setValue(data.bank_holder_name || '');
+    this.driverForm.controls.bankHolderDocument.setValue(data.bank_holder_document || '');
+    this.driverForm.controls.bankHolderPhone.setValue(data.bank_holder_phone || '');
+    this.driverForm.controls.bankHolderEmail.setValue(data.bank_holder_email || '');
+    this.setBankStatusInfo();
+  }
+
+  setBankStatusInfo() {
+    if (!this.driver) {
+      return;
+    }
+    const status = this.driver.bank_cbu_status || 'confirmed_owner';
+    this.bankStatusLabel = status === 'pending_owner_confirm'
+      ? 'CBU en revisión'
+      : status === 'rejected'
+        ? 'CBU rechazado'
+        : 'CBU confirmado';
+    if (status === 'pending_owner_confirm') {
+      this.bankStatusColor = 'warn';
+    } else if (status === 'rejected') {
+      this.bankStatusColor = 'accent';
+    } else {
+      this.bankStatusColor = 'primary';
+    }
   }
 
   setBody() {
@@ -122,6 +152,10 @@ export class DriverFormComponent implements OnInit {
       bank_cbu: bankCbu,
       bank_owner_is_driver: this.driverForm.value.bankOwnerIsDriver,
       bank_holder_name: this.driverForm.value.bankOwnerIsDriver ? null : (this.driverForm.value.bankHolderName ? this.driverForm.value.bankHolderName.trim() : null),
+      bank_holder_document: this.driverForm.value.bankOwnerIsDriver ? null : (this.driverForm.value.bankHolderDocument ? this.driverForm.value.bankHolderDocument.trim() : null),
+      bank_holder_phone: this.driverForm.value.bankOwnerIsDriver ? null : (this.driverForm.value.bankHolderPhone ? this.driverForm.value.bankHolderPhone.trim() : null),
+      bank_holder_email: this.driverForm.value.bankOwnerIsDriver ? null : (this.driverForm.value.bankHolderEmail ? this.driverForm.value.bankHolderEmail.trim() : null),
+      confirm_bank_change: this.driverForm.value.confirmBankChange || false,
       car_make: this.driverForm.value.carMake,
       car_model: this.driverForm.value.carModel,
       car_year: this.driverForm.value.carYear,

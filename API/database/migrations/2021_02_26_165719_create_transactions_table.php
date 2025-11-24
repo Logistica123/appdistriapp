@@ -13,6 +13,11 @@ class CreateTransactionsTable extends Migration
      */
     public function up()
     {
+        if (Schema::hasTable('transactions')) {
+            // Tabla ya existe; evitamos recrear.
+            return;
+        }
+
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->float('amount');
@@ -23,7 +28,8 @@ class CreateTransactionsTable extends Migration
 
             $table->foreign('driver_id')
                 ->references('id')
-                ->on('drivers');
+                ->on('drivers')
+                ->onDelete('cascade');
         });
     }
 

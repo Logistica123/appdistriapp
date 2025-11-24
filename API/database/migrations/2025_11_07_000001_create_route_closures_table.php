@@ -7,6 +7,11 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
+        if (Schema::hasTable('route_closures')) {
+            // Tabla ya existe; evitamos recrearla.
+            return;
+        }
+
         Schema::create('route_closures', function (Blueprint $table) {
             $table->id();
             $table->foreignId('driver_id')->constrained('drivers')->onDelete('cascade');

@@ -16,6 +16,13 @@ export interface Driver {
   bank_cbu?: string;
   bank_owner_is_driver?: boolean;
   bank_holder_name?: string;
+  bank_holder_document?: string;
+  bank_holder_phone?: string;
+  bank_holder_email?: string;
+  bank_cbu_status?: string;
+  bank_cbu_previous?: string;
+  bank_cbu_requested_at?: string;
+  bank_cbu_blocked_until?: string;
   car: string;
   car_make: string;
   car_model: string;

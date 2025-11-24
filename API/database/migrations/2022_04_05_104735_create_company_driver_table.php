@@ -13,6 +13,11 @@ class CreateCompanyDriverTable extends Migration
      */
     public function up()
     {
+        if (Schema::hasTable('company_driver')) {
+            // Tabla ya existe; evitamos recrearla.
+            return;
+        }
+
         Schema::create('company_driver', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('company_id');
@@ -21,11 +26,13 @@ class CreateCompanyDriverTable extends Migration
 
             $table->foreign('company_id')
                 ->references('id')
-                ->on('companies');
+                ->on('companies')
+                ->onDelete('cascade');
 
             $table->foreign('driver_id')
                 ->references('id')
-                ->on('drivers');
+                ->on('drivers')
+                ->onDelete('cascade');
         });
     }
 

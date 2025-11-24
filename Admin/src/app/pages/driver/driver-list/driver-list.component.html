@@ -57,6 +57,13 @@
           </td>
         </ng-container>
 
+        <ng-container matColumnDef="bank_cbu_status">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado CBU</th>
+          <td mat-cell *matCellDef="let row">
+            <span [ngClass]="bankStatusClass(row)">{{ bankStatusLabel(row) }}</span>
+          </td>
+        </ng-container>
+
         <!-- Company Column -->
         <ng-container matColumnDef="driver_company.name">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Empresa</th>
@@ -108,6 +115,14 @@
               <button mat-menu-item (click)="resetDriverPassword(row)">
                 <mat-icon>edit</mat-icon>
                 <span>Restablecer contraseña</span>
+              </button>
+              <button mat-menu-item *ngIf="row.bank_cbu_status === 'pending_owner_confirm'" (click)="confirmBank(row)">
+                <mat-icon>check</mat-icon>
+                <span>Aprobar CBU</span>
+              </button>
+              <button mat-menu-item *ngIf="row.bank_cbu_status === 'pending_owner_confirm'" (click)="rejectBank(row)">
+                <mat-icon>close</mat-icon>
+                <span>Rechazar CBU</span>
               </button>
             </mat-menu>
           </td>

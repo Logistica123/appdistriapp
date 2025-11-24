@@ -14,11 +14,21 @@ class AddAddressPartsToLocationsTable extends Migration
     public function up()
     {
         Schema::table('locations', function (Blueprint $table) {
-            $table->string('b')->nullable()->after('phones');
-            $table->string('v')->nullable()->after('b');
-            $table->string('s')->nullable()->after('v');
-            $table->string('m')->nullable()->after('s');
-            $table->string('c')->nullable()->after('m');
+            if (! Schema::hasColumn('locations', 'b')) {
+                $table->string('b')->nullable()->after('phones');
+            }
+            if (! Schema::hasColumn('locations', 'v')) {
+                $table->string('v')->nullable()->after('b');
+            }
+            if (! Schema::hasColumn('locations', 's')) {
+                $table->string('s')->nullable()->after('v');
+            }
+            if (! Schema::hasColumn('locations', 'm')) {
+                $table->string('m')->nullable()->after('s');
+            }
+            if (! Schema::hasColumn('locations', 'c')) {
+                $table->string('c')->nullable()->after('m');
+            }
         });
     }
 
@@ -30,7 +40,12 @@ class AddAddressPartsToLocationsTable extends Migration
     public function down()
     {
         Schema::table('locations', function (Blueprint $table) {
-            $table->dropColumn(['b', 'v', 's', 'm', 'c']);
+            $columns = ['b', 'v', 's', 'm', 'c'];
+            foreach ($columns as $column) {
+                if (Schema::hasColumn('locations', $column)) {
+                    $table->dropColumn($column);
+                }
+            }
         });
     }
 }

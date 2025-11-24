@@ -13,6 +13,11 @@ class CreateReminderNotificationsTable extends Migration
      */
     public function up()
     {
+        if (Schema::hasTable('reminder_notifications')) {
+            // Tabla ya existe; evitamos recrearla para no fallar la migración.
+            return;
+        }
+
         Schema::create('reminder_notifications', function (Blueprint $table) {
             $table->id();
             $table->date('scheduled_at');
@@ -22,7 +27,8 @@ class CreateReminderNotificationsTable extends Migration
 
             $table->foreign('reminder_id')
                 ->references('id')
-                ->on('reminders');
+                ->on('reminders')
+                ->onDelete('cascade');
         });
     }
 

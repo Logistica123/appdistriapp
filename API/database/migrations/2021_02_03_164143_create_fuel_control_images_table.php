@@ -13,6 +13,11 @@ class CreateFuelControlImagesTable extends Migration
      */
     public function up()
     {
+        if (Schema::hasTable('fuel_control_images')) {
+            // Ya existe (creada manualmente o por otra migración previa). Evitamos fallo.
+            return;
+        }
+
         Schema::create('fuel_control_images', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('img_path');
@@ -21,7 +26,8 @@ class CreateFuelControlImagesTable extends Migration
 
             $table->foreign('fuel_control_id')
                 ->references('id')
-                ->on('fuel_controls');
+                ->on('fuel_controls')
+                ->onDelete('cascade');
         });
     }
 

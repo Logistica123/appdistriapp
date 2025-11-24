@@ -52,6 +52,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('drivers', 'DriverController@store');
     Route::put('drivers/{driver}', 'DriverController@update');
     Route::put('drivers/{driver}/status', 'DriverController@updateStatus');
+    Route::put('drivers/{driver}/bank/confirm', 'DriverController@confirmBankData');
+    Route::put('drivers/{driver}/bank/reject', 'DriverController@rejectBankData');
     Route::put('drivers/{driver}/password', 'DriverController@resetPassword');
     Route::put('drivers/{driver}/firebase-uid', 'DriverController@updateFirebaseUID');
     Route::put('drivers/{driver}/company', 'DriverController@assignCompanyToDriver');

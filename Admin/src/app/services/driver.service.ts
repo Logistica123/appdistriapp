@@ -41,6 +41,14 @@ export class DriverService {
     return this.http.put(`${this.API_URL}${this.V1}drivers/${driver.id}`, body);
   }
 
+  confirmBankData(driver: Driver) {
+    return this.http.put(`${this.API_URL}${this.V1}drivers/${driver.id}/bank/confirm`, {});
+  }
+
+  rejectBankData(driver: Driver) {
+    return this.http.put(`${this.API_URL}${this.V1}drivers/${driver.id}/bank/reject`, {});
+  }
+
   updateDriverStatus(driver: Driver, body) {
     return this.http.put(`${this.API_URL}${this.V1}drivers/${driver.id}/status`, body);
   }

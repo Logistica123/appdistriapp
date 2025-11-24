@@ -9,14 +9,18 @@ class AddTypeToComplaintsTable extends Migration
     public function up()
     {
         Schema::table('complaints', function (Blueprint $table) {
-            $table->string('type')->nullable()->after('driver_id');
+            if (! Schema::hasColumn('complaints', 'type')) {
+                $table->string('type')->nullable()->after('driver_id');
+            }
         });
     }
 
     public function down()
     {
         Schema::table('complaints', function (Blueprint $table) {
-            $table->dropColumn('type');
+            if (Schema::hasColumn('complaints', 'type')) {
+                $table->dropColumn('type');
+            }
         });
     }
 }

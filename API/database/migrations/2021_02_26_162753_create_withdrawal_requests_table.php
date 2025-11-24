@@ -13,6 +13,11 @@ class CreateWithdrawalRequestsTable extends Migration
      */
     public function up()
     {
+        if (Schema::hasTable('withdrawal_requests')) {
+            // Tabla ya existe; evitamos recrearla para no fallar la migración.
+            return;
+        }
+
         Schema::create('withdrawal_requests', function (Blueprint $table) {
             $table->id();
             $table->float('amount');
@@ -24,7 +29,8 @@ class CreateWithdrawalRequestsTable extends Migration
 
             $table->foreign('driver_id')
                 ->references('id')
-                ->on('drivers');
+                ->on('drivers')
+                ->onDelete('cascade');
         });
     }
 

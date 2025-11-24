@@ -13,6 +13,11 @@ class CreateAlertsTable extends Migration
      */
     public function up()
     {
+        if (Schema::hasTable('alerts')) {
+            // Tabla ya existe; evitamos recrearla.
+            return;
+        }
+
         Schema::create('alerts', function (Blueprint $table) {
             $table->id();
             $table->timestamps();

@@ -13,6 +13,11 @@ class CreateServicesTable extends Migration
      */
     public function up()
     {
+        if (Schema::hasTable('services')) {
+            // Tabla ya existe; evitamos recrearla.
+            return;
+        }
+
         Schema::create('services', function (Blueprint $table) {
             $table->id();
             $table->longText('description');
@@ -25,7 +30,8 @@ class CreateServicesTable extends Migration
 
             $table->foreign('admin_id')
                 ->references('id')
-                ->on('admins');
+                ->on('admins')
+                ->onDelete('cascade');
         });
     }
 

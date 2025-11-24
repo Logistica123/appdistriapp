@@ -13,6 +13,11 @@ class CreateMaterialUbiTable extends Migration
      */
     public function up()
     {
+        if (Schema::hasTable('material_ubi')) {
+            // Tabla ya existe; evitamos recrearla.
+            return;
+        }
+
         Schema::create('material_ubi', function (Blueprint $table) {
             $table->id();
             $table->float('value');
@@ -22,11 +27,13 @@ class CreateMaterialUbiTable extends Migration
 
             $table->foreign('material_id')
                 ->on('materials')
-                ->references('id');
+                ->references('id')
+                ->onDelete('cascade');
 
             $table->foreign('ubi_id')
                 ->on('ubis')
-                ->references('id');
+                ->references('id')
+                ->onDelete('cascade');
         });
     }
 

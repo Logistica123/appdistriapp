@@ -8,14 +8,18 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('drivers', function (Blueprint $table) {
-            $table->unsignedInteger('reward_points')->default(0)->after('score');
+            if (! Schema::hasColumn('drivers', 'reward_points')) {
+                $table->unsignedInteger('reward_points')->default(0)->after('score');
+            }
         });
     }
 
     public function down(): void
     {
         Schema::table('drivers', function (Blueprint $table) {
-            $table->dropColumn('reward_points');
+            if (Schema::hasColumn('drivers', 'reward_points')) {
+                $table->dropColumn('reward_points');
+            }
         });
     }
 };

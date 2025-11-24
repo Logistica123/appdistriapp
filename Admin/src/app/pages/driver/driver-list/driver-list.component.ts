@@ -18,7 +18,7 @@ import { CompanySelectDialogComponent } from '../company-select-dialog/company-s
 export class DriverListComponent implements OnInit {
   drivers: Driver[] = [];
   dataSource: MatTableDataSource<Driver>;
-  displayedColumns = ['name', 'email', 'phone_number', 'bank_cbu', 'driver_company.name', 'status', 'options'];
+  displayedColumns = ['name', 'email', 'phone_number', 'bank_cbu', 'bank_cbu_status', 'driver_company.name', 'status', 'options'];
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -179,4 +179,33 @@ export class DriverListComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
+  bankStatusLabel(driver: Driver) {
+    const status = driver.bank_cbu_status || 'confirmed_owner';
+    if (status === 'pending_owner_confirm') {
+      return 'En revisión';
+    }
+    if (status === 'rejected') {
+      return 'Rechazado';
+    }
+    return 'Confirmado';
+  }
+
+  bankStatusClass(driver: Driver) {
+    const status = driver.bank_cbu_status || 'confirmed_owner';
+    if (status === 'pending_owner_confirm') {
+      return 'chip warn';
+    }
+    if (status === 'rejected') {
+      return 'chip accent';
+    }
+    return 'chip primary';
+  }
+
+  confirmBank(driver: Driver) {
+    this.driverService.confirmBankData(driver).subscribe(() => this.getDrivers());
+  }
+
+  rejectBank(driver: Driver) {
+    this.driverService.rejectBankData(driver).subscribe(() => this.getDrivers());
+  }
 }

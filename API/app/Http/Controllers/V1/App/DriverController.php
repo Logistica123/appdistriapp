@@ -70,9 +70,44 @@ class DriverController extends Controller
             'bank_cbu' => 'nullable|digits:22',
             'bank_owner_is_driver' => 'nullable|boolean',
             'bank_holder_name' => 'nullable|string|max:255',
+            'bank_holder_document' => 'nullable|string|max:50',
+            'bank_holder_phone' => 'nullable|string|max:50',
+            'bank_holder_email' => 'nullable|string|max:120',
         ]);
 
         $driver = $request->user();
+        if (! $driver->bank_cbu_status) {
+            $driver->bank_cbu_status = 'confirmed_owner';
+        }
+        $bankFieldsTouched = array_key_exists('bank_cbu', $validated)
+            || array_key_exists('bank_owner_is_driver', $validated)
+            || array_key_exists('bank_holder_name', $validated)
+            || array_key_exists('bank_holder_document', $validated)
+            || array_key_exists('bank_holder_phone', $validated)
+            || array_key_exists('bank_holder_email', $validated);
+
+        if ($bankFieldsTouched && $driver->bank_cbu_status === 'pending_owner_confirm') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Ya hay un cambio de CBU en revisión. Espera la confirmación del titular.'
+            ], 422);
+        }
+
+        if ($bankFieldsTouched && $driver->bank_cbu_blocked_until && now()->lt($driver->bank_cbu_blocked_until)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No puedes cambiar el CBU hasta que finalice el bloqueo temporal.'
+            ], 422);
+        }
+
+        $originalBank = [
+            'cbu' => $driver->bank_cbu,
+            'owner_is_driver' => (bool) $driver->bank_owner_is_driver,
+            'holder_name' => $driver->bank_holder_name,
+            'holder_document' => $driver->bank_holder_document,
+            'holder_phone' => $driver->bank_holder_phone,
+            'holder_email' => $driver->bank_holder_email,
+        ];
         $driver->car_make = $validated['car_make'] ?? $driver->car_make;
         $driver->car_model = $validated['car_model'] ?? $driver->car_model;
         $driver->city = $validated['city'] ?? $driver->city;
@@ -96,8 +131,9 @@ class DriverController extends Controller
         }
 
         if (array_key_exists('bank_cbu', $validated)) {
-            $driver->bank_cbu = $validated['bank_cbu'];
-            $driver->bank_alias = $validated['bank_cbu'];
+            $sanitizedCbu = $validated['bank_cbu'] ? preg_replace('/\D/', '', $validated['bank_cbu']) : null;
+            $driver->bank_cbu = $sanitizedCbu;
+            $driver->bank_alias = $sanitizedCbu;
             $driver->bank_cvu = null;
         }
 
@@ -111,14 +147,51 @@ class DriverController extends Controller
         if (array_key_exists('bank_holder_name', $validated)) {
             $driver->bank_holder_name = $validated['bank_holder_name'] ?: null;
         }
-
-        if ($driver->bank_owner_is_driver && empty($validated['bank_holder_name'])) {
-            $driver->bank_holder_name = null;
+        if (array_key_exists('bank_holder_document', $validated)) {
+            $driver->bank_holder_document = $validated['bank_holder_document'] ?: null;
+        }
+        if (array_key_exists('bank_holder_phone', $validated)) {
+            $driver->bank_holder_phone = $validated['bank_holder_phone'] ?: null;
+        }
+        if (array_key_exists('bank_holder_email', $validated)) {
+            $driver->bank_holder_email = $validated['bank_holder_email'] ?: null;
         }
 
-        $driver->update();
+        if ($driver->bank_owner_is_driver) {
+            $driver->bank_holder_name = null;
+            $driver->bank_holder_document = null;
+            $driver->bank_holder_phone = null;
+            $driver->bank_holder_email = null;
+        }
 
-        if ($driver->bank_cbu) {
+        $bankChanged = $bankFieldsTouched && (
+            $driver->bank_cbu !== $originalBank['cbu']
+            || $driver->bank_owner_is_driver !== $originalBank['owner_is_driver']
+            || $driver->bank_holder_name !== $originalBank['holder_name']
+            || $driver->bank_holder_document !== $originalBank['holder_document']
+            || $driver->bank_holder_phone !== $originalBank['holder_phone']
+            || $driver->bank_holder_email !== $originalBank['holder_email']
+        );
+
+        if ($bankChanged) {
+            DriverService::flagBankChangePending($driver, [
+                'previous_cbu' => $originalBank['cbu'],
+                'new_cbu' => $driver->bank_cbu,
+                'previous_bank_owner_is_driver' => $originalBank['owner_is_driver'],
+                'previous_bank_holder_name' => $originalBank['holder_name'],
+                'previous_bank_holder_document' => $originalBank['holder_document'],
+                'previous_bank_holder_phone' => $originalBank['holder_phone'],
+                'previous_bank_holder_email' => $originalBank['holder_email'],
+                'requested_by' => 'driver',
+                'requested_by_id' => $driver->id,
+                'ip' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+            ]);
+        } else {
+            $driver->save();
+        }
+
+        if ($driver->bank_cbu && $driver->bank_cbu_status === 'confirmed_owner') {
             DriverService::syncBankDataWithPersonal($driver);
         }
 
@@ -126,7 +199,10 @@ class DriverController extends Controller
             'success' => true,
             'updated' => true,
             'message' => 'resource updated',
-            'custom_message' => 'Perfil actualizado'
+            'custom_message' => $bankChanged
+                ? 'Perfil actualizado. El CBU quedó en revisión por el titular.'
+                : 'Perfil actualizado',
+            'requires_owner_confirmation' => $bankChanged
         ]);
     }
 

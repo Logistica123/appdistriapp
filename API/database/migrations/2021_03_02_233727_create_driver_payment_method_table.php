@@ -13,6 +13,11 @@ class CreateDriverPaymentMethodTable extends Migration
      */
     public function up()
     {
+        if (Schema::hasTable('driver_payment_method')) {
+            // Tabla ya existe; evitamos recrearla.
+            return;
+        }
+
         Schema::create('driver_payment_method', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('driver_id');
@@ -21,11 +26,13 @@ class CreateDriverPaymentMethodTable extends Migration
 
             $table->foreign('driver_id')
                 ->references('id')
-                ->on('drivers');
+                ->on('drivers')
+                ->onDelete('cascade');
 
             $table->foreign('payment_method_id')
                 ->references('id')
-                ->on('payment_methods');
+                ->on('payment_methods')
+                ->onDelete('cascade');
         });
     }
 

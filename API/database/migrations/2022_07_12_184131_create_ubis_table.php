@@ -13,6 +13,11 @@ class CreateUbisTable extends Migration
      */
     public function up()
     {
+        if (Schema::hasTable('ubis')) {
+            // Tabla ya existe; evitamos recrearla.
+            return;
+        }
+
         Schema::create('ubis', function (Blueprint $table) {
             $table->id();
             $table->string('name');

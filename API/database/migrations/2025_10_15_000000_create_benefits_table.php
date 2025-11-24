@@ -13,6 +13,11 @@ class CreateBenefitsTable extends Migration
      */
     public function up()
     {
+        if (Schema::hasTable('benefits')) {
+            // Tabla ya existe; evitamos recrearla.
+            return;
+        }
+
         Schema::create('benefits', function (Blueprint $table) {
             $table->id();
             $table->string('title');

@@ -41,6 +41,9 @@ class RegisterRequest extends FormRequest
             'bank_cbu' => 'nullable|digits:22',
             'bank_owner_is_driver' => 'nullable|boolean',
             'bank_holder_name' => 'nullable|string|max:255',
+            'bank_holder_document' => 'nullable|string|max:50',
+            'bank_holder_phone' => 'nullable|string|max:50',
+            'bank_holder_email' => 'nullable|email|max:120',
             'company' => 'nullable|string|max:255'
         ];
     }

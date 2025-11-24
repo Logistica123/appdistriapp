@@ -1,0 +1,19 @@
+ .chip {
+   display: inline-block;
+   padding: 4px 8px;
+   border-radius: 12px;
+   font-size: 12px;
+   color: #fff;
+ }
+
+ .chip.primary {
+   background-color: #2196f3;
+ }
+
+ .chip.warn {
+   background-color: #f44336;
+ }
+
+ .chip.accent {
+   background-color: #ff9800;
+ }

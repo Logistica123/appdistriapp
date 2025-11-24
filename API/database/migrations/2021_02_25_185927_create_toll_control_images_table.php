@@ -13,6 +13,11 @@ class CreateTollControlImagesTable extends Migration
      */
     public function up()
     {
+        if (Schema::hasTable('toll_control_images')) {
+            // Tabla ya existe; evitamos recrearla para no fallar la migración.
+            return;
+        }
+
         Schema::create('toll_control_images', function (Blueprint $table) {
             $table->id();
             $table->string('img_path');
@@ -21,7 +26,8 @@ class CreateTollControlImagesTable extends Migration
 
             $table->foreign('toll_control_id')
                 ->references('id')
-                ->on('toll_controls');
+                ->on('toll_controls')
+                ->onDelete('cascade');
         });
     }
 

@@ -13,6 +13,11 @@ class CreateTollControlsTable extends Migration
      */
     public function up()
     {
+        if (Schema::hasTable('toll_controls')) {
+            // Tabla ya existe; no la recreamos para evitar error.
+            return;
+        }
+
         Schema::create('toll_controls', function (Blueprint $table) {
             $table->id();
             $table->date('date');
@@ -23,7 +28,8 @@ class CreateTollControlsTable extends Migration
 
             $table->foreign('driver_id')
                 ->references('id')
-                ->on('drivers');
+                ->on('drivers')
+                ->onDelete('cascade');
         });
     }
 

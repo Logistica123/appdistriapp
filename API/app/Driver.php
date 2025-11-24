@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
+use App\DriverBankChange;
 
 class Driver extends Authenticatable
 {
@@ -23,6 +24,9 @@ class Driver extends Authenticatable
     protected $casts = [
         'start_lat' => 'float',
         'start_lng' => 'float',
+        'bank_cbu_requested_at' => 'datetime',
+        'bank_cbu_blocked_until' => 'datetime',
+        'bank_owner_is_driver' => 'boolean',
     ];
 
     protected $with = [
@@ -152,6 +156,11 @@ class Driver extends Authenticatable
     public function routeClosures()
     {
         return $this->hasMany(RouteClosure::class);
+    }
+
+    public function bankChanges()
+    {
+        return $this->hasMany(DriverBankChange::class);
     }
 
     /************************************************************

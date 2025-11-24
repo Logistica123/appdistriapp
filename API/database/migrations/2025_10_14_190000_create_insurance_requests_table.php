@@ -8,6 +8,11 @@ class CreateInsuranceRequestsTable extends Migration
 {
     public function up()
     {
+        if (Schema::hasTable('insurance_requests')) {
+            // Tabla ya existe; evitamos recrearla.
+            return;
+        }
+
         Schema::create('insurance_requests', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('driver_id');

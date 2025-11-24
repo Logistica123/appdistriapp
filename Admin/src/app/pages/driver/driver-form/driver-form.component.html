@@ -45,7 +45,7 @@
       </div>
       <div class="col-md-12">
         <mat-form-field>
-          <input matInput placeholder="CBU" formControlName="bankCbu">
+          <input matInput placeholder="CBU (22 dígitos)" formControlName="bankCbu">
         </mat-form-field>
       </div>
       <div class="col-md-12">
@@ -55,6 +55,23 @@
         <mat-form-field>
           <input matInput placeholder="Nombre del titular" formControlName="bankHolderName">
         </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Documento del titular" formControlName="bankHolderDocument">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Teléfono del titular" formControlName="bankHolderPhone">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Email del titular" formControlName="bankHolderEmail" type="email">
+        </mat-form-field>
+      </div>
+      <div class="col-md-12" *ngIf="edit">
+        <p>Estado CBU: <span [ngClass]="'chip '+bankStatusColor">{{ bankStatusLabel }}</span></p>
+        <p *ngIf="driver?.bank_cbu_previous">CBU anterior: {{ driver.bank_cbu_previous }}</p>
+        <p *ngIf="driver?.bank_cbu_requested_at">Solicitado: {{ driver.bank_cbu_requested_at | date:'short' }}</p>
+        <mat-slide-toggle formControlName="confirmBankChange" *ngIf="driver?.bank_cbu_status === 'pending_owner_confirm'">
+          Aprobar este cambio ahora
+        </mat-slide-toggle>
       </div>
       <div class="col-md-6">
         <mat-form-field>

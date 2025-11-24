@@ -13,6 +13,11 @@ class CreateActionsTable extends Migration
      */
     public function up()
     {
+        if (Schema::hasTable('actions')) {
+            // Ya existe (cargada manualmente o por otra migración). Evitamos el error por duplicado.
+            return;
+        }
+
         Schema::create('actions', function (Blueprint $table) {
             $table->id();
             $table->string('action');

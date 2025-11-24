@@ -13,6 +13,11 @@ class CreatePaymentMethodsTable extends Migration
      */
     public function up()
     {
+        if (Schema::hasTable('payment_methods')) {
+            // Tabla ya existe; evitamos recrearla.
+            return;
+        }
+
         Schema::create('payment_methods', function (Blueprint $table) {
             $table->id();
             $table->string('name');

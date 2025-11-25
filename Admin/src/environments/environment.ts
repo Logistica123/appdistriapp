@@ -2,12 +2,24 @@
 // `ng build ---prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+const LOCAL_API_URL = 'http://localhost:8000/api/';
+const PRODUCTION_API_URL = 'https://api.distriapp.com.ar/api/';
+
+const isLocalHost = (host: string) =>
+  host === 'localhost' || host === '127.0.0.1';
+
+const resolveApiUrl = (): string => {
+  if (typeof window === 'undefined' || !window.location?.hostname) {
+    return LOCAL_API_URL;
+  }
+  return isLocalHost(window.location.hostname)
+    ? LOCAL_API_URL
+    : PRODUCTION_API_URL;
+};
+
 export const environment = {
   production: false,
-  // API_URL: 'https://www.api-app-distribucion.palmariusdev.com/api/',
-  // API_URL: 'https://logapp-test.palmariusdev.com/api/',
-  API_URL: 'http://localhost:8000/api/',
-  // API_URL: 'https://api-logapp.palmariusdev.com/api/',
+  API_URL: resolveApiUrl(),
   firebaseConfig : {
     apiKey: 'AIzaSyDw54VQaZ91JdVUw7_p98c_lTxa8Pt5Icw',
     authDomain: 'distriapp-2021.firebaseapp.com',
